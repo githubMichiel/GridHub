@@ -26,30 +26,30 @@ class District:
                 battery = Battery(x, y, capacity)
                 self.batteries.append(battery)
 
-            if line = "\n":
+            if line == "\n":
                 break
 
     def load_houses(filename):
         """ load houses into memory"""
 
-            while True:
-                with open(filename) as f:
+        while True:
+            with open(filename) as f:
 
-                    # read each line separately
-                    line = f.readline()
+                # read each line separately
+                line = f.readline()
 
-                    # split line into components
-                    line = line.split(",")
-                    x = line[0]
-                    y = line[1]
-                    max_output = line[2]
+                # split line into components
+                line = line.split(",")
+                x = line[0]
+                y = line[1]
+                max_output = line[2]
 
-                    # create battery
-                    house = House(x, y, max_output)
-                    self.houses.append(house)
+                # create battery
+                house = House(x, y, max_output)
+                self.houses.append(house)
 
-                if line = "\n":
-                    break
+            if line == "\n":
+                break
 
 #    def __str__(self):
 
