@@ -21,7 +21,7 @@ class District:
                 line = line.split(",")
                 x = line[0]
                 y = line[1]
-                capacity = line[2]
+                capacity = line[2].strip()
 
                 # create battery
                 battery = Battery(x, y, capacity)
@@ -36,13 +36,14 @@ class District:
         with open(filename) as f:
             while True:
                 # read each line separately
-                line = f.readline()
+                line = f.readline()[1:]
 
                 # split line into components
                 line = line.split(",")
+                print(line)
                 x = line[0]
                 y = line[1]
-                max_output = line[2]
+                max_output = line[2].strip()
 
                 # create house
                 house = House(x, y, max_output)
