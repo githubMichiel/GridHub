@@ -1,4 +1,6 @@
 import numpy as np
+from battery import Battery
+from house import House
 
 class District:
 
@@ -10,9 +12,8 @@ class District:
     def load_batteries(filename):
         """ load batteries into memory"""
 
-        while True:
-            with open(filename) as f:
-
+        with open(filename) as f:
+            while True:
                 # read each line separately
                 line = f.readline()
 
@@ -26,15 +27,14 @@ class District:
                 battery = Battery(x, y, capacity)
                 self.batteries.append(battery)
 
-            if line == "\n":
-                break
+                if line == "\n":
+                    break
 
     def load_houses(filename):
         """ load houses into memory"""
 
-        while True:
-            with open(filename) as f:
-
+        with open(filename) as f:
+            while True:
                 # read each line separately
                 line = f.readline()
 
@@ -44,13 +44,12 @@ class District:
                 y = line[1]
                 max_output = line[2]
 
-                # create battery
+                # create house
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-            if line == "\n":
-                break
-
+                if line == "\n":
+                    break
 #    def __str__(self):
 
 #        return f'[\n\{"district: "}]'
