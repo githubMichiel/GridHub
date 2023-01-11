@@ -5,6 +5,7 @@ smartgrid.py
 """
 
 from battery import Battery
+from house import House
 
 def load_batteries(filename):
     """ load the batteries into memory"""
