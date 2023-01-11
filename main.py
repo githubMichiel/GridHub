@@ -4,6 +4,9 @@ smartgrid.py
 -
 """
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 from battery import Battery
 from house import House
 from district import District
@@ -21,4 +24,5 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
-    
+    print(district[0].houses)
+    print(district[0].batteries)
