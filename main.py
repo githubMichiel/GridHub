@@ -20,3 +20,6 @@ if __name__ == "__main__":
     districts[1].load_batteries('district-2_batteries.csv')
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
+
+    print(district[0].houses)
+    print(district[0].batteries)
