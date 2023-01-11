@@ -25,6 +25,7 @@ class District:
         while True:
             with open(filename) as f:
 
+<<<<<<< HEAD
                 # read each line separately
                 line = f.readline()
 
@@ -68,3 +69,24 @@ if __name__ == "__main__":
 
     # create district
     district = District()
+=======
+    with open(filename) as f:
+
+        # read each line separately
+        line = f.readline()
+
+        # split line into components
+        line = line.split(",")
+        x = line[0]
+        y = line[1]
+        max_output = line[2]
+
+        # create battery
+        house = House(x, y, max_output)
+
+if __name__ == "__main__":
+    districts = []
+    for i in range(1,4):
+        districts.append(District(i))
+        #TODO: adding the houses and batteries to the districts
+>>>>>>> 67e7ecd8f89ed0295c0152b9bf2c718e2ee0f6df
