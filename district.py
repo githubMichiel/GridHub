@@ -27,7 +27,7 @@ class District:
                 battery = Battery(x, y, capacity)
                 self.batteries.append(battery)
 
-                if line = "\n":
+                if line == "\n":
                     break
 
     def load_houses(filename):
@@ -44,13 +44,12 @@ class District:
                 y = line[1]
                 max_output = line[2]
 
-                # create battery
+                # create house
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-                if line = "\n":
-                    break
-
+                if line == "\n":
+                    break             
 #    def __str__(self):
 
 #        return f'[\n\{"district: "}]'
