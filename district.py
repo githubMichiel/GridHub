@@ -1,7 +1,8 @@
 import numpy as np
 
 class District:
-    def __init__(self):
+    def __init__(self, id):
+        self.id = id
         self.batteries = []
         self.houses = []
 
