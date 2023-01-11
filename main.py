@@ -41,7 +41,7 @@ def load_houses(filename):
         max_output = line[2]
 
         # create battery
-        house = House(x, y, max_output)
+        house = House(x, y, max_output)        
 
 if __name__ == "__main__":
     districts = []
