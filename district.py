@@ -1,6 +1,7 @@
 import numpy as np
 from battery import Battery
 from house import House
+import csv
 
 class District:
 
@@ -12,13 +13,19 @@ class District:
     def load_batteries(self, filename):
         """ load batteries into memory"""
 
-        with open(filename) as f:
-            while True:
+        with open(filename, "r") as f:
+
+            csvreader = csv.reader(f)
+            next(csvreader)
+
+            for row in csvreader:
+
                 # read each line separately
                 line = f.readline()
 
                 # split line into components
                 line = line.split(",")
+                print(line)
                 x = line[0]
                 y = line[1]
                 capacity = line[2].strip()
@@ -34,13 +41,15 @@ class District:
         """ load houses into memory"""
 
         with open(filename) as f:
-            while True:
+            csvreader = csv.reader(f)
+            next(csvreader)
+
+            for row in csvreader:
                 # read each line separately
-                line = f.readline()[1:]
+                line = f.readline()
 
                 # split line into components
                 line = line.split(",")
-                print(line)
                 x = line[0]
                 y = line[1]
                 max_output = line[2].strip()
