@@ -11,6 +11,9 @@ from battery import Battery
 from house import House
 from district import District
 
+def json_output():
+    return f'[{district: }]'
+
 if __name__ == "__main__":
 
     # create districts
