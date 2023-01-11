@@ -4,6 +4,9 @@ smartgrid.py
 -
 """
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 from battery import Battery
 from house import House
 from district import District

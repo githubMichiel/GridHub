@@ -49,7 +49,7 @@ class District:
                 self.houses.append(house)
 
                 if line == "\n":
-                    break             
+                    break
 #    def __str__(self):
 
 #        return f'[\n\{"district: "}]'
