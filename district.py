@@ -9,7 +9,7 @@ class District:
         self.batteries = []
         self.houses = []
 
-    def load_batteries(filename):
+    def load_batteries(self, filename):
         """ load batteries into memory"""
 
         with open(filename) as f:
@@ -30,7 +30,7 @@ class District:
                 if line == "\n":
                     break
 
-    def load_houses(filename):
+    def load_houses(self, filename):
         """ load houses into memory"""
 
         with open(filename) as f:
@@ -49,7 +49,7 @@ class District:
                 self.houses.append(house)
 
                 if line == "\n":
-                    break             
+                    break
 #    def __str__(self):
 
 #        return f'[\n\{"district: "}]'
