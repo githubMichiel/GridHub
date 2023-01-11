@@ -27,5 +27,5 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
-    print(district[0].houses)
-    print(district[0].batteries)
+    print(districts[0].houses)
+    print(districts[0].batteries)

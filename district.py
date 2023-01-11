@@ -20,22 +20,14 @@ class District:
 
             for row in csvreader:
 
-                # read each line separately
-                line = f.readline()
-
-                # split line into components
-                line = line.split(",")
-                print(line)
-                x = line[0]
-                y = line[1]
-                capacity = line[2].strip()
+                x = row[0]
+                y = row[1]
+                capacity = row[2].strip()
 
                 # create battery
                 battery = Battery(x, y, capacity)
                 self.batteries.append(battery)
 
-                if line == "\n":
-                    break
 
     def load_houses(self, filename):
         """ load houses into memory"""
