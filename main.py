@@ -12,7 +12,6 @@ from battery import Battery
 from house import House
 from district import District
 
-<<<<<<< HEAD
 def json_format(district):
     district_info = repr(district)
     #TODO: find a way to do this for all batteries without hard coding it
@@ -73,15 +72,25 @@ if __name__ == "__main__":
         house_3_x.append(int(districts[2].houses[i].x))
         house_3_y.append(int(districts[2].houses[i].y))
 
-    # figure district 1
+    #TEST
     fig1 = plt.figure()
     ax1 = fig1.add_subplot()
 
-    ax1.scatter(battery_1_x, battery_1_y, s=80, c='r', marker="P", label='first')
-    ax1.scatter(house_1_x,house_1_y, s=80, c='b', marker="p", label='second')
+    ax1.scatter([battery_1.x for battery_1 in districts[0].batteries], [battery_1.y for battery_1 in districts[0].batteries], s=80, c='r', marker="P", label='first')
+    ax1.scatter([house_1.x for house_1 in districts[0].houses],[house_1.y for house_1 in districts[0].houses], s=80, c='b', marker="p", label='second')
     plt.xticks(np.arange(0, 51, step=1))
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
+
+    # figure district 1
+    #fig1 = plt.figure()
+    #ax1 = fig1.add_subplot()
+
+    #ax1.scatter(battery_1_x, battery_1_y, s=80, c='r', marker="P", label='first')
+    #ax1.scatter(house_1_x,house_1_y, s=80, c='b', marker="p", label='second')
+    #plt.xticks(np.arange(0, 51, step=1))
+    #plt.yticks(np.arange(0, 51, step=1))
+    #plt.grid(linestyle='--', linewidth=0.5)
 
     # figure district 2
     fig2 = plt.figure()
