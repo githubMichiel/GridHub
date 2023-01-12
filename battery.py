@@ -31,3 +31,7 @@ class Battery:
             return True
         else:
             return False
+
+    # string representation of a battery object that matches the json output format
+    def __str__(self):
+        return f'["location": "{self.x},{self.y}","capacity": {self.capacity},]'

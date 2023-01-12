@@ -17,3 +17,6 @@ class House():
     # set self.battery to a battery object
     def set_battery(self, battery):
         self.battery = battery
+
+    def __str__(self):
+        return f'["location": "{self.x},{self.y}","output": {self.maxoutput},"cables": {self.cables}]'
