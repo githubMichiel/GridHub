@@ -58,3 +58,7 @@ class District:
 
     def __repr__(self):
         return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
+
+    def conn_house_battery(self):
+        for i in range(len(self.houses)):
+            print(self.houses[i].x)

@@ -36,12 +36,6 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
-    #print(district[0].houses)
-    #print(district[0].batteries)
-    #print(json_output())
-    #parsed = json.loads(json_output())
-    #print(json.dumps(parsed, indent=4))
-
     # figure district 1
     fig1 = plt.figure()
     ax1 = fig1.add_subplot()
@@ -51,7 +45,7 @@ if __name__ == "__main__":
     plt.xticks(np.arange(0, 51, step=1))
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
-    
+
     # manually plot cables
     x1 = np.array([38, 39, 39, 39])
     y1 = np.array([12, 12, 13, 14])
@@ -78,3 +72,6 @@ if __name__ == "__main__":
     plt.grid(linestyle='--', linewidth=0.5)
 
     plt.show()
+
+    # connect houses to 1_batteries
+    districts[0].conn_house_battery()
