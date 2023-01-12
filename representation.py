@@ -9,5 +9,3 @@ plt.xticks(np.arange(1, 51, step=1))
 plt.yticks(np.arange(1, 51, step=1))
 plt.grid()
 plt.show()
-
-# zodra we de data ingeladen hebben kunnen we dit verder uitwerken
