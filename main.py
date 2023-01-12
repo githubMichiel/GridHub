@@ -38,6 +38,9 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
+    test = json_format(districts[0])
+    json_output(test)
+
     # figure district 1
     fig1 = plt.figure()
     ax1 = fig1.add_subplot()
