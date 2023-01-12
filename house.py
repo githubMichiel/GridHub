@@ -31,12 +31,12 @@ class House():
                 self.cables.append((self.x + i, self.y))
         if distance_y >= 0:
             for i in range(abs(distance_y) + 1):
-                self.cables.append((self.x - distance_x, self.y - i))
+                self.cables.append((self.x - distance_x,self.y - i))
         else:
             for i in range(abs(distance_y) + 1):
-                self.cables.append((self.x - distance_x, self.y + i))
+                self.cables.append((self.x - distance_x,self.y + i))
 
 
 
-    def __repr__(self):
-        return f'{{"location": "{self.x},{self.y}","output": {self.max_output},"cables": {self.cables}}}'
+#    def __repr__(self):
+#        return f'{{"location": "{self.x},{self.y}","output": {self.max_output},"cables": []}}'
