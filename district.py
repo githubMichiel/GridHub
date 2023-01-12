@@ -35,6 +35,8 @@ class District:
                 # create battery
                 # right now each battery is connected to 2 houses based on its x and y coordinates just for json output testing
                 battery = Battery(x, y, capacity, [self.houses[x], self.houses[y]])
+                self.houses[x].add_connection(battery)
+                self.houses[y].add_connection(battery)
                 self.batteries.append(battery)
 
 

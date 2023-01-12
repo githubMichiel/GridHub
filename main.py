@@ -36,45 +36,10 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
-    #print(district[0].houses)
-    #print(district[0].batteries)
-    #print(json_output())
-    #parsed = json.loads(json_output())
-    #print(json.dumps(parsed, indent=4))
+    test = json_format(districts[0])
+    json_output(test)
 
-    # lists with x, y coordinates per district
-    battery_1_x = []
-    battery_1_y = []
-    house_1_x = []
-    house_1_y = []
-    battery_2_x = []
-    battery_2_y = []
-    house_2_x = []
-    house_2_y = []
-    battery_3_x = []
-    battery_3_y = []
-    house_3_x = []
-    house_3_y = []
-
-    # retrieve battery coordinates separately for plotting
-    for i in range(len(districts[0].batteries)):
-        battery_1_x.append(int(districts[0].batteries[i].x))
-        battery_1_y.append(int(districts[0].batteries[i].y))
-        battery_2_x.append(int(districts[1].batteries[i].x))
-        battery_2_y.append(int(districts[1].batteries[i].y))
-        battery_3_x.append(int(districts[2].batteries[i].x))
-        battery_3_y.append(int(districts[2].batteries[i].y))
-
-    # retrieve house coordinates separately for plotting
-    for i in range(len(districts[0].houses)):
-        house_1_x.append(int(districts[0].houses[i].x))
-        house_1_y.append(int(districts[0].houses[i].y))
-        house_2_x.append(int(districts[1].houses[i].x))
-        house_2_y.append(int(districts[1].houses[i].y))
-        house_3_x.append(int(districts[2].houses[i].x))
-        house_3_y.append(int(districts[2].houses[i].y))
-
-    #TEST
+    # figure district 1
     fig1 = plt.figure()
     ax1 = fig1.add_subplot()
 
