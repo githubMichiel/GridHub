@@ -59,8 +59,8 @@ class District:
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-#    def __repr__(self):
-#        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
+    #def __repr__(self):
+    #    return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
 
     def connect_house_battery(self):
         """ connect each house to a random battery"""

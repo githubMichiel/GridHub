@@ -83,4 +83,3 @@ if __name__ == "__main__":
     print(districts[0].houses[0].battery.id)
 
     districts[0].list_houses_battery()
-    
