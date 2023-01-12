@@ -10,6 +10,7 @@ class District:
         self.batteries = []
         self.houses = []
         self.costs = 0
+
         # boolean: True if the cables are unique, False if cables can be shared
         self.is_unique = is_unique
         if self.is_unique:
