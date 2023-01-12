@@ -2,10 +2,10 @@
 
 class House():
 
-    def __init__(self, x, y, maxoutput):
+    def __init__(self, x, y, max_output):
         self.x = x
         self.y = y
-        self.maxoutput = maxoutput
+        self.max_output = max_output
         self.battery = None
 
         # location of the house
@@ -28,7 +28,7 @@ class House():
                 self.cables.append((self.x - i, self.y))
         else:
             for i in range(abs(distance_x) + 1):
-                self.cables.append((self.x + 1, self.y))
+                self.cables.append((self.x + i, self.y))
         if distance_y >= 0:
             for i in range(abs(distance_y) + 1):
                 self.cables.append((self.x - distance_x, self.y - i))
@@ -39,4 +39,4 @@ class House():
 
 
     def __repr__(self):
-        return f'{{"location": "{self.x},{self.y}","output": {self.maxoutput},"cables": {self.cables}}}'
+        return f'{{"location": "{self.x},{self.y}","output": {self.max_output},"cables": {self.cables}}}'
