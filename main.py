@@ -81,3 +81,6 @@ if __name__ == "__main__":
     # connect houses to 1_batteries
     districts[0].connect_house_battery()
     print(districts[0].houses[0].battery.id)
+
+    districts[0].list_houses_battery()
+    

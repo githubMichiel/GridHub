@@ -36,9 +36,7 @@ class District:
 
                 # create battery
                 # right now each battery is connected to 2 houses based on its x and y coordinates just for json output testing
-                battery = Battery(id, x, y, capacity, [self.houses[x], self.houses[y]])
-                self.houses[x].add_connection(battery)
-                self.houses[y].add_connection(battery)
+                battery = Battery(id, x, y, capacity)
                 self.batteries.append(battery)
                 id += 1
 
@@ -73,5 +71,16 @@ class District:
 
             for battery in self.batteries:
                 if battery.check_capacity_limit(house.max_output):
+                    # connect new battery to house
                     house.set_battery(battery)
+                    # add cable connection from house to specific battery
+                    house.add_connection(battery)
                     break
+
+    # make list of connected houses per battery
+    def list_houses_battery(self):
+        for battery in self.batteries:
+            for house in self.houses:
+                # if house connected to battery append house to list in that battery
+                if battery is house.battery:
+                    battery.houses.append(house)
