@@ -13,7 +13,7 @@ from house import House
 from district import District
 
 def json_output():
-    
+
 
 if __name__ == "__main__":
 
