@@ -19,16 +19,16 @@ class Battery:
         self.location = f"{self.x}, {self.y}"
 
         # keep track of battery input
-        self.totalinput = 0
+        self.total_input = 0
 
     # add new input to battery
     def add_input(self, input):
-        self.totalinput += input
+        self.total_input += input
 
     # check if new connection to this battery can be made with exceeding the capacity
-    def check_connection(self, input):
-        newinput = input + self.totalinput
-        if newinput < capacity:
+    def check_capacity_limit(self, input):
+        new_input = input + self.total_input
+        if new_input < capacity:
             return True
         else:
             return False

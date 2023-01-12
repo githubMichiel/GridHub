@@ -29,6 +29,8 @@ if __name__ == "__main__":
     districts = []
     for i in range(1,4):
         districts.append(District(i, True))
+
+    # load objects into districts
     districts[0].load_houses('district-1_houses.csv')
     districts[0].load_batteries('district-1_batteries.csv')
     districts[1].load_houses('district-2_houses.csv')
