@@ -12,7 +12,6 @@ from battery import Battery
 from house import House
 from district import District
 
-<<<<<<< HEAD
 def json_format(district):
     district_info = repr(district)
     #TODO: find a way to do this for all batteries without hard coding it
@@ -23,10 +22,6 @@ def json_output(string):
     parsed = json.loads(string)
     print(json.dumps(parsed,indent=2))
 
-=======
-def json_output():
-    return
->>>>>>> 237d42d8ed3a10422b30c562f910a0e50dc405c4
 
 if __name__ == "__main__":
 
@@ -89,22 +84,13 @@ if __name__ == "__main__":
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
 
-    # figure district 1
-    #fig1 = plt.figure()
-    #ax1 = fig1.add_subplot()
-
-    #ax1.scatter(battery_1_x, battery_1_y, s=80, c='r', marker="P", label='first')
-    #ax1.scatter(house_1_x,house_1_y, s=80, c='b', marker="p", label='second')
-    #plt.xticks(np.arange(0, 51, step=1))
-    #plt.yticks(np.arange(0, 51, step=1))
-    #plt.grid(linestyle='--', linewidth=0.5)
 
     # figure district 2
     fig2 = plt.figure()
     ax2 = fig2.add_subplot()
 
-    ax2.scatter(battery_2_x, battery_2_y, s=80, c='r', marker="P", label='first')
-    ax2.scatter(house_2_x, house_2_y, s=80, c='b', marker="p", label='second')
+    ax2.scatter([battery_2.x for battery_2 in districts[1].batteries], [battery_2.y for battery_2 in districts[1].batteries], s=80, c='r', marker="P", label='first')
+    ax2.scatter([house_2.x for house_2 in districts[1].houses], [house_2.y for house_2 in districts[1].houses], s=80, c='b', marker="p", label='second')
     plt.xticks(np.arange(0, 51, step=1))
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
@@ -113,8 +99,8 @@ if __name__ == "__main__":
     fig3 = plt.figure()
     ax3 = fig3.add_subplot()
 
-    ax3.scatter(battery_3_x, battery_3_y, s=80, c='r', marker="P", label='first')
-    ax3.scatter(house_3_x, house_3_y, s=80, c='b', marker="p", label='second')
+    ax3.scatter([battery_3.x for battery_3 in districts[2].batteries], [battery_3.y for battery_3 in districts[2].batteries], s=80, c='r', marker="P", label='first')
+    ax3.scatter([house_3.x for house_3 in districts[2].houses], [house_3.y for house_3 in districts[2].houses], s=80, c='b', marker="p", label='second')
     plt.xticks(np.arange(0, 51, step=1))
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
