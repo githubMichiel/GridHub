@@ -13,9 +13,9 @@ class District:
         # boolean: True if the cables are unique, False if cables can be shared
         self.is_unique = is_unique
         if self.is_unique:
-            self.unique_cables = 'own-costs'
+            self.unique_cables = 'costs-own'
         else:
-            self.unique_cables = 'shared-costs'
+            self.unique_cables = 'costs-shared'
 
     def load_batteries(self, filename):
         """ load batteries into memory"""
@@ -27,12 +27,13 @@ class District:
             next(csvreader)
 
             for row in csvreader:
-                x = row[0]
-                y = row[1]
-                capacity = row[2].strip()
+                x = int(row[0])
+                y = int(row[1])
+                capacity = float(row[2])
 
                 # create battery
-                battery = Battery(x, y, capacity)
+                # right now each battery is connected to 2 houses based on its x and y coordinates just for json output testing
+                battery = Battery(x, y, capacity, [self.houses[x], self.houses[y]])
                 self.batteries.append(battery)
 
 
@@ -46,13 +47,13 @@ class District:
             next(csvreader)
 
             for row in csvreader:
-                x = row[0]
-                y = row[1]
-                max_output = row[2].strip()
+                x = int(row[0])
+                y = int(row[1])
+                max_output = float(row[2])
 
                 # create house
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-    def __str__(self):
-        return f'["district": {self.id},"{self.unique_cables}": {self.costs},]'
+    def __repr__(self):
+        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'

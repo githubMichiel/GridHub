@@ -7,12 +7,13 @@ battery.py
 class Battery:
     """" store information about the batteries in the grid"""
 
-    def __init__(self, x, y, capacity):
+    def __init__(self, x, y, capacity, houses):
         """ create batteries"""
 
         self.x = x
         self.y = y
         self.capacity = capacity
+        self.houses = houses
 
         # location of the battery
         self.location = f"{self.x}, {self.y}"
@@ -33,5 +34,5 @@ class Battery:
             return False
 
     # string representation of a battery object that matches the json output format
-    def __str__(self):
-        return f'["location": "{self.x},{self.y}","capacity": {self.capacity},]'
+    def __repr__(self):
+        return f'"location": "{self.x},{self.y}","capacity": {self.capacity},"houses": {self.houses}'
