@@ -26,7 +26,7 @@ class Battery:
         self.totalinput += input
 
     # check if new connection to this battery can be made with exceeding the capacity
-    def check_connection(self, input):
+    def check_capacity_limit(self, input):
         newinput = input + self.totalinput
         if newinput < capacity:
             return True
