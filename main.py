@@ -49,6 +49,10 @@ if __name__ == "__main__":
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
 
+    # manually plot cables
+    x1 = np.array([38, 39, 39, 39])
+    y1 = np.array([12, 12, 13, 14])
+    plt.plot(x1, y1, c='black')
 
     # figure district 2
     fig2 = plt.figure()
@@ -71,3 +75,6 @@ if __name__ == "__main__":
     plt.grid(linestyle='--', linewidth=0.5)
 
     plt.show()
+
+    # connect houses to 1_batteries
+    districts[0].conn_house_battery()
