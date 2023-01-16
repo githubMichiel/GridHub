@@ -10,7 +10,8 @@ class District:
         self.id = id
         self.batteries = []
         self.houses = []
-        self.costs = 0
+        self.costs = 25000
+        self.total_cables = []
 
         # boolean: True if the cables are unique, False if cables can be shared
         self.is_unique = is_unique
@@ -36,16 +37,12 @@ class District:
 
                 # create battery
                 # right now each battery is connected to 2 houses based on its x and y coordinates just for json output testing
-                battery = Battery(id, x, y, capacity, [self.houses[x], self.houses[y]])
-                self.houses[x].add_connection(battery)
-                self.houses[y].add_connection(battery)
+                battery = Battery(id, x, y, capacity)
                 self.batteries.append(battery)
                 id += 1
 
 
     def load_houses(self, filename):
-        """ load houses into memory"""
-
         with open(filename) as f:
             csvreader = csv.reader(f)
 
@@ -74,4 +71,15 @@ class District:
             for battery in self.batteries:
                 if battery.check_capacity_limit(house.max_output):
                     house.set_battery(battery)
+                    house.add_connection(battery)
                     break
+
+    # add all of the cables that are stored in all of the houses to the list of all cables of the district
+    def add_all_cables(self):
+        for house in self.houses:
+            for cables in house.cables:
+                self.total_cables.append(house.cables)
+
+    # if the cables can be shared we remove duplicates from the list of all cables of the district
+    def remove_duplicate_cables(self):
+        if self.is_unique == False:
