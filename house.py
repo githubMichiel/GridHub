@@ -8,8 +8,6 @@ class House():
         self.max_output = max_output
         self.battery = None
 
-        # location of the house
-        self.location = f"{self.x}, {self.y}"
 
         # make list with corresponding cable location
         self.cables = []

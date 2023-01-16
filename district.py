@@ -8,11 +8,20 @@ class District:
 
     def __init__(self, id, is_unique):
         self.id = id
-        self.batteries = []
-        self.houses = []
-        self.costs = 0
 
-        # boolean: True if the cables are unique, False if cables can be shared
+        # list of battery objects in district
+        self.batteries = []
+
+        # list of house objects in district
+        self.houses = []
+
+        # total costs of all cables and batteries in district; start at 25000 i.e. costs of all batteries
+        self.costs = 25000
+
+        # dictionary with all batteries as keys and a list of connected houses per battery as values
+        self.batteries_houses = {}
+
+        # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
         if self.is_unique:
             self.unique_cables = 'costs-own'
@@ -42,8 +51,6 @@ class District:
 
 
     def load_houses(self, filename):
-        """ load houses into memory"""
-
         with open(filename) as f:
             csvreader = csv.reader(f)
 
@@ -59,8 +66,8 @@ class District:
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-    #def __repr__(self):
-    #    return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
+#    def __repr__(self):
+#        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
 
     def connect_house_battery(self):
         """ connect each house to a random battery"""
@@ -71,16 +78,21 @@ class District:
 
             for battery in self.batteries:
                 if battery.check_capacity_limit(house.max_output):
-                    # connect new battery to house
                     house.set_battery(battery)
-                    # add cable connection from house to specific battery
                     house.add_connection(battery)
                     break
 
-    # make list of connected houses per battery
-    def list_houses_battery(self):
+    # add all of the cables that are stored in all of the houses to the list of all cables of the district
+    def add_all_cables(self):
+        for house in self.houses:
+            for cables in house.cables:
+                self.total_cables.append(house.cables)
+
+    # if the cables can be shared we remove duplicates from the list of all cables of the district
+    def remove_duplicate_cables(self):
+        if self.is_unique == False:
+
+    # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
+    def make_dict_district_batteries(self):
         for battery in self.batteries:
-            for house in self.houses:
-                # if house connected to battery append house to list in that battery
-                if battery is house.battery:
-                    battery.houses.append(house)
+            self.batteries_houses[battery] = battery.houses
