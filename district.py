@@ -16,7 +16,7 @@ class District:
         self.houses = []
 
         # total costs of all cables and batteries in district; start at 25000 i.e. costs of all batteries
-        self.costs = 25000
+        self.costs = 0
 
         # dictionary with all batteries as keys and a list of connected houses per battery as values
         self.batteries_houses = {}
@@ -47,7 +47,6 @@ class District:
                 capacity = float(row[2])
 
                 # create battery
-                # right now each battery is connected to 2 houses based on its x and y coordinates just for json output testing
                 battery = Battery(id, x, y, capacity)
                 self.batteries.append(battery)
                 id += 1
@@ -85,15 +84,27 @@ class District:
                     house.add_connection(battery)
                     break
 
+    def list_houses_battery(self):
+        for battery in self.batteries:
+            for house in self.houses:
+                if battery is house.battery:
+                    battery.houses.append(house)
+
     # add all of the cables that are stored in all of the houses to the list of all cables of the district
     def add_all_cables(self):
         for house in self.houses:
             for cables in house.cables:
-                self.total_cables.append(house.cables)
+                self.all_cables.append(house.cables)
+
+    def total_costs(self):
+        number_of_cables = len(self.all_cables) - len(self.houses)
+        self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
+
 
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     def remove_duplicate_cables(self):
         if self.is_unique == False:
+
 
     # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
     def make_dict_district_batteries(self):
