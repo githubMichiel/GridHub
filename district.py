@@ -8,11 +8,20 @@ class District:
 
     def __init__(self, id, is_unique):
         self.id = id
+
+        # list of battery objects in district
         self.batteries = []
+
+        # list of house objects in district
         self.houses = []
+
+        # total costs of all cables and batteries in district
         self.costs = 0
 
-        # boolean: True if the cables are unique, False if cables can be shared
+        # dictionary with all batteries as keys and a list of connected houses per battery as values
+        self.batteries_houses = {}
+
+        # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
         if self.is_unique:
             self.unique_cables = 'costs-own'
@@ -84,3 +93,8 @@ class District:
                 # if house connected to battery append house to list in that battery
                 if battery is house.battery:
                     battery.houses.append(house)
+
+    # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
+    def make_dict_district_batteries(self):
+        for battery in self.batteries:
+            self.batteries_houses[battery] = battery.houses

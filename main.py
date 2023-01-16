@@ -82,4 +82,9 @@ if __name__ == "__main__":
     districts[0].connect_house_battery()
     print(districts[0].houses[0].battery.id)
 
+    
     districts[0].list_houses_battery()
+
+    # make dictionary with batteries and corresponding houses per districts
+    districts[0].make_dict_district_batteries()
+    print(districts[0].batteries_houses)
