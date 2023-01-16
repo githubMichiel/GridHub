@@ -34,14 +34,15 @@ def plot_district(district):
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
 
-    # plot cables
-    #x1 = np.array([38, 39, 39, 39])
-    #y1 = np.array([12, 12, 13, 14])
-    #plt.plot(x1, y1, c='black')
+    # plot each cable individually
+    for house in districts[district].houses:
+        x = np.array([x[0] for x in house.cables])
+        y = np.array([x[1] for x in house.cables])
 
-    xxx = np.array([x[0] for x in districts[district].all_cables])
-    yyy = np.array([x[1] for x in districts[district].all_cables])
-    plt.plot(xxx, yyy, c='black')
+        print(x)
+        print(y)
+        plt.plot(x, y, c='black')
+
 
 
 if __name__ == "__main__":
@@ -78,7 +79,6 @@ if __name__ == "__main__":
         district.remove_duplicate_cables()
         district.total_costs()
         print(district.costs)
-
 
     # visualize each district
     plot_district(0)
