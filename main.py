@@ -73,3 +73,9 @@ if __name__ == "__main__":
 
         # make dictionary with batteries per district
         district.make_dict_district_batteries()
+
+        # test the total cost functions
+        district.add_all_cables()
+        district.remove_duplicate_cables()
+        district.total_costs()
+        print(district.costs)

@@ -93,8 +93,8 @@ class District:
     # add all of the cables that are stored in all of the houses to the list of all cables of the district
     def add_all_cables(self):
         for house in self.houses:
-            for cables in house.cables:
-                self.all_cables.append(house.cables)
+            for i in range(len(house.cables)):
+                self.all_cables.append(house.cables[i])
 
     def total_costs(self):
         number_of_cables = len(self.all_cables) - len(self.houses)
@@ -104,6 +104,7 @@ class District:
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     def remove_duplicate_cables(self):
         if self.is_unique == False:
+            self.all_cables = list(set(self.all_cables))
 
 
     # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
