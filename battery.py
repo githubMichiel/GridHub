@@ -14,7 +14,7 @@ class Battery:
         self.x = x
         self.y = y
         self.capacity = capacity
-        self.houses = houses
+        self.houses = []
 
         # location of the battery
         self.location = f"{self.x}, {self.y}"
@@ -33,6 +33,8 @@ class Battery:
             return True
         else:
             return False
+
+
 
     # string representation of a battery object that matches the json output format
     #def __repr__(self):
