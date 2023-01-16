@@ -74,7 +74,8 @@ class District:
     def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
         for house in self.houses:
-            if argv == "random":
+            # assignment 1:implement random cable connection
+            if argv == 1:
                 # choose a random battery
                 random.shuffle(self.batteries)
 
@@ -83,6 +84,8 @@ class District:
                         house.set_battery(battery)
                         house.add_connection(battery)
                         break
+            else:
+                pass
 
     # make list of connected houses per battery
     def list_houses_battery(self):
