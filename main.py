@@ -34,10 +34,14 @@ def plot_district(district):
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
 
-    # manually plot cables
-    x1 = np.array([38, 39, 39, 39])
-    y1 = np.array([12, 12, 13, 14])
-    plt.plot(x1, y1, c='black')
+    # plot cables
+    #x1 = np.array([38, 39, 39, 39])
+    #y1 = np.array([12, 12, 13, 14])
+    #plt.plot(x1, y1, c='black')
+
+    xxx = np.array([x[0] for x in districts[district].all_cables])
+    yyy = np.array([x[1] for x in districts[district].all_cables])
+    plt.plot(xxx, yyy, c='black')
 
 
 if __name__ == "__main__":
@@ -58,18 +62,22 @@ if __name__ == "__main__":
     #test = json_format(districts[0])
     #json_output(test)
 
-    # visualize each district
-    plot_district(0)
-    plot_district(1)
-    plot_district(2)
-    plt.show()
-
+    # apply functions to each district
     for district in districts:
         # connect each house to a battery
         district.connect_house_battery()
 
         # make list of houses per battery
-        district.list_houses_battery()
+        #district.list_houses_battery()
 
         # make dictionary with batteries per district
         district.make_dict_district_batteries()
+
+        # create a list in which all cables are listed
+        district.add_all_cables()
+
+    # visualize each district
+    plot_district(0)
+    plot_district(1)
+    plot_district(2)
+    plt.show()

@@ -88,12 +88,13 @@ class District:
     # add all of the cables that are stored in all of the houses to the list of all cables of the district
     def add_all_cables(self):
         for house in self.houses:
-            for cables in house.cables:
-                self.total_cables.append(house.cables)
+            for i in range(len(house.cables)):
+                self.all_cables.append(house.cables[i])
 
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     def remove_duplicate_cables(self):
         if self.is_unique == False:
+            pass
 
     # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
     def make_dict_district_batteries(self):
