@@ -68,8 +68,10 @@ if __name__ == "__main__":
         # connect each house to a battery
         district.connect_house_battery()
 
-        # make list of houses per battery
+        # make list of connected houses per battery
         district.list_houses_battery()
 
         # make dictionary with batteries per district
         district.make_dict_district_batteries()
+
+    print(districts[0].calculate_distance((1,1), (4,3)))

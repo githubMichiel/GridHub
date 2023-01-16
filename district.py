@@ -84,6 +84,7 @@ class District:
                     house.add_connection(battery)
                     break
 
+    # make list of connected houses per battery
     def list_houses_battery(self):
         for battery in self.batteries:
             for house in self.houses:
@@ -104,9 +105,19 @@ class District:
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     def remove_duplicate_cables(self):
         if self.is_unique == False:
+            self.all_cables = list(set(self.all_cables))
 
 
     # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
     def make_dict_district_batteries(self):
         for battery in self.batteries:
             self.batteries_houses[battery] = battery.houses
+
+    # calculate the Manhattan distance between house and battery
+    # source: https://datascienceparichay.com/article/manhattan-distance-python/
+    def calculate_distance(self, loc_1, loc2):
+        distance = 0
+        # distance = |x2 - x1| + |y2 - y1|
+        for p_i,q_i in zip(loc_1,loc2):
+            distance += abs(p_i - q_i)
+        return distance
