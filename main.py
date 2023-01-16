@@ -64,8 +64,12 @@ if __name__ == "__main__":
     plot_district(2)
     plt.show()
 
-    # connect each house to a battery
     for district in districts:
+        # connect each house to a battery
         district.connect_house_battery()
-        print(district.houses[0].battery.id)
+
+        # make list of houses per battery
         district.list_houses_battery()
+
+        # make dictionary with batteries per district
+        district.make_dict_district_batteries()
