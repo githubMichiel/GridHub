@@ -67,20 +67,12 @@ if __name__ == "__main__":
         # connect each house to a battery
         district.connect_house_battery()
 
-<<<<<<< HEAD
         # make list of connected houses per battery
         district.list_houses_battery()
-=======
-        # make list of houses per battery
-        #district.list_houses_battery()
->>>>>>> 3a83312dced47656f0abee49ee56e089c8cfc869
 
         # make dictionary with batteries per district
         district.make_dict_district_batteries()
 
-<<<<<<< HEAD
-    print(districts[0].calculate_distance((1,1), (4,3)))
-=======
         # create a list in which all cables are listed
         district.add_all_cables()
 
@@ -89,4 +81,3 @@ if __name__ == "__main__":
     plot_district(1)
     plot_district(2)
     plt.show()
->>>>>>> 3a83312dced47656f0abee49ee56e089c8cfc869
