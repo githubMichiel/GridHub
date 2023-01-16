@@ -21,6 +21,9 @@ class District:
         # dictionary with all batteries as keys and a list of connected houses per battery as values
         self.batteries_houses = {}
 
+        # list of all of the cables in district
+        self.all_cables = []
+
         # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
         if self.is_unique:
