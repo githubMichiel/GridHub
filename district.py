@@ -71,18 +71,21 @@ class District:
 #    def __repr__(self):
 #        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
 
-    def connect_house_battery(self):
+    def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
         for house in self.houses:
+            # assignment 1:implement random cable connection
+            if argv == 1:
+                # choose a random battery
+                random.shuffle(self.batteries)
 
-            # choose a random battery
-            random.shuffle(self.batteries)
-
-            for battery in self.batteries:
-                if battery.check_capacity_limit(house.max_output):
-                    house.set_battery(battery)
-                    house.add_connection(battery)
-                    break
+                for battery in self.batteries:
+                    if battery.check_capacity_limit(house.max_output):
+                        house.set_battery(battery)
+                        house.add_connection(battery)
+                        break
+            else:
+                pass
 
     # make list of connected houses per battery
     def list_houses_battery(self):
