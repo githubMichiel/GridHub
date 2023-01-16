@@ -8,12 +8,20 @@ class District:
 
     def __init__(self, id, is_unique):
         self.id = id
-        self.batteries = []
-        self.houses = []
-        self.costs = 25000
-        self.total_cables = []
 
-        # boolean: True if the cables are unique, False if cables can be shared
+        # list of battery objects in district
+        self.batteries = []
+
+        # list of house objects in district
+        self.houses = []
+
+        # total costs of all cables and batteries in district; start at 25000 i.e. costs of all batteries
+        self.costs = 25000
+
+        # dictionary with all batteries as keys and a list of connected houses per battery as values
+        self.batteries_houses = {}
+
+        # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
         if self.is_unique:
             self.unique_cables = 'costs-own'
@@ -83,3 +91,8 @@ class District:
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     def remove_duplicate_cables(self):
         if self.is_unique == False:
+
+    # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
+    def make_dict_district_batteries(self):
+        for battery in self.batteries:
+            self.batteries_houses[battery] = battery.houses
