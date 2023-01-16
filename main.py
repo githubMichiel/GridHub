@@ -29,13 +29,13 @@ def plot_district(district):
     ax = fig.add_subplot()
 
     # plot batteries
-    ax.scatter([battery_1.x for battery_1 in districts[district].batteries],
-               [battery_1.y for battery_1 in districts[district].batteries],
+    ax.scatter([battery.x for battery in districts[district].batteries],
+               [battery.y for battery in districts[district].batteries],
                s=80, c='r', marker="P", label='batteries')
 
     # plot houses
-    ax.scatter([house_1.x for house_1 in districts[district].houses],
-               [house_1.y for house_1 in districts[district].houses],
+    ax.scatter([house.x for house in districts[district].houses],
+               [house.y for house in districts[district].houses],
                s=80, c='b', marker="p", label='houses')
 
     # plot grid
@@ -48,7 +48,6 @@ def plot_district(district):
         x = np.array([x[0] for x in house.cables])
         y = np.array([x[1] for x in house.cables])
         plt.plot(x, y, c='black', linewidth=0.5)
-
 
 
 if __name__ == "__main__":
