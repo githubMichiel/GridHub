@@ -94,7 +94,6 @@ class District:
     # add all of the cables that are stored in all of the houses to the list of all cables of the district
     def add_all_cables(self):
         for house in self.houses:
-
             for i in range(len(house.cables)):
                 self.all_cables.append(house.cables[i])
 
@@ -113,10 +112,8 @@ class District:
             self.batteries_houses[battery] = battery.houses
 
     # calculate the Manhattan distance between house and battery
-    # source: https://datascienceparichay.com/article/manhattan-distance-python/
-    def calculate_distance(self, loc_1, loc2):
+    def calculate_distance(self, house, battery):
         distance = 0
-        # distance = |x2 - x1| + |y2 - y1|
-        for p_i,q_i in zip(loc_1,loc2):
-            distance += abs(p_i - q_i)
+        distance += abs(house.x - battery.x)
+        distance += abs(house.y - battery.y)
         return distance
