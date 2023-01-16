@@ -16,9 +16,6 @@ class Battery:
         self.capacity = capacity
         self.houses = []
 
-        # location of the battery
-        self.location = f"{self.x}, {self.y}"
-
         # keep track of battery input
         self.total_input = 0
 
