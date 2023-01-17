@@ -33,3 +33,7 @@ class Battery:
             return True
         else:
             return False
+
+
+    def print_input(self):
+        print(f" Total input of battery: {self.total_input}")

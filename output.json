@@ -1,6 +1,7 @@
 [
   {
     "district": 1,
+<<<<<<< HEAD
     "costs-shared": 75634
   },
   {
@@ -1399,10 +1400,19 @@
         ]
       }
     ]
+=======
+    "costs-own": 0
+  },
+  {
+    "location": "38,12",
+    "capacity": 1507.0,
+    "houses": []
+>>>>>>> 3713b5bd3c70a852473d284c35ad6af6e379cb0e
   },
   {
     "location": "43,13",
     "capacity": 1507.0,
+<<<<<<< HEAD
     "houses": [
       {
         "location": "19,38",
@@ -6552,5 +6562,23 @@
         ]
       }
     ]
+=======
+    "houses": []
+  },
+  {
+    "location": "42,3",
+    "capacity": 1507.0,
+    "houses": []
+  },
+  {
+    "location": "49,23",
+    "capacity": 1507.0,
+    "houses": []
+  },
+  {
+    "location": "3,45",
+    "capacity": 1507.0,
+    "houses": []
+>>>>>>> 3713b5bd3c70a852473d284c35ad6af6e379cb0e
   }
 ]

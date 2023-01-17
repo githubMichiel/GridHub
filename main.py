@@ -21,7 +21,7 @@ def json_format(district):
 def json_output(string):
     parsed = json.loads(string)
     f = open("output.json", "w")
-    f.write(json.dumps(parsed,indent=2))
+    f.write(json.dumps(parsed, indent=2))
     f.close()
 
 def plot_district(district):
@@ -30,18 +30,26 @@ def plot_district(district):
     fig = plt.figure()
     ax = fig.add_subplot()
 
-    ax.scatter([battery_1.x for battery_1 in districts[district].batteries], [battery_1.y for battery_1 in districts[district].batteries], s=80, c='r', marker="P", label='batteries')
-    ax.scatter([house_1.x for house_1 in districts[district].houses],[house_1.y for house_1 in districts[district].houses], s=80, c='b', marker="p", label='houses')
+    # plot batteries
+    ax.scatter([battery.x for battery in districts[district].batteries],
+               [battery.y for battery in districts[district].batteries],
+               s=80, c='r', marker="P", label='batteries')
+
+    # plot houses
+    ax.scatter([house.x for house in districts[district].houses],
+               [house.y for house in districts[district].houses],
+               s=80, c='b', marker="p", label='houses')
+
+    # plot grid
     plt.xticks(np.arange(0, 51, step=1))
     plt.yticks(np.arange(0, 51, step=1))
     plt.grid(linestyle='--', linewidth=0.5)
 
-    # plot each cable individually
+    # plot each cable per house
     for house in districts[district].houses:
         x = np.array([cable.x for cable in house.cables])
         y = np.array([cable.y for cable in house.cables])
-        plt.plot(x, y, c='black')
-
+        plt.plot(x, y, c='black', linewidth=0.5)
 
 
 if __name__ == "__main__":
@@ -59,6 +67,7 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
+
     # apply functions to each district
     for district in districts:
         # connect each house to a battery
@@ -66,6 +75,7 @@ if __name__ == "__main__":
         for house in district.houses:
             #if house.battery == None:
                 print(house.battery)
+
 
         # make list of connected houses per battery
         district.list_houses_battery()
@@ -81,8 +91,13 @@ if __name__ == "__main__":
         district.total_costs()
         print(district.costs)
 
+        for battery in district.batteries:
+            battery.print_input()
+
+
     test = json_format(districts[0])
     json_output(test)
+
 
     # visualize each district
     plot_district(0)
