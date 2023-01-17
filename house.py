@@ -25,6 +25,7 @@ class House():
     # add cable connection between the house and a battery
     # picks a shortest route (this algorithm is for the unique cable case where it doesnt matter what shortest route we pick)
     def add_connection(self, battery):
+        self.cables = []
         distance_x = self.x - battery.x
         distance_y = self.y - battery.y
         if distance_x >= 0:

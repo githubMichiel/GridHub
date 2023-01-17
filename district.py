@@ -84,32 +84,52 @@ class District:
         distance += abs(house.y - battery.y)
         return distance
 
-
-    def connect_house_battery(self, argv):
-        """ connect each house to a random battery"""
-        # random.shuffle(self.houses)
+    def all_connected(self):
         for house in self.houses:
-            # assignment 1:implement random cable connection
-            if argv == 1:
-                # choose a random battery
-                random.shuffle(self.batteries)
+            if house.battery == None:
+                self.clear_connections()
+                return False
+        return True
 
-                # create battery-house connection
-                for battery in self.batteries:
+    def clear_connections(self):
+        for house in self.houses:
+            house.battery == None
+            house.cables = []
+        for battery in self.batteries:
+            battery.total_input = 0
+
+    def greedy_random_connect(self):
+        for house in self.houses:
+            # choose a random battery
+            random.shuffle(self.batteries)
+
+            # create battery-house connection
+            for battery in self.batteries:
                     if battery.check_capacity_limit(house.max_output):
                         house.set_battery(battery)
                         house.add_connection(battery)
                         battery.add_input(house.max_output)
                         break
-            else:
+
+        return self.all_connected()
+
+    def connect_house_battery(self, argv):
+        """ connect each house to a random battery"""
+        # assignment 1:implement random cable connection
+        if argv == 1:
+            is_all_connected = self.greedy_random_connect()
+            while is_all_connected == False:
+                is_all_connected = self.greedy_random_connect()
+        else:
+            for house in self.houses:
                 # determine closest battery and insert battery object
                 closest_battery = None
                 # maximum distance is 100
                 shortest_distance = 101
 
-                # random.shuffle(self.batteries)
+                    # random.shuffle(self.batteries)
 
-                # loop over all batteries to search for shortest distance
+                    # loop over all batteries to search for shortest distance
                 for battery in self.batteries:
                     if battery.check_capacity_limit(house.max_output):
                         current_distance = self.calculate_distance(house, battery)

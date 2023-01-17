@@ -73,7 +73,7 @@ if __name__ == "__main__":
         # connect each house to a battery
         district.connect_house_battery(1)
         for house in district.houses:
-            #if house.battery == None:
+            if house.battery == None:
                 print(house.battery)
 
 
