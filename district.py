@@ -84,6 +84,7 @@ class District:
         distance += abs(house.y - battery.y)
         return distance
 
+    # check if all houses are connected, if not clear connections to batteries
     def all_connected(self):
         for house in self.houses:
             if house.battery == None:
@@ -91,14 +92,17 @@ class District:
                 return False
         return True
 
+    # clear connections if not all houses are connected
     def clear_connections(self):
         for house in self.houses:
             house.battery == None
             house.cables = []
         for battery in self.batteries:
             battery.total_input = 0
+            battery.houses = []
 
-    def greedy_random_connect(self):
+    # random algorithm to connect houses with batteries randomly
+    def random_connect(self):
         for house in self.houses:
             # choose a random battery
             random.shuffle(self.batteries)
@@ -111,15 +115,16 @@ class District:
                         battery.add_input(house.max_output)
                         break
 
+        # return true if all houses are connected
         return self.all_connected()
 
     def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
         # assignment 1:implement random cable connection
         if argv == 1:
-            is_all_connected = self.greedy_random_connect()
+            is_all_connected = self.random_connect()
             while is_all_connected == False:
-                is_all_connected = self.greedy_random_connect()
+                is_all_connected = self.random_connect()
         else:
             for house in self.houses:
                 # determine closest battery and insert battery object
