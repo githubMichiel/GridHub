@@ -87,7 +87,6 @@ class District:
     def all_connected(self):
         for house in self.houses:
             if house.battery == None:
-                self.clear_connections()
                 return False
         return True
 
@@ -119,6 +118,7 @@ class District:
         if argv == 1:
             is_all_connected = self.greedy_random_connect()
             while is_all_connected == False:
+                self.clear_connections()
                 is_all_connected = self.greedy_random_connect()
         else:
             for house in self.houses:
