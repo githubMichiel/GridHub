@@ -88,7 +88,6 @@ class District:
     def all_connected(self):
         for house in self.houses:
             if house.battery == None:
-                self.clear_connections()
                 return False
         return True
 
@@ -124,11 +123,15 @@ class District:
         if argv == 1:
             is_all_connected = self.random_connect()
             while is_all_connected == False:
+                self.clear_connections()
                 is_all_connected = self.random_connect()
 
         # option 2: implement cable connection to closest battery
         else:
-            for house in self.houses:
+            # sort houses based on output level
+            self.houses.sort(key=lambda x: x.max_output, reverse=True)
+
+            for house in self.houses[0:130]:
                 # determine closest battery and insert battery object
                 closest_battery = None
                 # maximum distance is 100
@@ -151,6 +154,21 @@ class District:
                 house.add_connection(closest_battery)
                 closest_battery.add_input(house.max_output)
 
+            # loop over last 20 houses until all houses are connected
+            while self.all_connected() == False:
+                for house in self.houses:
+                    if house.battery == None:
+                        closest_battery = None
+                        shortest_distance = 101
+                        for battery in self.batteries:
+                            if battery.check_capacity_limit(house.max_output):
+                                current_distance = self.calculate_distance(house, battery)
+                                if current_distance < shortest_distance:
+                                    shortest_distance = current_distance
+                                    closest_battery = battery
+                        house.set_battery(closest_battery)
+                        house.add_connection(closest_battery)
+                        closest_battery.add_input(house.max_output)
 
 
 
