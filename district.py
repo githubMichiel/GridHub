@@ -120,11 +120,13 @@ class District:
 
     def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
-        # assignment 1:implement random cable connection
+        # option 1: implement random cable connection
         if argv == 1:
             is_all_connected = self.random_connect()
             while is_all_connected == False:
                 is_all_connected = self.random_connect()
+
+        # option 2: implement cable connection to closest battery
         else:
             for house in self.houses:
                 # determine closest battery and insert battery object
