@@ -1,6 +1,7 @@
 import numpy as np
 from battery import Battery
 from house import House
+from cable import Cable
 import csv
 import random
 
@@ -68,24 +69,59 @@ class District:
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-#    def __repr__(self):
-#        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
+    def __repr__(self):
+        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
+
+
+    # calculate the Manhattan distance between house and battery
+    def calculate_distance(self, house, battery):
+        distance = 0
+        distance += abs(house.x - battery.x)
+        distance += abs(house.y - battery.y)
+        return distance
 
     def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
+        # random.shuffle(self.houses)
         for house in self.houses:
             # assignment 1:implement random cable connection
             if argv == 1:
                 # choose a random battery
                 random.shuffle(self.batteries)
 
+                # create battery-house connection
                 for battery in self.batteries:
                     if battery.check_capacity_limit(house.max_output):
                         house.set_battery(battery)
                         house.add_connection(battery)
+                        battery.add_input(house.max_output)
                         break
             else:
-                pass
+                # determine closest battery and insert battery object
+                closest_battery = None
+                # maximum distance is 100
+                shortest_distance = 101
+
+                # random.shuffle(self.batteries)
+
+                # loop over all batteries to search for shortest distance
+                for battery in self.batteries:
+                    if battery.check_capacity_limit(house.max_output):
+                        current_distance = self.calculate_distance(house, battery)
+
+                        # if shorter distance and if adequate capacity set to current battery
+                        if current_distance < shortest_distance:
+                            shortest_distance = current_distance
+                            closest_battery = battery
+
+                # connect closest available battery to house
+                house.set_battery(closest_battery)
+                house.add_connection(closest_battery)
+                closest_battery.add_input(house.max_output)
+
+
+
+
 
     # make list of connected houses per battery
     def list_houses_battery(self):
@@ -113,10 +149,3 @@ class District:
     def make_dict_district_batteries(self):
         for battery in self.batteries:
             self.batteries_houses[battery] = battery.houses
-
-    # calculate the Manhattan distance between house and battery
-    def calculate_distance(self, house, battery):
-        distance = 0
-        distance += abs(house.x - battery.x)
-        distance += abs(house.y - battery.y)
-        return distance

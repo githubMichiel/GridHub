@@ -31,8 +31,11 @@ class Battery:
         else:
             return False
 
+    def print_input(self):
+        print(f" Total input of battery: {self.total_input}")
+
 
 
     # string representation of a battery object that matches the json output format
-    #def __repr__(self):
-    #    return f'"location": "{self.x},{self.y}","capacity": {self.capacity},"houses": {self.houses}'
+    def __repr__(self):
+        return f'"location": "{self.x},{self.y}","capacity": {self.capacity},"houses": {self.houses}'
