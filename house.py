@@ -1,3 +1,5 @@
+from cable import Cable
+
 # create a class that describes a 'house' object
 
 class House():
@@ -12,6 +14,10 @@ class House():
         # make list with corresponding cable location
         self.cables = []
 
+    def __repr__(self):
+
+        return f'{{"location": "{self.x},{self.y}","output": {self.max_output},"cables": {self.cables}}}'
+
     # set self.battery to a battery object
     def set_battery(self, battery):
         self.battery = battery
@@ -23,18 +29,13 @@ class House():
         distance_y = self.y - battery.y
         if distance_x >= 0:
             for i in range(abs(distance_x) + 1):
-                self.cables.append((self.x - i, self.y))
+                self.cables.append(Cable(self.x - i, self.y))
         else:
             for i in range(abs(distance_x) + 1):
-                self.cables.append((self.x + i, self.y))
+                self.cables.append(Cable(self.x + i, self.y))
         if distance_y >= 0:
             for i in range(abs(distance_y) + 1):
-                self.cables.append((self.x - distance_x,self.y - i))
+                self.cables.append(Cable(self.x - distance_x,self.y - i))
         else:
             for i in range(abs(distance_y) + 1):
-                self.cables.append((self.x - distance_x,self.y + i))
-
-
-
-#    def __repr__(self):
-#        return f'{{"location": "{self.x},{self.y}","output": {self.max_output},"cables": []}}'
+                self.cables.append(Cable(self.x - distance_x,self.y + i))

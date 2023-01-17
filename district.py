@@ -1,6 +1,7 @@
 import numpy as np
 from battery import Battery
 from house import House
+from cable import Cable
 import csv
 import random
 
@@ -30,6 +31,9 @@ class District:
             self.unique_cables = 'costs-own'
         else:
             self.unique_cables = 'costs-shared'
+
+    def __repr__(self):
+         return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
 
     def load_batteries(self, filename):
         """ load batteries into memory"""
@@ -68,9 +72,6 @@ class District:
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-#    def __repr__(self):
-#        return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
-
     def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
         for house in self.houses:
@@ -83,6 +84,7 @@ class District:
                     if battery.check_capacity_limit(house.max_output):
                         house.set_battery(battery)
                         house.add_connection(battery)
+                        battery.add_input(house.max_output)
                         break
             else:
                 pass
@@ -101,13 +103,13 @@ class District:
                 self.all_cables.append(house.cables[i])
 
     def total_costs(self):
-        number_of_cables = len(self.all_cables) - len(self.houses)
-        self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
+        self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
 
     # if the cables can be shared we remove duplicates from the list of all cables of the district
-    def remove_duplicate_cables(self):
-        if self.is_unique == False:
-            self.all_cables = list(set(self.all_cables))
+    # DOES NOT WORK YET WITH CABLE CLASS INSTEAD OF CABLE TUPLES
+    #def remove_duplicate_cables(self):
+    #    if self.is_unique == False:
+    #        self.all_cables = list(set(self.all_cables))
 
     # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
     def make_dict_district_batteries(self):

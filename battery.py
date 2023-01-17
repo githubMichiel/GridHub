@@ -19,6 +19,9 @@ class Battery:
         # keep track of battery input
         self.total_input = 0
 
+    def __repr__(self):
+        return f'"location": "{self.x},{self.y}","capacity": {self.capacity},"houses": {self.houses}'
+
     # add new input to battery
     def add_input(self, input):
         self.total_input += input
@@ -30,9 +33,3 @@ class Battery:
             return True
         else:
             return False
-
-
-
-    # string representation of a battery object that matches the json output format
-    #def __repr__(self):
-    #    return f'"location": "{self.x},{self.y}","capacity": {self.capacity},"houses": {self.houses}'
