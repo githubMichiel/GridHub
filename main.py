@@ -63,7 +63,7 @@ if __name__ == "__main__":
         exit(1)
 
     # store the chosen algorithm
-    algorithm = argv[1]
+    algorithm = int(argv[1])
 
     # create districts
     districts = []
@@ -111,6 +111,8 @@ if __name__ == "__main__":
 
         for battery in district.batteries:
             battery.print_input()
+
+        print("\n")
 
 
     # visualize each district
