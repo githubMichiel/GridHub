@@ -7,6 +7,7 @@ smartgrid.py
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+from sys import argv
 
 from battery import Battery
 from house import House
@@ -54,6 +55,16 @@ def plot_district(district):
 
 if __name__ == "__main__":
 
+    # check command line arguments
+    if len(argv) != 2:
+        print("Usage: python main.py [int]")
+        print("Choose 1 for random algorithm.")
+        print("Choose 2 for greedy algorithm.")
+        exit(1)
+
+    # store the chosen algorithm
+    algorithm = argv[1]
+
     # create districts
     districts = []
     for i in range(1,4):
@@ -74,7 +85,7 @@ if __name__ == "__main__":
 
         # 1: randomly
         # 2: greedy
-        district.connect_house_battery(2)
+        district.connect_house_battery(algorithm)
         for house in district.houses:
             if house.battery == None:
                 print(f"House object has no battery: {house.battery}")
