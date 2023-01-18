@@ -71,13 +71,16 @@ if __name__ == "__main__":
     # apply functions to each district
     for district in districts:
         # connect each house to a battery
-        district.connect_house_battery(0)
+
+        # 1: randomly
+        # 2: greedy
+        district.connect_house_battery(2)
         for house in district.houses:
             if house.battery == None:
-                print(house.battery)
+                print(f"House object has no battery: {house.battery}")
             else:
+                # when all houses are connected AND constraints are met, add cable connections
                 house.add_connection(house.battery)
-
 
 
         # make list of connected houses per battery
@@ -86,9 +89,10 @@ if __name__ == "__main__":
         # make dictionary with batteries per district
         district.make_dict_district_batteries()
 
-        # test the total cost functions
+        # add all of the cables that are stored in all of the houses to the list of all cables of the district
         district.add_all_cables()
-        # remove duplicates function doesnt work yet
+
+        # TODO: remove duplicates function doesnt work yet
         #district.remove_duplicate_cables()
 
         district.total_costs()
@@ -96,7 +100,6 @@ if __name__ == "__main__":
 
         for battery in district.batteries:
             battery.print_input()
-
 
 
     # visualize each district
