@@ -104,7 +104,7 @@ if __name__ == "__main__":
         district.connect_house_battery(algorithm)
         for house in district.houses:
             if house.battery == None:
-                print(f"House object has no battery: {house.battery}")
+                print(f"House object has no battery")
             else:
                 # when all houses are connected AND constraints are met, add cable connections
                 house.add_connection(house.battery)
@@ -127,6 +127,8 @@ if __name__ == "__main__":
 
         for battery in district.batteries:
             battery.print_input()
+
+        print("\n")
 
 
     # visualize each district
