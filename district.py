@@ -110,7 +110,6 @@ class District:
             for battery in self.batteries:
                     if battery.check_capacity_limit(house.max_output):
                         house.set_battery(battery)
-                        house.add_connection(battery)
                         battery.add_input(house.max_output)
                         break
 
@@ -131,7 +130,7 @@ class District:
             # sort houses based on output level
             self.houses.sort(key=lambda x: x.max_output, reverse=True)
 
-            for house in self.houses[0:130]:
+            for house in self.houses:
                 # determine closest battery and insert battery object
                 closest_battery = None
                 # maximum distance is 100
@@ -151,7 +150,6 @@ class District:
 
                 # connect closest available battery to house
                 house.set_battery(closest_battery)
-                house.add_connection(closest_battery)
                 closest_battery.add_input(house.max_output)
 
             # loop over last 20 houses until all houses are connected
@@ -167,7 +165,6 @@ class District:
                                     shortest_distance = current_distance
                                     closest_battery = battery
                         house.set_battery(closest_battery)
-                        house.add_connection(closest_battery)
                         closest_battery.add_input(house.max_output)
 
 
