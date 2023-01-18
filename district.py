@@ -130,7 +130,7 @@ class District:
             # sort houses based on output level
             self.houses.sort(key=lambda x: x.max_output, reverse=True)
 
-            count_empty_houses = 0
+            count_connected_houses = 0
 
             for house in self.houses:
                 # determine closest battery and insert battery object
@@ -139,7 +139,6 @@ class District:
                 shortest_distance = 101
 
                     # random.shuffle(self.batteries)
-
                     # loop over all batteries to search for shortest distance
                 for battery in self.batteries:
                     if battery.check_capacity_limit(house.max_output):
@@ -151,16 +150,15 @@ class District:
                             closest_battery = battery
 
                 # connect closest available battery to house
-
                 if closest_battery != None:
                     house.set_battery(closest_battery)
                     closest_battery.add_input(house.max_output)
-                else:
-                    count_empty_houses += 1
-            print(count_empty_houses)
+                    count_connected_houses += 1
+
+            print(f"Total connected houses: {count_connected_houses}")
 
             # loop over last 20 houses until all houses are connected
-            #while self.all_connected() == False:
+            # while self.all_connected() == False:
             #    for house in self.houses:
             #        if house.battery == None:
             #            closest_battery = None
