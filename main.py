@@ -71,10 +71,10 @@ if __name__ == "__main__":
     # apply functions to each district
     for district in districts:
         # connect each house to a battery
-        district.connect_house_battery(0)
-        # for house in district.houses:
-        #     if house.battery == None:
-        #         print(house.battery)
+        district.connect_house_battery(1)
+        for house in district.houses:
+            if house.battery == None:
+                print(house.battery)
 
 
         # make list of connected houses per battery
