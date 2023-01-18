@@ -71,10 +71,13 @@ if __name__ == "__main__":
     # apply functions to each district
     for district in districts:
         # connect each house to a battery
-        district.connect_house_battery(0)
+        district.connect_house_battery(1)
         for house in district.houses:
             if house.battery == None:
                 print(house.battery)
+            else:
+                house.add_connection(house.battery)
+
 
 
         # make list of connected houses per battery
@@ -89,14 +92,11 @@ if __name__ == "__main__":
         #district.remove_duplicate_cables()
 
         district.total_costs()
-        print(district.costs)
+        print(f"Total costs of district: {district.costs}")
 
         for battery in district.batteries:
             battery.print_input()
 
-
-    test = json_format(districts[0])
-    json_output(test)
 
 
     # visualize each district
