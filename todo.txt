@@ -1,0 +1,23 @@
+state space:
+    huis batterij combinaties (5^150) * route tussen batterij en huis (???)
+
+algorithmes:
+    1&2:
+        huis batterij combinaties:
+            random (constraints passed)
+            greedy korste route tussen huis en batterij (constraints not passed yet), volgorde van huizen plaatsen maakt niet uit
+        route tussen batterij en huis:
+            optimaal prunen met kortste route (state space is altijd gereduceerd tot 1)
+    3&4:
+        huis batterij combinaties:
+            greedy met kortste route tussen huis en batterij/andere kabel, volgorde van huizen plaatsen maakt uit
+        route tussen batterij en huis:
+            niet-optimaal prunen door korste route of random route te kiezen -> hill climber om te verbeteren
+
+todo:
+    baseline statistieken toevoegen en verder afmaken
+    swap functie die huis A met batterij C en huis B met batterije D verandert naar huis A met batterij D en huis B met batterij C
+    in kleine gevallen de swap functie toepassen op hele state space
+    in grotere gevallen dit random doen
+    nieuw algorithme voor niet unieke kabels waarin korste afstand tot kabels verwerkt is
+    hill climber toepassen op het leggen van de niet unieke kabels
