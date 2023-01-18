@@ -130,6 +130,8 @@ class District:
             # sort houses based on output level
             self.houses.sort(key=lambda x: x.max_output, reverse=True)
 
+            count_empty_houses = 0
+
             for house in self.houses:
                 # determine closest battery and insert battery object
                 closest_battery = None
@@ -149,23 +151,28 @@ class District:
                             closest_battery = battery
 
                 # connect closest available battery to house
-                house.set_battery(closest_battery)
-                closest_battery.add_input(house.max_output)
+
+                if closest_battery != None:
+                    house.set_battery(closest_battery)
+                    closest_battery.add_input(house.max_output)
+                else:
+                    count_empty_houses += 1
+            print(count_empty_houses)
 
             # loop over last 20 houses until all houses are connected
-            while self.all_connected() == False:
-                for house in self.houses:
-                    if house.battery == None:
-                        closest_battery = None
-                        shortest_distance = 101
-                        for battery in self.batteries:
-                            if battery.check_capacity_limit(house.max_output):
-                                current_distance = self.calculate_distance(house, battery)
-                                if current_distance < shortest_distance:
-                                    shortest_distance = current_distance
-                                    closest_battery = battery
-                        house.set_battery(closest_battery)
-                        closest_battery.add_input(house.max_output)
+            #while self.all_connected() == False:
+            #    for house in self.houses:
+            #        if house.battery == None:
+            #            closest_battery = None
+            #            shortest_distance = 101
+            #            for battery in self.batteries:
+            #                if battery.check_capacity_limit(house.max_output):
+            #                    current_distance = self.calculate_distance(house, battery)
+            #                    if current_distance < shortest_distance:
+            #                        shortest_distance = current_distance
+            #                        closest_battery = battery
+            #            house.set_battery(closest_battery)
+            #            closest_battery.add_input(house.max_output)
 
 
 
