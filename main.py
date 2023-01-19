@@ -5,14 +5,15 @@ main.py
 """
 
 import matplotlib.pyplot as plt
-import matplotlib.lines as mlines
 import numpy as np
 import json
 from sys import argv
 
-from battery import Battery
-from house import House
-from district import District
+from python.classes.district import District
+from python.classes.battery import Battery
+from python.classes.house import House
+from python.classes.cable import Cable
+from python.visualizations.visualize import plot_district
 
 # Global variables set based on the configuration
 IS_RANDOM_ALGORITHM = False
@@ -103,47 +104,6 @@ def run_multiple_simulations(districts):
         print("")
         print("")
 
-def plot_district(district):
-    """ create a visualization of a district"""
-
-    fig = plt.figure()
-    ax = fig.add_subplot()
-
-    # plot batteries
-    ax.scatter([battery.x for battery in districts[district].batteries],
-               [battery.y for battery in districts[district].batteries],
-               s=80, c='r', marker="P", label='batteries')
-
-    # plot houses
-    ax.scatter([house.x for house in districts[district].houses],
-               [house.y for house in districts[district].houses],
-               s=80, c='b', marker="p", label='houses')
-
-    # plot each cable per house
-    for house in districts[district].houses:
-        x = np.array([cable.x for cable in house.cables])
-        y = np.array([cable.y for cable in house.cables])
-        ax.plot(x, y, c='black', linewidth=0.5)
-
-    # plot grid
-    plt.xticks(np.arange(0, 51, step=1))
-    plt.yticks(np.arange(0, 51, step=1))
-    plt.grid(linestyle='--', linewidth=0.5)
-
-    # plot title
-    plt.title(f"District {district + 1}")
-
-    # create legend items
-    cables = mlines.Line2D([], [], color='black',
-                          markersize=15, label='cables')
-    houses = mlines.Line2D([], [], color='blue', marker='p',
-                          markersize=15, label='houses')
-    batteries = mlines.Line2D([], [], color='red', marker='P',
-                          markersize=15, label='batteries')
-    # mogelijk nog de totale kosten berekenen en ook in de legenda plaatsen
-
-    # plot legend
-    plt.legend(bbox_to_anchor=(0.75, 1.18), loc="upper left", handles=[cables, houses, batteries], framealpha=0.5)
 
 
 if __name__ == "__main__":
@@ -178,12 +138,12 @@ if __name__ == "__main__":
         districts.append(District(i, IS_UNIQUE_CABLES))
 
     # load objects into districts
-    districts[0].load_houses('district-1_houses.csv')
-    districts[0].load_batteries('district-1_batteries.csv')
-    districts[1].load_houses('district-2_houses.csv')
-    districts[1].load_batteries('district-2_batteries.csv')
-    districts[2].load_houses('district-3_houses.csv')
-    districts[2].load_batteries('district-3_batteries.csv')
+    districts[0].load_houses('data/district-1_houses.csv')
+    districts[0].load_batteries('data/district-1_batteries.csv')
+    districts[1].load_houses('data/district-2_houses.csv')
+    districts[1].load_batteries('data/district-2_batteries.csv')
+    districts[2].load_houses('data/district-3_houses.csv')
+    districts[2].load_batteries('data/district-3_batteries.csv')
 
     # run corresponding algorithm
     if IS_RANDOM_ALGORITHM:
@@ -196,11 +156,11 @@ if __name__ == "__main__":
     districts[0].remove_duplicate_cables()
 
     # visualise each district
-    plot_district(0)
-    plot_district(1)
-    plot_district(2)
+    plot_district(districts[0])
+    plot_district(districts[1])
+    plot_district(districts[2])
     plt.show()
 
     json_output(json_format(districts[0]))
 
-    print(len(districts[0].all_cables) - 150)
+    # print(len(districts[0].all_cables) - 150)

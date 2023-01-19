@@ -5,11 +5,12 @@ district.py
 """
 
 import numpy as np
-from battery import Battery
-from house import House
-from cable import Cable
 import csv
 import random
+
+from .battery import Battery
+from .house import House
+from .cable import Cable
 
 class District:
     """create a District object which stores House, Battery and Cable objects
@@ -277,14 +278,19 @@ class District:
 
         unique_cables = set()
         new_cable_list = []
+
+        # loop over cables
         for cable in self.all_cables:
             next_cable = (cable.x,cable.y)
+
+            # check if cable is duplicate
             if next_cable not in unique_cables:
                 new_cable_list.append(cable)
                 unique_cables.add(next_cable)
-        print(len(new_cable_list))
-        print(len(unique_cables))
-        self.all_cables = new_cable_list
+
+        # print(len(new_cable_list))
+        # print(len(unique_cables))
+        # self.all_cables = new_cable_list
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""

@@ -4,7 +4,7 @@ house.py
 - Contains the house class used for solving the SmartGrid problem.
 """
 
-from cable import Cable
+from .cable import Cable
 
 class House():
     """create a House object that stores information about houses in a district"""
