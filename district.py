@@ -260,8 +260,8 @@ class District:
 
     def calculate_total_costs(self):
         """calculate the total cost of a district with cables"""
-
-        self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
+        number_of_cables = len(self.all_cables) - len(self.houses)
+        self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
         return self.costs
 
     def reset_costs(self):
