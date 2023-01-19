@@ -146,7 +146,6 @@ class District:
 
         # option 1: implement random cable connection
         if is_random_algorithm == True:
-            print("Implement random algorithm")
             is_all_connected = self.random_connect()
 
             # continue until all houses are connected
@@ -156,8 +155,6 @@ class District:
 
         # option 2: implement greedy cable connection (to closest battery)
         else:
-            print("Implement greedy algorithm")
-
             # sort houses based on output level
             self.houses.sort(key=lambda x: x.max_output, reverse=True)
 
@@ -185,6 +182,12 @@ class District:
                     house.set_battery(closest_battery)
                     closest_battery.add_input(house.max_output)
                     count_connected_houses += 1
+
+            print(f"Total connected houses step 1: {count_connected_houses}")
+            if count_connected_houses != 150:
+                print("NOT 150 houses")
+
+
 
             # check battery input before swap
             for battery in self.batteries:
@@ -258,8 +261,8 @@ class District:
 
     def calculate_total_costs(self):
         """calculate the total cost of a district with cables"""
-
-        self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
+        number_of_cables = len(self.all_cables) - len(self.houses)
+        self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
         return self.costs
 
     def reset_costs(self):
@@ -272,12 +275,16 @@ class District:
     def remove_duplicate_cables(self):
         """remove duplicate cables per grid segment"""
 
-        unique_cables_set = set()
-
+        unique_cables = set()
+        new_cable_list = []
         for cable in self.all_cables:
-            if cable.tuple not in unique_cables_set:
-                self.unique_cables_list.append(cable)
-                unique_cables_set.add(cable.tuple)
+            next_cable = (cable.x,cable.y)
+            if next_cable not in unique_cables:
+                new_cable_list.append(cable)
+                unique_cables.add(next_cable)
+        print(len(new_cable_list))
+        print(len(unique_cables))
+        self.all_cables = new_cable_list
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
