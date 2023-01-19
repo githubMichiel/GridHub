@@ -81,55 +81,79 @@ if __name__ == "__main__":
     # store the chosen algorithm
     algorithm = int(argv[1])
 
-    # create districts
-    districts = []
-    for i in range(1,4):
-        districts.append(District(i, False))
+    # run the program x times
+    x = 10
 
-    # load objects into districts
-    districts[0].load_houses('district-1_houses.csv')
-    districts[0].load_batteries('district-1_batteries.csv')
-    districts[1].load_houses('district-2_houses.csv')
-    districts[1].load_batteries('district-2_batteries.csv')
-    districts[2].load_houses('district-3_houses.csv')
-    districts[2].load_batteries('district-3_batteries.csv')
+    # store results per district
+    results = []
+    results_1, results_2, results_3 = [], [], []
 
+    for i in range(0, x):
+        print(f"Process: {i}")
 
-    # apply functions to each district
-    for district in districts:
-        # connect each house to a battery
+        # create districts
+        districts = []
+        for i in range(1,4):
+            districts.append(District(i, False))
 
-        # 1: randomly
-        # 2: greedy
-        district.connect_house_battery(algorithm)
-        for house in district.houses:
-            if house.battery == None:
-                print(f"House object has no battery")
-            else:
-                # when all houses are connected AND constraints are met, add cable connections
-                house.add_connection(house.battery)
+        # load objects into districts
+        districts[0].load_houses('district-1_houses.csv')
+        districts[0].load_batteries('district-1_batteries.csv')
+        districts[1].load_houses('district-2_houses.csv')
+        districts[1].load_batteries('district-2_batteries.csv')
+        districts[2].load_houses('district-3_houses.csv')
+        districts[2].load_batteries('district-3_batteries.csv')
 
+        # apply functions to each district
+        for district in districts:
+            # connect each house to a battery
 
-        # make list of connected houses per battery
-        district.list_houses_battery()
+            # 1: randomly
+            # 2: greedy
+            district.connect_house_battery(algorithm)
+            for house in district.houses:
+                if house.battery == None:
+                    print(f"House object has no battery")
+                else:
+                    # when all houses are connected AND constraints are met, add cable connections
+                    house.add_connection(house.battery)
 
-        # make dictionary with batteries per district
-        district.make_dict_district_batteries()
+            # make list of connected houses per battery
+            district.list_houses_battery()
 
-        # add all of the cables that are stored in all of the houses to the list of all cables of the district
-        district.add_all_cables()
+            # make dictionary with batteries per district
+            district.make_dict_district_batteries()
 
-        # TODO: remove duplicates function doesnt work yet
-        #district.remove_duplicate_cables()
+            # add all of the cables that are stored in all of the houses to the list of all cables of the district
+            district.add_all_cables()
 
-        district.total_costs()
-        print(f"Total costs of district: {district.costs}")
+            # TODO: remove duplicates function doesnt work yet
+            #district.remove_duplicate_cables()
 
-        for battery in district.batteries:
-            battery.print_input()
+            # store results per district
+            if district.id == 1:
+                results_1.append(district.total_costs())
+            elif district.id == 2:
+                results_2.append(district.total_costs())
+            elif district.id == 3:
+                results_3.append(district.total_costs())
 
-        print("\n")
+    # append separate results into one list
+    results.append(results_1)
+    results.append(results_2)
+    results.append(results_3)
 
+    # print descriptive statistics per district
+    for i in range(1, 4):
+        print("")
+        print(f"District {i}:")
+        print(f"The lowest found cost: {min(results[i - 1])}")
+        print(f"The highest found cost: {max(results[i - 1])}")
+
+        mean = sum(results[i - 1]) / len(results[i - 1])
+        print(f"The average found cost: {mean}")
+        print("")
+        print("")
 
     # visualize each district
     plot_district(0)

@@ -127,7 +127,7 @@ class District:
         """ connect each house to a random battery"""
         # option 1: implement random cable connection
         if argv == 1:
-            print("Implement random algorithm")
+            # print("Implement random algorithm")
             is_all_connected = self.random_connect()
             while is_all_connected == False:
                 self.clear_connections()
@@ -228,6 +228,7 @@ class District:
 
     def total_costs(self):
         self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
+        return self.costs
 
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     # DOES NOT WORK YET WITH CABLE CLASS INSTEAD OF CABLE TUPLES
