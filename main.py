@@ -66,6 +66,9 @@ def run_algorithm(districts):
 
         # add all of the cables that are stored in all of the houses to the list of all cables of the district
         district.add_all_cables()
+        if IS_UNIQUE_CABLES == False:
+            district.remove_duplicate_cables()
+
 
         # TODO: remove duplicates function doesnt work yet
         #district.remove_duplicate_cables()
@@ -196,4 +199,5 @@ if __name__ == "__main__":
     plot_district(2)
     plt.show()
 
-    json_output(json_format(districts[1]))
+    json_output(json_format(districts[0]))
+    print(len(districts[0].all_cables) - 150)

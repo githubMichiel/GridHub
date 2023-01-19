@@ -260,8 +260,8 @@ class District:
 
     def calculate_total_costs(self):
         """calculate the total cost of a district with cables"""
-
-        self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
+        number_of_cables = len(self.all_cables) - len(self.houses)
+        self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
         return self.costs
 
     def reset_costs(self):
@@ -269,23 +269,17 @@ class District:
         self.all_cables = []
 
     def remove_duplicate_cables(self):
-        """remove duplicate cables per grid segment"""
-
-        # print(len(self.all_cables))
-
-        # loop over all cable objects
+        unique_cables = set()
+        new_cable_list = []
         for cable in self.all_cables:
-            x = cable.x
-            y = cable.y
+            next_cable = (cable.x,cable.y)
+            if next_cable not in unique_cables:
+                new_cable_list.append(cable)
+                unique_cables.add(next_cable)
+        print(len(new_cable_list))
+        print(len(unique_cables))        
+        self.all_cables = new_cable_list
 
-            #
-            for second_cable in self.all_cables:
-                x_2 = second_cable.x
-                y_2 = second_cable.y
-
-                # compare coordinates and remove if equal
-                if x == x_2 and y == y_2:
-                    self.all_cables.remove(second_cable)
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
