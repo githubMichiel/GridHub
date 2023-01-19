@@ -58,7 +58,7 @@ def run_algorithm(districts):
 
         # make list of connected houses per battery
         # CURRENTLY NOT USED: put on for .JSON output
-        district.list_houses_per_battery()
+        # district.list_houses_per_battery()
 
         # make dictionary with batteries per district
         # CURRENTLY NOT USED
@@ -71,7 +71,7 @@ def run_algorithm(districts):
         #district.remove_duplicate_cables()
 
         total_costs.append(district.calculate_total_costs())
-        
+
     return total_costs
 
 def run_multiple_simulations(districts):
@@ -188,10 +188,12 @@ if __name__ == "__main__":
     else:
         run_algorithm(districts)
 
+    districts[0].remove_duplicate_cables()
+
     # visualise each district
     plot_district(0)
     plot_district(1)
     plot_district(2)
     plt.show()
 
-    json_output(json_format(districts[1]))
+    json_output(json_format(districts[0]))

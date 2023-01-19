@@ -34,6 +34,7 @@ class District:
 
         # list of all of the cables in district
         self.all_cables = []
+        self.unique_cables_list = []
 
         # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
@@ -262,32 +263,21 @@ class District:
         return self.costs
 
     def reset_costs(self):
+        """reset the costs and cables in a district"""
         self.costs = 0
         self.all_cables = []
-
 
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     # DOES NOT WORK YET WITH CABLE CLASS INSTEAD OF CABLE TUPLES
     def remove_duplicate_cables(self):
         """remove duplicate cables per grid segment"""
 
-        # print(len(self.all_cables))
+        unique_cables_set = set()
 
-        # loop over all cable objects
         for cable in self.all_cables:
-            x = cable.x
-            y = cable.y
-
-            #
-            for second_cable in self.all_cables:
-                x_2 = second_cable.x
-                y_2 = second_cable.y
-
-                # compare coordinates and remove if equal
-                if x == x_2 and y == y_2:
-                    self.all_cables.remove(second_cable)
-
-        # print(len(self.all_cables))
+            if cable.tuple not in unique_cables_set:
+                self.unique_cables_list.append(cable)
+                unique_cables_set.add(cable.tuple)
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
