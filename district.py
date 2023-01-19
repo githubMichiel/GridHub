@@ -123,10 +123,10 @@ class District:
                     return False
         return True
 
-    def connect_house_battery(self, is_greedy_algorithm):
+    def connect_house_battery(self, is_random_algorithm):
         """ connect each house to a random battery"""
         # option 1: implement random cable connection
-        if is_greedy_algorithm == False:
+        if is_random_algorithm == True:
             print("Implement random algorithm")
             is_all_connected = self.random_connect()
             while is_all_connected == False:
