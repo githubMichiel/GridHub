@@ -72,19 +72,42 @@ def plot_district(district):
 if __name__ == "__main__":
 
     # check command line arguments
-    if len(argv) != 2:
+    if len(argv) != 2 or int(argv[1]) not in range(1,6):
         print("Usage: python main.py [int]")
-        print("Choose 1 for random algorithm.")
-        print("Choose 2 for greedy algorithm.")
+        print("Choose 1 for random algorithm with unique cables.")
+        print("Choose 2 for greedy algorithm with unique cables.")
+        print("Choose 3 for random algorithm with shared cables")
+        print("Choose 4 for greedy algorithm with shared cables")
+        print("Choose 5 for greedy algorithm with variable batteries and shared cables")
+        print("Choose 6 for greedy algorithm with different variable batteries and shared cables")
         exit(1)
 
-    # store the chosen algorithm
-    algorithm = int(argv[1])
+    configuration = int(argv[1])
+
+    # store variables for correct configuration
+    if configuration == 1 or configuration == 3:
+        is_greedy_algorithm = False
+    else:
+        is_greedy_algorithm = True
+
+    if configuration == 1 or configuration == 2:
+        is_unique = True
+    else:
+        is_unique = False
+
+    if configuration == 5 or configuration == 6:
+        variable_batteries = True
+        if configuration == 6:
+            multiple_battery_types = True
+        else:
+            multiple_battery_types = False
+    else:
+        variable_batteries = False
 
     # create districts
     districts = []
     for i in range(1,4):
-        districts.append(District(i, False))
+        districts.append(District(i, is_unique))
 
     # load objects into districts
     districts[0].load_houses('district-1_houses.csv')
@@ -101,7 +124,7 @@ if __name__ == "__main__":
 
         # 1: randomly
         # 2: greedy
-        district.connect_house_battery(algorithm)
+        district.connect_house_battery(is_greedy_algorithm)
         for house in district.houses:
             if house.battery == None:
                 print(f"House object has no battery")
