@@ -125,8 +125,8 @@ class District:
 
     # swap function to swap the battery connection of two houses
     def swap_battery(self, house_1, house_2):
-        print(f"output house 1: {house_1.max_output} - battery of house 1: {house_1.battery.id} - battery input: {house_1.battery.total_input}")
-        print(f"output house 2: {house_2.max_output} - battery of house 2: {house_2.battery.id} - battery input: {house_2.battery.total_input}")
+        # print(f"output house 1: {house_1.max_output} - battery of house 1: {house_1.battery.id} - battery input: {house_1.battery.total_input}")
+        # print(f"output house 2: {house_2.max_output} - battery of house 2: {house_2.battery.id} - battery input: {house_2.battery.total_input}")
 
         # swap the batteries of two houses
         house_1.battery.total_input -= house_1.max_output
@@ -135,8 +135,8 @@ class District:
         house_2.battery.total_input += house_1.max_output
         house_1.battery, house_2.battery = house_2.battery, house_1.battery
 
-        print(f"output house 1 AFTER SWAP: {house_1.max_output} - battery of house 1: {house_1.battery.id} - battery input: {house_1.battery.total_input}")
-        print(f"output house 2 AFTER SWAP: {house_2.max_output} - battery of house 2: {house_2.battery.id} - battery input: {house_2.battery.total_input}")
+        # print(f"output house 1 AFTER SWAP: {house_1.max_output} - battery of house 1: {house_1.battery.id} - battery input: {house_1.battery.total_input}")
+        # print(f"output house 2 AFTER SWAP: {house_2.max_output} - battery of house 2: {house_2.battery.id} - battery input: {house_2.battery.total_input}")
 
     def connect_house_battery(self, argv):
         """ connect each house to a random battery"""
