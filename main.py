@@ -71,7 +71,7 @@ def run_algorithm(districts):
         #district.remove_duplicate_cables()
 
         total_costs.append(district.calculate_total_costs())
-        
+
     return total_costs
 
 def run_multiple_simulations(districts):
@@ -184,8 +184,10 @@ if __name__ == "__main__":
 
     # run corresponding algorithm
     if IS_RANDOM_ALGORITHM:
+        print("Implement random algorithm")
         run_multiple_simulations(districts)
     else:
+        print("Implement greedy algorithm")
         run_algorithm(districts)
 
     # visualise each district

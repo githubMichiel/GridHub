@@ -145,7 +145,6 @@ class District:
 
         # option 1: implement random cable connection
         if is_random_algorithm == True:
-            print("Implement random algorithm")
             is_all_connected = self.random_connect()
 
             # continue until all houses are connected
@@ -155,8 +154,6 @@ class District:
 
         # option 2: implement greedy cable connection (to closest battery)
         else:
-            print("Implement greedy algorithm")
-
             # sort houses based on output level
             self.houses.sort(key=lambda x: x.max_output, reverse=True)
 
@@ -184,6 +181,12 @@ class District:
                     house.set_battery(closest_battery)
                     closest_battery.add_input(house.max_output)
                     count_connected_houses += 1
+
+            print(f"Total connected houses step 1: {count_connected_houses}")
+            if count_connected_houses != 150:
+                print("NOT 150 houses")
+
+
 
             # check battery input before swap
             for battery in self.batteries:
@@ -265,9 +268,6 @@ class District:
         self.costs = 0
         self.all_cables = []
 
-
-    # if the cables can be shared we remove duplicates from the list of all cables of the district
-    # DOES NOT WORK YET WITH CABLE CLASS INSTEAD OF CABLE TUPLES
     def remove_duplicate_cables(self):
         """remove duplicate cables per grid segment"""
 
@@ -286,8 +286,6 @@ class District:
                 # compare coordinates and remove if equal
                 if x == x_2 and y == y_2:
                     self.all_cables.remove(second_cable)
-
-        # print(len(self.all_cables))
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
