@@ -1,3 +1,9 @@
+"""
+district.py
+
+- Contains the district class used for solving the SmartGrid problem.
+"""
+
 import numpy as np
 from battery import Battery
 from house import House
@@ -6,8 +12,12 @@ import csv
 import random
 
 class District:
+    """create a District object which stores House, Battery and Cable objects
+    and performs operations with them"""
 
     def __init__(self, id, is_unique):
+        """create districts"""
+
         self.id = id
 
         # list of battery objects in district
@@ -32,11 +42,8 @@ class District:
         else:
             self.unique_cables = 'costs-shared'
 
-    def __repr__(self):
-         return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
-
     def load_batteries(self, filename):
-        """ load batteries into memory"""
+        """load batteries into memory"""
 
         with open(filename, "r") as f:
             csvreader = csv.reader(f)
@@ -55,8 +62,9 @@ class District:
                 self.batteries.append(battery)
                 id += 1
 
-
     def load_houses(self, filename):
+        """load houses into memory"""
+
         with open(filename) as f:
             csvreader = csv.reader(f)
 
@@ -72,36 +80,42 @@ class District:
                 house = House(x, y, max_output)
                 self.houses.append(house)
 
-
     def __repr__(self):
+        """JSON representation of district object"""
+
         return f'"district": {self.id},"{self.unique_cables}": {self.costs}'
 
-
-    # calculate the Manhattan distance between house and battery
     def calculate_distance(self, house, battery):
+        """calculate the Manhattan distance between house and battery"""
+
         distance = 0
         distance += abs(house.x - battery.x)
         distance += abs(house.y - battery.y)
         return distance
 
-    # check if all houses are connected, if not clear connections to batteries
-    def all_connected(self):
+    def all_houses_connected(self):
+        """check if all houses are connected. if not, clear connections to batteries"""
         for house in self.houses:
             if house.battery == None:
                 return False
         return True
 
-    # clear connections if not all houses are connected
     def clear_connections(self):
+        """clear connections if not all houses are connected"""
+
+        # reset house stats
         for house in self.houses:
             house.battery == None
             house.cables = []
+
+        # reset batterie stats
         for battery in self.batteries:
             battery.total_input = 0
             battery.houses = []
 
-    # random algorithm to connect houses with batteries randomly
     def random_connect(self):
+        """algorithm to connect houses with batteries randomly"""
+
         for house in self.houses:
             # choose a random battery
             random.shuffle(self.batteries)
@@ -114,10 +128,11 @@ class District:
                         break
 
         # return true if all houses are connected
-        return self.all_connected()
+        return self.all_houses_connected()
 
-    # check if capacity constraint is met for all batteries
     def check_capacity_constraint(self):
+        """check if capacity constraint is met for all batteries"""
+
         for batteries in self.batteries:
             # print("input", batteries.total_input)
             # print("capacity", batteries.capacity, "\n")
@@ -126,21 +141,26 @@ class District:
         return True
 
     def connect_house_battery(self, is_random_algorithm):
-        """ connect each house to a random battery"""
+        """ connect each house to a battery depending on the chosen algorithm"""
+
         # option 1: implement random cable connection
         if is_random_algorithm == True:
             print("Implement random algorithm")
             is_all_connected = self.random_connect()
+
+            # continue until all houses are connected
             while is_all_connected == False:
                 self.clear_connections()
                 is_all_connected = self.random_connect()
 
-        # option 2: implement cable connection to closest battery
+        # option 2: implement greedy cable connection (to closest battery)
         else:
             print("Implement greedy algorithm")
+
             # sort houses based on output level
             self.houses.sort(key=lambda x: x.max_output, reverse=True)
 
+            # loop over all (or x amount of) houses
             count_connected_houses = 0
 
             for house in self.houses:
@@ -149,8 +169,7 @@ class District:
                 # maximum distance is 100
                 shortest_distance = 101
 
-                    # random.shuffle(self.batteries)
-                    # loop over all batteries to search for shortest distance
+                # loop over all batteries to search for shortest distance
                 for battery in self.batteries:
                     if battery.check_capacity_limit(house.max_output):
                         current_distance = self.calculate_distance(house, battery)
@@ -184,7 +203,7 @@ class District:
 
             # in case not all houses are connected swap batteries
             if count_connected_houses != 150:
-                while True:
+                while count_connected_houses != 150:
                     houses_index = range(100, 148)
 
                     for x in houses_index:
@@ -207,7 +226,7 @@ class District:
                                     count_connected_houses += 1
                                     unconnected_houses.remove(house)
 
-                    break
+
             unconnected_houses = []
             for house in self.houses:
                 if house.battery == None:
@@ -221,44 +240,33 @@ class District:
             if self.check_capacity_constraint() is not True:
                 print("Capacity constraint is NOT met")
 
-            # while not all houses are connect, loop over last X houses
-            while self.check_capacity_constraint() is not True:
+    def list_houses_per_battery(self):
+        """create a list of all connected houses per battery"""
 
-                houses_index = [145, 146, 147, 148, 149]
-                for x in range(145,150):
-                    swap_buddy = random.choice(houses_index)
-                    while x == swap_buddy:
-                        swap_buddy = random.choice(houses_index)
-
-                    # swap battery of two houses
-                    self.houses[x].swap_battery(self.houses[swap_buddy])
-
-
-
-    # make list of connected houses per battery
-    def list_houses_battery(self):
         for battery in self.batteries:
             for house in self.houses:
                 if battery is house.battery:
                     battery.houses.append(house)
 
-    # add all of the cables that are stored in all of the houses to the list of all cables of the district
     def add_all_cables(self):
+        """add all cables that are stored in all houses to a list of all cables (per district)"""
+
         for house in self.houses:
             for i in range(len(house.cables)):
                 self.all_cables.append(house.cables[i])
 
-    def total_costs(self):
+    def calculate_total_costs(self):
+        """calculate the total cost of a district with cables"""
+
         self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
         return self.costs
 
-    # if the cables can be shared we remove duplicates from the list of all cables of the district
-    # DOES NOT WORK YET WITH CABLE CLASS INSTEAD OF CABLE TUPLES
-    #def remove_duplicate_cables(self):
-    #    if self.is_unique == False:
-    #        self.all_cables = list(set(self.all_cables))
+    def reset_costs(self):
+        self.costs = 0
+        self.all_cables = []
 
-    # make dictionary consisting of batteries (keys) and its connected houses in a list (values)
     def make_dict_district_batteries(self):
+        """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
+
         for battery in self.batteries:
             self.batteries_houses[battery] = battery.houses
