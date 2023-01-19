@@ -1,28 +1,40 @@
+"""
+house.py
+
+- Contains the house class used for solving the SmartGrid problem.
+"""
+
 from cable import Cable
 
-# create a class that describes a 'house' object
-
 class House():
+    """create a House object that stores information about houses in a district"""
 
     def __init__(self, x, y, max_output):
+        """create houses"""
+
         self.x = x
         self.y = y
         self.max_output = max_output
-        self.battery = None
 
+        # remember to which battery a house is connected
+        self.battery = None
 
         # make list with corresponding cable location
         self.cables = []
 
     def __repr__(self):
+        """JSON representation of house object"""
 
         return f'{{"location": "{self.x},{self.y}","output": {self.max_output},"cables": {self.cables}}}'
 
-    # set self.battery to a battery object
     def set_battery(self, battery):
+        """connect house to a battery object"""
+
         self.battery = battery
 
     def swap_battery(self, other):
+        """ swap batteries of two houses"""
+
     #    print(f"output house 1: {self.max_output} - battery of house 1: {self.battery.id} - battery input: {self.battery.total_input}")
     #    print(f"output house 2: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")
         # swap the batteries of two houses
@@ -32,14 +44,17 @@ class House():
         other.battery.total_input += self.max_output
         self.battery, other.battery = other.battery, self.battery
     #    print(f"output house 1 AFTER SWAP: {self.max_output} - battery of house 1: {self.battery.id} - battery input: {self.battery.total_input}")
-    #    print(f"output house 2 AFTER SWAP: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")    
+    #    print(f"output house 2 AFTER SWAP: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")
 
-    # add cable connection between the house and a battery
-    # picks a shortest route (this algorithm is for the unique cable case where it doesnt matter what shortest route we pick)
     def add_connection(self, battery):
+        """add cable connection between house and battery.
+        chooses the shortest route.
+        (this algorithm is for the unique cable case where it doesnt matter what shortest route we pick)"""
+
         self.cables = []
         distance_x = self.x - battery.x
         distance_y = self.y - battery.y
+
         if distance_x >= 0:
             for i in range(abs(distance_x) + 1):
                 self.cables.append(Cable(self.x - i, self.y))

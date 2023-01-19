@@ -1,7 +1,7 @@
 """
-smartgrid.py
+main.py
 
--
+- Contains the main code used for solving the SmartGrid problem.
 """
 
 import matplotlib.pyplot as plt
@@ -111,6 +111,7 @@ if __name__ == "__main__":
     results = []
     results_1, results_2, results_3 = [], [], []
 
+    # run program until required amount of solutions is found
     for i in range(0, SOLUTIONS):
         print(f"Process: {i}")
 
@@ -139,7 +140,7 @@ if __name__ == "__main__":
                     house.add_connection(house.battery)
 
             # make list of connected houses per battery
-            district.list_houses_battery()
+            district.list_houses_per_battery()
 
             # make dictionary with batteries per district
             district.make_dict_district_batteries()
@@ -152,11 +153,11 @@ if __name__ == "__main__":
 
             # store results per district
             if district.id == 1:
-                results_1.append(district.total_costs())
+                results_1.append(district.calculate_total_costs())
             elif district.id == 2:
-                results_2.append(district.total_costs())
+                results_2.append(district.calculate_total_costs())
             elif district.id == 3:
-                results_3.append(district.total_costs())
+                results_3.append(district.calculate_total_costs())
 
     # append separate results into one list
     results.append(results_1)
