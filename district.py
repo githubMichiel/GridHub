@@ -119,8 +119,10 @@ class District:
     # check if capacity constraint is met for all batteries
     def check_capacity_constraint(self):
         for batteries in self.batteries:
-                if batteries.total_input > batteries.capacity:
-                    return False
+            # print("input", batteries.total_input)
+            # print("capacity", batteries.capacity, "\n")
+            if batteries.total_input > batteries.capacity:
+                return False
         return True
 
     def connect_house_battery(self, is_random_algorithm):
@@ -165,6 +167,8 @@ class District:
                     count_connected_houses += 1
 
             print(f"Total connected houses step 1: {count_connected_houses}")
+            if count_connected_houses != 150:
+                print("NOT 150 houses")
 
             # connect the other houses with no capacity constrain
             # for house in self.houses:
@@ -186,7 +190,7 @@ class District:
             for battery in self.batteries:
                 print(f"Battery {battery.id} input before swap: {battery.total_input}")
 
-            if self.check_capacity_constraint is not True:
+            if self.check_capacity_constraint() is not True:
                 print("Capacity constraint is NOT met")
 
             # while not all houses are connect, loop over last X houses

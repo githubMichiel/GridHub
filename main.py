@@ -158,6 +158,8 @@ if __name__ == "__main__":
             elif district.id == 3:
                 results_3.append(district.total_costs())
 
+            print("\n")
+
     # append separate results into one list
     results.append(results_1)
     results.append(results_2)
