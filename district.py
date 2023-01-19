@@ -215,7 +215,7 @@ class District:
 
                     # swap battery of two houses
                     self.swap_battery(self.houses[x], self.houses[swap_buddy])
-                    
+
 
 
     # make list of connected houses per battery
