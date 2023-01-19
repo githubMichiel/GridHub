@@ -221,6 +221,10 @@ class District:
         self.costs = (len(self.batteries) * 5000) + (len(self.all_cables) * 9)
         return self.costs
 
+    def reset_costs(self):
+        self.costs = 0
+        self.all_cables = []    
+
     # if the cables can be shared we remove duplicates from the list of all cables of the district
     # DOES NOT WORK YET WITH CABLE CLASS INSTEAD OF CABLE TUPLES
     #def remove_duplicate_cables(self):
