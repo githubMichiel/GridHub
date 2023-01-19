@@ -182,3 +182,5 @@ if __name__ == "__main__":
     plot_district(1)
     plot_district(2)
     plt.show()
+
+    json_output(json_format(districts[1]))

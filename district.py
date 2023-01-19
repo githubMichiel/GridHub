@@ -166,27 +166,55 @@ class District:
                     closest_battery.add_input(house.max_output)
                     count_connected_houses += 1
 
-            print(f"Total connected houses step 1: {count_connected_houses}")
-            if count_connected_houses != 150:
-                print("NOT 150 houses")
-
-            # connect the other houses with no capacity constrain
-            # for house in self.houses:
-            #     if house.battery == None:
-            #         closest_battery = None
-            #         shortest_distance = 101
-            #         for battery in self.batteries:
-            #             current_distance = self.calculate_distance(house, battery)
-            #             if current_distance < shortest_distance:
-            #                 shortest_distance = current_distance
-            #                 closest_battery = battery
-            #         house.set_battery(closest_battery)
-            #         closest_battery.add_input(house.max_output)
-            #         count_connected_houses += 1
-
-            # print(f"Total connected houses step 2: {count_connected_houses}")
-
             # check battery input before swap
+            for battery in self.batteries:
+                print(f"Battery {battery.id} input before swap: {battery.total_input}")
+
+            print(f"Total connected houses step 1: {count_connected_houses}")
+
+            # keep track of unconnected houses
+            unconnected_houses = []
+            for house in self.houses:
+                if house.battery == None:
+                    unconnected_houses.append(house)
+
+            print("list of unconnected houses: ", unconnected_houses)
+            for house in unconnected_houses:
+                print("output of unconnected house: ", house.max_output)
+
+            # in case not all houses are connected swap batteries
+            if count_connected_houses != 150:
+                while True:
+                    houses_index = range(100, 148)
+
+                    for x in houses_index:
+                        swap_buddy = random.choice(houses_index)
+                        while x == swap_buddy:
+                            swap_buddy = random.choice(houses_index)
+
+                        # swap battery of two houses
+                        self.houses[x].swap_battery(self.houses[swap_buddy])
+                        if self.houses[x].battery.total_input > self.houses[x].battery.capacity or self.houses[swap_buddy].battery.total_input > self.houses[swap_buddy].battery.capacity:
+                            # print("capacity limit - swap back")
+                            self.houses[x].swap_battery(self.houses[swap_buddy])
+
+                        for battery in self.batteries:
+                            free_space = battery.capacity - battery.total_input
+                            for house in unconnected_houses:
+                                if free_space >= house.max_output:
+                                    house.set_battery(battery)
+                                    battery.add_input(house.max_output)
+                                    count_connected_houses += 1
+                                    unconnected_houses.remove(house)
+
+                    break
+            unconnected_houses = []
+            for house in self.houses:
+                if house.battery == None:
+                    unconnected_houses.append(house)
+            print("list of unconnected houses step 2: ", unconnected_houses)
+            print(f"Total connected houses step 2: {count_connected_houses}")
+
             for battery in self.batteries:
                 print(f"Battery {battery.id} input before swap: {battery.total_input}")
 
