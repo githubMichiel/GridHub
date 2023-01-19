@@ -95,13 +95,14 @@ if __name__ == "__main__":
     else:
         is_unique = False
 
-    if configuration == 5 or configuration 6:
+    if configuration == 5 or configuration == 6:
         variable_batteries = True
         if configuration == 6:
             multiple_battery_types = True
-        else multiple_battery_types = False
+        else:
+            multiple_battery_types = False
     else:
-        variable_batteries = False           
+        variable_batteries = False
 
     # create districts
     districts = []
