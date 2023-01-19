@@ -20,6 +20,9 @@ IS_UNIQUE_CABLES = False
 IS_VARIABLE_BATTERY_LOCATION = False
 IS_MULTIPLE_BATTERY_TYPES = False
 
+# run program until x found solutions
+SOLUTIONS = 1
+
 
 def json_format(district):
     district_info = repr(district)
@@ -104,15 +107,11 @@ if __name__ == "__main__":
         if configuration == 6:
             IS_MULTIPLE_BATTERY_TYPES = True
 
-
-    # run the program x times
-    x = 10
-
     # store results per district
     results = []
     results_1, results_2, results_3 = [], [], []
 
-    for i in range(0, x):
+    for i in range(0, SOLUTIONS):
         print(f"Process: {i}")
 
         # create districts
@@ -175,7 +174,6 @@ if __name__ == "__main__":
         print(f"The average found cost: {mean}")
         print("")
         print("")
-
 
     # visualize each district
     plot_district(0)
