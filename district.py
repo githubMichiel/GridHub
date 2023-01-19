@@ -123,11 +123,12 @@ class District:
                     return False
         return True
 
-    def connect_house_battery(self, argv):
+
+    def connect_house_battery(self, is_greedy_algorithm):
         """ connect each house to a random battery"""
         # option 1: implement random cable connection
-        if argv == 1:
-            # print("Implement random algorithm")
+        if is_greedy_algorithm == False:
+            print("Implement random algorithm")
             is_all_connected = self.random_connect()
             while is_all_connected == False:
                 self.clear_connections()
@@ -189,27 +190,17 @@ class District:
             if self.check_capacity_constraint is not True:
                 print("Capacity constraint is NOT met")
 
-            # while not all houses are connect, loop over last 20
-            # while self.check_capacity_constraint() is not True:
-            #
-            #     houses_index = [145, 146, 147, 148, 149]
-            #     for x in range(145,150):
-            #         swap_buddy = random.choice(houses_index)
-            #         while x == swap_buddy:
-            #             swap_buddy = random.choice(houses_index)
+            # while not all houses are connect, loop over last X houses
+            while self.check_capacity_constraint() is not True:
 
-                    # print(f"output house {x}: {self.houses[x].max_output} - battery of house {x}: {self.houses[x].battery.id} - battery input: {self.houses[x].battery.total_input}")
-                    # print(f"output house {swap_buddy}: {self.houses[swap_buddy].max_output} - battery of house {swap_buddy}: {self.houses[swap_buddy].battery.id} - battery input: {self.houses[swap_buddy].battery.total_input}")
+                houses_index = [145, 146, 147, 148, 149]
+                for x in range(145,150):
+                    swap_buddy = random.choice(houses_index)
+                    while x == swap_buddy:
+                        swap_buddy = random.choice(houses_index)
 
-                    # swap the batteries of two houses
-                    # self.houses[x].battery.total_input -= self.houses[x].max_output
-                    # self.houses[x].battery.total_input += self.houses[swap_buddy].max_output
-                    # self.houses[swap_buddy].battery.total_input -= self.houses[swap_buddy].max_output
-                    # self.houses[swap_buddy].battery.total_input += self.houses[x].max_output
-                    # self.houses[x].battery, self.houses[swap_buddy].battery = self.houses[swap_buddy].battery, self.houses[x].battery
-
-                    # print(f"battery of house {x} AFTER SWAP: {self.houses[x].battery.id} - battery input: {self.houses[x].battery.total_input}")
-                    # print(f"battery of house {swap_buddy} AFTER SWAP: {self.houses[swap_buddy].battery.id} - battery input: {self.houses[swap_buddy].battery.total_input}")
+                    # swap battery of two houses
+                    self.houses[x].swap_battery(self.houses[swap_buddy])
 
 
 
