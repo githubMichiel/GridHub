@@ -9,7 +9,7 @@ class Cable:
 
     def __init__(self, x, y):
         """create cable"""
-        
+
         self.x = x
         self.y = y
 

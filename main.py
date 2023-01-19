@@ -57,6 +57,7 @@ def run_algorithm(districts):
                 house.add_connection(house.battery)
 
         # make list of connected houses per battery
+        # CURRENTLY NOT USED: put on for .JSON output
         district.list_houses_per_battery()
 
         # make dictionary with batteries per district
@@ -70,6 +71,7 @@ def run_algorithm(districts):
         #district.remove_duplicate_cables()
 
         total_costs.append(district.calculate_total_costs())
+
     return total_costs
 
 def run_multiple_simulations(districts):
@@ -180,6 +182,7 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
+    # run corresponding algorithm
     if IS_RANDOM_ALGORITHM:
         print("Implement random algorithm")
         run_multiple_simulations(districts)
@@ -187,9 +190,10 @@ if __name__ == "__main__":
         print("Implement greedy algorithm")
         run_algorithm(districts)
 
+    # visualise each district
     plot_district(0)
     plot_district(1)
     plot_district(2)
     plt.show()
 
-    json_output(json_format(districts[0]))
+    json_output(json_format(districts[1]))

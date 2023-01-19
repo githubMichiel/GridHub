@@ -187,26 +187,61 @@ class District:
                 print("NOT 150 houses")
 
 
+
             # check battery input before swap
+            for battery in self.batteries:
+                print(f"Battery {battery.id} input before swap: {battery.total_input}")
+
+            print(f"Total connected houses step 1: {count_connected_houses}")
+
+            # keep track of unconnected houses
+            unconnected_houses = []
+            for house in self.houses:
+                if house.battery == None:
+                    unconnected_houses.append(house)
+
+            print("list of unconnected houses: ", unconnected_houses)
+            for house in unconnected_houses:
+                print("output of unconnected house: ", house.max_output)
+
+            # in case not all houses are connected swap batteries
+            if count_connected_houses != 150:
+                while count_connected_houses != 150:
+                    houses_index = range(100, 148)
+
+                    for x in houses_index:
+                        swap_buddy = random.choice(houses_index)
+                        while x == swap_buddy:
+                            swap_buddy = random.choice(houses_index)
+
+                        # swap battery of two houses
+                        self.houses[x].swap_battery(self.houses[swap_buddy])
+                        if self.houses[x].battery.total_input > self.houses[x].battery.capacity or self.houses[swap_buddy].battery.total_input > self.houses[swap_buddy].battery.capacity:
+                            # print("capacity limit - swap back")
+                            self.houses[x].swap_battery(self.houses[swap_buddy])
+
+                        for battery in self.batteries:
+                            free_space = battery.capacity - battery.total_input
+                            for house in unconnected_houses:
+                                if free_space >= house.max_output:
+                                    house.set_battery(battery)
+                                    battery.add_input(house.max_output)
+                                    count_connected_houses += 1
+                                    unconnected_houses.remove(house)
+
+
+            unconnected_houses = []
+            for house in self.houses:
+                if house.battery == None:
+                    unconnected_houses.append(house)
+            print("list of unconnected houses step 2: ", unconnected_houses)
+            print(f"Total connected houses step 2: {count_connected_houses}")
+
             for battery in self.batteries:
                 print(f"Battery {battery.id} input before swap: {battery.total_input}")
 
             if self.check_capacity_constraint() is not True:
                 print("Capacity constraint is NOT met")
-
-            # while not all houses are connect, loop over last X houses
-            while self.check_capacity_constraint() is not True:
-
-                houses_index = [145, 146, 147, 148, 149]
-                for x in range(145,150):
-                    swap_buddy = random.choice(houses_index)
-
-                    # can't swap the same house
-                    while x == swap_buddy:
-                        swap_buddy = random.choice(houses_index)
-
-                    # swap battery of two houses
-                    self.houses[x].swap_battery(self.houses[swap_buddy])
 
     def list_houses_per_battery(self):
         """create a list of all connected houses per battery"""
@@ -232,6 +267,25 @@ class District:
     def reset_costs(self):
         self.costs = 0
         self.all_cables = []
+
+    def remove_duplicate_cables(self):
+        """remove duplicate cables per grid segment"""
+
+        # print(len(self.all_cables))
+
+        # loop over all cable objects
+        for cable in self.all_cables:
+            x = cable.x
+            y = cable.y
+
+            #
+            for second_cable in self.all_cables:
+                x_2 = second_cable.x
+                y_2 = second_cable.y
+
+                # compare coordinates and remove if equal
+                if x == x_2 and y == y_2:
+                    self.all_cables.remove(second_cable)
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
