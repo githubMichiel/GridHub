@@ -14,6 +14,13 @@ from battery import Battery
 from house import House
 from district import District
 
+# Global variables set based on the configuration
+IS_RANDOM_ALGORITHM = False
+IS_UNIQUE_CABLES = False
+IS_VARIABLE_BATTERY_LOCATION = False
+IS_MULTIPLE_BATTERY_TYPES = False
+
+
 def json_format(district):
     district_info = repr(district)
     #TODO: find a way to do this for all batteries without hard coding it
@@ -25,6 +32,8 @@ def json_output(string):
     f = open("output.json", "w")
     f.write(json.dumps(parsed, indent=2))
     f.close()
+
+
 
 def plot_district(district):
     """ create a visualization of a district"""
@@ -84,25 +93,17 @@ if __name__ == "__main__":
 
     configuration = int(argv[1])
 
-    # store variables for correct configuration
     if configuration == 1 or configuration == 3:
-        is_greedy_algorithm = False
-    else:
-        is_greedy_algorithm = True
+        IS_RANDOM_ALGORITHM = True
 
     if configuration == 1 or configuration == 2:
-        is_unique = True
-    else:
-        is_unique = False
+        IS_UNIQUE_CABLES = True
 
     if configuration == 5 or configuration == 6:
-        variable_batteries = True
+        IS_VARIABLE_BATTERY_LOCATION = True
         if configuration == 6:
-            multiple_battery_types = True
-        else:
-            multiple_battery_types = False
-    else:
-        variable_batteries = False
+            IS_MULTIPLE_BATTERY_TYPES = True
+
 
     # run the program x times
     x = 10
@@ -117,7 +118,7 @@ if __name__ == "__main__":
         # create districts
         districts = []
         for i in range(1,4):
-            districts.append(District(i, False))
+            districts.append(District(i, IS_UNIQUE_CABLES))
 
         # load objects into districts
         districts[0].load_houses('district-1_houses.csv')
@@ -130,10 +131,7 @@ if __name__ == "__main__":
         # apply functions to each district
         for district in districts:
             # connect each house to a battery
-
-            # 1: randomly
-            # 2: greedy
-            district.connect_house_battery(algorithm)
+            district.connect_house_battery(IS_RANDOM_ALGORITHM)
             for house in district.houses:
                 if house.battery == None:
                     print(f"House object has no battery")
@@ -177,6 +175,7 @@ if __name__ == "__main__":
         print(f"The average found cost: {mean}")
         print("")
         print("")
+
 
     # visualize each district
     plot_district(0)
