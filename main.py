@@ -21,7 +21,7 @@ IS_VARIABLE_BATTERY_LOCATION = False
 IS_MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
-NUMBER_OF_SOLUTIONS = 1000
+NUMBER_OF_SOLUTIONS = 1
 
 
 def json_format(district):
@@ -70,7 +70,7 @@ def run_algorithm(districts):
         # TODO: remove duplicates function doesnt work yet
         #district.remove_duplicate_cables()
 
-        total_costs.append(district.total_costs())
+        total_costs.append(district.calculate_total_costs())
     return total_costs
 
 def run_multiple_simulations(districts):
@@ -181,11 +181,13 @@ if __name__ == "__main__":
     districts[2].load_houses('district-3_houses.csv')
     districts[2].load_batteries('district-3_batteries.csv')
 
+    # run corresponding algorithm
     if IS_RANDOM_ALGORITHM:
         run_multiple_simulations(districts)
     else:
         run_algorithm(districts)
 
+    # visualise each district
     plot_district(0)
     plot_district(1)
     plot_district(2)
