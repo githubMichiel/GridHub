@@ -179,3 +179,8 @@ if __name__ == "__main__":
         multiple_simulations(districts)
     else:
         run_algorithm(districts)
+
+    plot_district(0)
+    plot_district(1)
+    plot_district(2)
+    plt.show()    
