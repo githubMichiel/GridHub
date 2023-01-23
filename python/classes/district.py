@@ -96,7 +96,7 @@ class District:
         return distance
 
     def all_houses_connected(self):
-        """check if all houses are connected. if not, clear connections to batteries"""
+        """check if all houses are connected, if so return True"""
         for house in self.houses:
             if house.battery == None:
                 return False
@@ -110,7 +110,7 @@ class District:
             house.battery == None
             house.cables = []
 
-        # reset batterie stats
+        # reset battery stats
         for battery in self.batteries:
             battery.total_input = 0
             battery.houses = []
