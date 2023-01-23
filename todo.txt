@@ -22,6 +22,6 @@ todo:
 
     hill climber toepassen op het leggen van de niet unieke kabels
 
-    Fix overschrijven max capaciteit bij random
+    Fix overschrijven max capaciteit bij random (DONE)
 
     Fix juiste hoeveelheid kabels bij shared cables
