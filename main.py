@@ -156,3 +156,9 @@ if __name__ == "__main__":
 
     json_output(json_format(districts[0]))
     print(len(districts[0].all_cables))
+    sum = [0,0,0,0,0]
+    for i in range(5):
+        print(districts[0].batteries[i].total_input)
+        for j in range(len(districts[0].batteries[i].houses)):
+            sum[i] += districts[0].batteries[i].houses[j].max_output
+    print(sum)

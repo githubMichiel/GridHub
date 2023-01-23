@@ -118,6 +118,8 @@ class District:
         """algorithm to connect houses with batteries randomly"""
 
         for house in self.houses:
+            #if house.battery != None:
+                #print("error")
             # choose a random battery
             random.shuffle(self.batteries)
 
@@ -143,13 +145,16 @@ class District:
 
     def connect_house_battery(self, is_random_algorithm):
         """ connect each house to a battery depending on the chosen algorithm"""
-
+        print(is_random_algorithm)
+        i = 0
         # option 1: implement random cable connection
         if is_random_algorithm == True:
             is_all_connected = self.random_connect()
 
             # continue until all houses are connected
             while is_all_connected == False:
+                i += 1
+                print("i is", i)
                 self.clear_connections()
                 is_all_connected = self.random_connect()
 
@@ -244,8 +249,8 @@ class District:
     def list_houses_per_battery(self):
         """create a list of all connected houses per battery"""
 
-        for battery in self.batteries:
-            for house in self.houses:
+        for house in self.houses:
+            for battery in self.batteries:
                 if battery is house.battery:
                     battery.houses.append(house)
 
