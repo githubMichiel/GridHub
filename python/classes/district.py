@@ -276,18 +276,19 @@ class District:
         unique_cables = set()
         new_cable_list = []
 
+        print(len(self.all_cables))
         # loop over cables
         for cable in self.all_cables:
-            next_cable = (cable.x,cable.y)
+            next_cable_1 = (cable.start, cable.end)
+            next_cable_2 = (cable.end, cable.start)
 
             # check if cable is duplicate
-            if next_cable not in unique_cables:
+            if next_cable_1 not in unique_cables and next_cable_2 not in unique_cables:
                 new_cable_list.append(cable)
-                unique_cables.add(next_cable)
+                unique_cables.add(next_cable_1)
 
-        # print(len(new_cable_list))
-        # print(len(unique_cables))
-        # self.all_cables = new_cable_list
+        self.all_cables = new_cable_list
+        print(len(self.all_cables))
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""

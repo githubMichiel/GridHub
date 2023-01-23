@@ -16,15 +16,12 @@ algorithmes:
 
 todo:
     nieuw algorithme voor shared kabels waarin korste afstand tot kabels verwerkt is
-
-    greedy algorithme werkend krijgen (DONE)
-
-    random en greedy werkend krijgen voor shared kabels
+    EN/OF vanuit huidige oplossing unieke kabels naar oplossing voor shared kabels
 
     connect_house_battery tweede gedeelte netjes maken
 
     hill climber toepassen op het leggen van de niet unieke kabels
 
-    kabel class updaten naar 2 coordinaten per kabel ipv 1 coordinaat
-    mogelijke datastructuur: [[(0,1), (0,2)], [(..), (..)], .. ]
-    binnenste lijst is een kabelstuk
+    Fix overschrijven max capaciteit bij random
+
+    Fix juiste hoeveelheid kabels bij shared cables
