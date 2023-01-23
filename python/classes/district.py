@@ -185,29 +185,25 @@ class District:
                     count_connected_houses += 1
 
             print(f"Total connected houses step 1: {count_connected_houses}")
+
+            # in case not all houses are connected swap battery connections
             if count_connected_houses != 150:
-                print("NOT 150 houses")
+                print("NOT 150 houses connected")
 
+                # check battery input before swap
+                for battery in self.batteries:
+                    print(f"Battery {battery.id} input before swap: {battery.total_input}")
 
+                # keep track of unconnected houses
+                unconnected_houses = []
+                for house in self.houses:
+                    if house.battery == None:
+                        unconnected_houses.append(house)
 
-            # check battery input before swap
-            for battery in self.batteries:
-                print(f"Battery {battery.id} input before swap: {battery.total_input}")
+                print("list of unconnected houses: ", unconnected_houses)
+                for house in unconnected_houses:
+                    print("output of unconnected house: ", house.max_output)
 
-            print(f"Total connected houses step 1: {count_connected_houses}")
-
-            # keep track of unconnected houses
-            unconnected_houses = []
-            for house in self.houses:
-                if house.battery == None:
-                    unconnected_houses.append(house)
-
-            print("list of unconnected houses: ", unconnected_houses)
-            for house in unconnected_houses:
-                print("output of unconnected house: ", house.max_output)
-
-            # in case not all houses are connected swap batteries
-            if count_connected_houses != 150:
                 while count_connected_houses != 150:
                     houses_index = range(100, 148)
 
@@ -218,8 +214,9 @@ class District:
 
                         # swap battery of two houses
                         self.houses[x].swap_battery(self.houses[swap_buddy])
+
+                        # if battery capacity is exceeded swap back
                         if self.houses[x].battery.total_input > self.houses[x].battery.capacity or self.houses[swap_buddy].battery.total_input > self.houses[swap_buddy].battery.capacity:
-                            # print("capacity limit - swap back")
                             self.houses[x].swap_battery(self.houses[swap_buddy])
 
                         for battery in self.batteries:
@@ -231,7 +228,7 @@ class District:
                                     count_connected_houses += 1
                                     unconnected_houses.remove(house)
 
-
+            # this is a check to see if all houses are actually connected
             unconnected_houses = []
             for house in self.houses:
                 if house.battery == None:
@@ -240,7 +237,7 @@ class District:
             print(f"Total connected houses step 2: {count_connected_houses}")
 
             for battery in self.batteries:
-                print(f"Battery {battery.id} input before swap: {battery.total_input}")
+                print(f"Battery {battery.id} input after swap: {battery.total_input}")
 
             if self.check_capacity_constraint() is not True:
                 print("Capacity constraint is NOT met")
