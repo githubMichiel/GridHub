@@ -59,7 +59,7 @@ def run_algorithm(districts):
 
         # make list of connected houses per battery
         # CURRENTLY NOT USED: put on for .JSON output
-        # district.list_houses_per_battery()
+        district.list_houses_per_battery()
 
         # make dictionary with batteries per district
         # CURRENTLY NOT USED
