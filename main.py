@@ -58,8 +58,7 @@ def run_algorithm(districts):
                 house.add_connection(house.battery)
 
         # make list of connected houses per battery
-        # CURRENTLY NOT USED: put on for .JSON output
-        # district.list_houses_per_battery()
+        district.list_houses_per_battery()
 
         # make dictionary with batteries per district
         # CURRENTLY NOT USED
@@ -69,10 +68,6 @@ def run_algorithm(districts):
         district.add_all_cables()
         if IS_UNIQUE_CABLES == False:
             district.remove_duplicate_cables()
-
-
-        # TODO: remove duplicates function doesnt work yet
-        #district.remove_duplicate_cables()
 
         total_costs.append(district.calculate_total_costs())
 
@@ -153,8 +148,6 @@ if __name__ == "__main__":
         print("Implement greedy algorithm")
         run_algorithm(districts)
 
-    districts[0].remove_duplicate_cables()
-
     # visualise each district
     plot_district(districts[0])
     plot_district(districts[1])
@@ -162,5 +155,4 @@ if __name__ == "__main__":
     plt.show()
 
     json_output(json_format(districts[0]))
-
-    # print(len(districts[0].all_cables) - 150)
+    print(len(districts[0].all_cables))

@@ -25,6 +25,8 @@ todo:
 
     hill climber toepassen op het leggen van de niet unieke kabels
 
-    kabel class updaten naar 2 coordinaten per kabel ipv 1 coordinaat
+    kabel class updaten naar 2 coordinaten per kabel ipv 1 coordinaat (DONE)
     mogelijke datastructuur: [[(0,1), (0,2)], [(..), (..)], .. ]
     binnenste lijst is een kabelstuk
+
+    UML maken

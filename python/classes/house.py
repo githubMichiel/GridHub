@@ -58,14 +58,15 @@ class House():
         distance_y = self.y - battery.y
 
         if distance_x >= 0:
-            for i in range(abs(distance_x) + 1):
-                self.cables.append(Cable(self.x - i, self.y))
+            for i in range(abs(distance_x)):
+                self.cables.append(Cable(self.x - i, self.y, self.x - (i+1), self.y ))
         else:
-            for i in range(abs(distance_x) + 1):
-                self.cables.append(Cable(self.x + i, self.y))
+            for i in range(abs(distance_x)):
+                self.cables.append(Cable(self.x + i, self.y, self.x + (i+1), self.y))
         if distance_y >= 0:
-            for i in range(abs(distance_y) + 1):
-                self.cables.append(Cable(self.x - distance_x,self.y - i))
+            for i in range(abs(distance_y)):
+                self.cables.append(Cable(self.x - distance_x, self.y - i, self.x - distance_x, self.y - (1+i)))
         else:
-            for i in range(abs(distance_y) + 1):
-                self.cables.append(Cable(self.x - distance_x,self.y + i))
+            for i in range(abs(distance_y)):
+                self.cables.append(Cable(self.x - distance_x, self.y + i, self.x - distance_x, self.y + (i+1)))
+        self.cables.append(Cable(battery.x,battery.y,battery.x,battery.y))

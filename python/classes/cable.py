@@ -7,14 +7,14 @@ cable.py
 class Cable:
     """store information about the cables in the grid"""
 
-    def __init__(self, x, y):
+    def __init__(self, start_x, start_y, end_x, end_y):
         """create cable"""
+        self.start = (start_x, start_y)
+        self.end = (end_x, end_y)
 
-        self.x = x
-        self.y = y
-        self.tuple = (self.x, self.y)
+
 
     def __repr__(self):
         """JSON representation of a cable object"""
 
-        return f'"{self.x},{self.y}"'
+        return f'"{self.start[0]},{self.start[1]}"'

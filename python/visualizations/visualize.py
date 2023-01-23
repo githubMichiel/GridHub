@@ -22,8 +22,8 @@ def plot_district(district):
 
     # plot each cable per house
     for house in district.houses:
-        x = np.array([cable.x for cable in house.cables])
-        y = np.array([cable.y for cable in house.cables])
+        x = np.array([cable.start[0] for cable in house.cables])
+        y = np.array([cable.start[1] for cable in house.cables])
         ax.plot(x, y, c='black', linewidth=0.5)
 
     # plot grid
