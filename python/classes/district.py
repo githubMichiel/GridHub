@@ -35,7 +35,6 @@ class District:
 
         # list of all of the cables in district
         self.all_cables = []
-        self.unique_cables_list = []
 
         # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
@@ -107,7 +106,7 @@ class District:
 
         # reset house stats
         for house in self.houses:
-            house.battery == None
+            house.battery = None
             house.cables = []
 
         # reset battery stats
