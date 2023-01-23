@@ -12,6 +12,7 @@ class Cable:
 
         self.x = x
         self.y = y
+        self.tuple = (self.x, self.y)
 
     def __repr__(self):
         """JSON representation of a cable object"""
