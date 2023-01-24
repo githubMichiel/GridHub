@@ -135,7 +135,13 @@ class District:
 
         for house in self.houses:
             for i in range(len(house.cables)):
+                # print("house.cables", house.cables)
                 self.all_cables.append(house.cables[i])
+
+    def remove_all_cables(self):
+        """ remove all cables stored in a district"""
+
+        self.all_cables = []
 
     def calculate_total_costs(self):
         """calculate the total cost of a district with cables"""
@@ -155,7 +161,7 @@ class District:
         unique_cables = set()
         new_cable_list = []
 
-        print(len(self.all_cables))
+        print(f"Total amount of cables in district before removing duplicates {len(self.all_cables)}")
         # loop over cables
         for cable in self.all_cables:
             next_cable_1 = (cable.start, cable.end)

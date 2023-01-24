@@ -18,6 +18,7 @@ class House():
 
         # remember to which battery a house is connected
         self.battery = None
+        self.distance_to_batt = None
 
         # make list with corresponding cable location
         self.cables = []

@@ -85,34 +85,93 @@ def greedy_algorithm(districts, IS_UNIQUE_CABLES):
                                 count_connected_houses += 1
                                 unconnected_houses.remove(house)
 
-        # when all houses are connected AND constraints are met, add cable connections
-        for house in district.houses:
-            house.add_cable_connection(house.battery)
-
-        # make list of connected houses per battery
-        district.list_houses_per_battery()
-
-        # add all cables in a district to one list
-        district.add_all_cables()
-
         # if cables are shared remove duplicates
         if IS_UNIQUE_CABLES == False:
             district.remove_duplicate_cables()
 
+
+
+            # this is a check to see if all houses are actually connected
+            # unconnected_houses = []
+            # for house in district.houses:
+            #     if house.battery == None:
+            #         unconnected_houses.append(house)
+            # print("list of unconnected houses step 2: ", unconnected_houses)
+            # print(f"Total connected houses step 2: {count_connected_houses}")
+            #
+            # for battery in district.batteries:
+            #     print(f"Battery {battery.id} input after swap: {battery.total_input}")
+            #
+            # if district.check_capacity_constraint() is not True:
+            #     print("Capacity constraint is NOT met")
+
+# OPTION 4: greedy algorithm with connection to closest cable
+            # print("OPTION 4: reconnect all houses to closest cables")
+            # remove all cable connections but keep in memory which house is connected to which battery
+            # district.remove_all_cables()
+            for house in district.houses:
+                house.cables = []
+
+            # create list of all houses connected per battery
+            district.list_houses_per_battery()
+
+            # loop over all batteries to add cables BUT more efficient
+            for battery in district.batteries:
+
+                # calculate distances between house and batteries
+                for house in battery.houses:
+                    house.distance_to_batt = district.calculate_distance(house, battery)
+
+                # sort houses based on distance to battery; closest house first
+                battery.houses.sort(key=lambda x: x.distance_to_batt)
+
+                # -- check to see if houses are sorted right --
+                # print("print distance of house to battery: ", [house.distance_to_batt for house in battery.houses])
+
+                # make list to keep track which houses are cable connected to a battery
+                cable_connected_houses = []
+
+                # loop over houses connected to that battery; start at nearest house
+                for house in battery.houses:
+                    # connect closest house directly to battery
+                    if len(cable_connected_houses) == 0:
+                        house.add_cable_connection(battery)
+                        cable_connected_houses.append(house)
+
+                    # connect the other houses to the closest cable connection
+                    else:
+                        closest_cable = None # cable object
+                        closest_distance = 101
+                        # loop over all cable connected houses to find the nearest cable
+                        for cable_connected_house in cable_connected_houses:
+                            for existing_cable in cable_connected_house.cables:
+                                distance_house_cable = district.calculate_distance(house, existing_cable)
+                                if distance_house_cable < closest_distance:
+                                    closest_distance = distance_house_cable
+                                    closest_cable = existing_cable
+
+                        # add house to closest cable
+                        house.add_cable_connection(closest_cable)
+                        cable_connected_houses.append(house)
+                        # print("Look for closest connection of house: ", house)
+                        # print("Closest cable: ", closest_cable)
+                        # print("Distance house to closest cable: ", closest_distance)
+
+            # add all cables into the district
+            district.add_all_cables()
+
+        else:
+            # when all houses are connected AND constraints are met, add cable connections
+            for house in district.houses:
+                house.add_cable_connection(house.battery)
+
+            # make list of connected houses per battery
+            district.list_houses_per_battery()
+
+            # add all cables in a district to one list
+            district.add_all_cables()
+        # calculate cost per district
         total_costs.append(district.calculate_total_costs())
 
-        # this is a check to see if all houses are actually connected
-        # unconnected_houses = []
-        # for house in district.houses:
-        #     if house.battery == None:
-        #         unconnected_houses.append(house)
-        # print("list of unconnected houses step 2: ", unconnected_houses)
-        # print(f"Total connected houses step 2: {count_connected_houses}")
-        #
-        # for battery in district.batteries:
-        #     print(f"Battery {battery.id} input after swap: {battery.total_input}")
-        #
-        # if district.check_capacity_constraint() is not True:
-        #     print("Capacity constraint is NOT met")
-
+    # return cost per district
     return total_costs

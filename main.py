@@ -3,7 +3,6 @@ main.py
 
 - Contains the main code used for solving the SmartGrid problem.
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
 import json
@@ -120,41 +119,41 @@ if __name__ == "__main__":
     districts[2].load_houses('data/district-3_houses.csv')
     districts[2].load_batteries('data/district-3_batteries.csv')
 
-    # run corresponding algorithm
-    # if IS_RANDOM_ALGORITHM:
-    #     print("Implement random algorithm")
-    #     run_multiple_simulations(districts)
-    # else:
-    #     print("Implement greedy algorithm")
-    #     run_algorithm(districts)
-
     # run algorithm based on configuration
     # random + unique cables
     if configuration == 1:
+        print('Implementing random algorithm with unique cables...')
         costs = rd.random_algorithm(districts, IS_UNIQUE_CABLES)
         print(f'Cost per district: {costs}')
 
     # greedy + unique cables
     elif configuration == 2:
+        print('Implementing greedy algorithm with unique cables...')
         costs = greedy.greedy_algorithm(districts, IS_UNIQUE_CABLES)
         print(f'Cost per district: {costs}')
 
     # random + shared cables
     elif configuration == 3:
+        print('Implementing random algorithm with shared cables...')
         costs = rd.random_algorithm(districts, IS_UNIQUE_CABLES)
         print(f'Cost per district: {costs}')
 
     # greedy + shared cables
     elif configuration == 4:
+        print('Implementing greedy algorithm with shared cables...')
         costs = greedy.greedy_algorithm(districts, IS_UNIQUE_CABLES)
         print(f'Cost per district: {costs}')
 
     # greedy + shared cables + variable battery location
     elif configuration == 5:
+        print('Implementing greedy algorithm with shared cables.')
+        print('Finding optimal coordinates for each battery...')
         pass
 
     # greedy + shared cables + variable battery location + different batteries
     elif configuration == 6:
+        print('Implementing greedy algorithm with shared cables.')
+        print('Finding optimal configuration with different batteries...')
         pass
 
     # visualise each district
@@ -165,3 +164,8 @@ if __name__ == "__main__":
 
     # create JSON output
     json_output(json_format(districts[0]))
+
+    #
+    print(f"total amount of cables in district 1: {len(districts[0].all_cables)}")
+    print(f"total amount of cables in district 2: {len(districts[1].all_cables)}")
+    print(f"total amount of cables in district 3: {len(districts[2].all_cables)}")
