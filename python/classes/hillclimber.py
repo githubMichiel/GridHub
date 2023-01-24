@@ -1,3 +1,8 @@
+from .battery import Battery
+from .house import House
+from .cable import Cable
+from .district import District
+
 class HillClimber:
 
 def __init__(self, district):
@@ -12,7 +17,14 @@ def random_house(self):
     return random.choice(self.district.houses)
 
 def replace_cable_connection(self, house):
+    closest_cable = None
+    closest_distance = 101
+    for next_cable in self.district.all_cables:
 
+        next_distance = self.district.calculate_distance(house, next_cable)
+        if next_distance <= closest_distance:
+            closest_distance = next_distance
+            closest_cable = next_cable
 
 
 def check_solution(self, new_district):

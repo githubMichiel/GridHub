@@ -145,16 +145,12 @@ class District:
 
     def connect_house_battery(self, is_random_algorithm):
         """ connect each house to a battery depending on the chosen algorithm"""
-        print(is_random_algorithm)
-        i = 0
         # option 1: implement random cable connection
         if is_random_algorithm == True:
             is_all_connected = self.random_connect()
 
             # continue until all houses are connected
             while is_all_connected == False:
-                i += 1
-                print("i is", i)
                 self.clear_connections()
                 is_all_connected = self.random_connect()
 
