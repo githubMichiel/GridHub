@@ -3,7 +3,6 @@ main.py
 
 - Contains the main code used for solving the SmartGrid problem.
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
 import json
@@ -162,6 +161,7 @@ if __name__ == "__main__":
     plt.show()
 
     json_output(json_format(districts[0]))
+
     print(f"total amount of cables in district 1: {len(districts[0].all_cables)}")
     print(f"total amount of cables in district 2: {len(districts[1].all_cables)}")
     print(f"total amount of cables in district 3: {len(districts[2].all_cables)}")

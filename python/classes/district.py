@@ -35,7 +35,6 @@ class District:
 
         # list of all of the cables in district
         self.all_cables = []
-        self.unique_cables_list = []
 
         # boolean is True if cables are unique, False if cables are shared
         self.is_unique = is_unique
@@ -107,7 +106,7 @@ class District:
 
         # reset house stats
         for house in self.houses:
-            house.battery == None
+            house.battery = None
             house.cables = []
 
         # reset battery stats
@@ -119,6 +118,8 @@ class District:
         """algorithm to connect houses with batteries randomly"""
 
         for house in self.houses:
+            #if house.battery != None:
+                #print("error")
             # choose a random battery
             random.shuffle(self.batteries)
 
@@ -144,13 +145,16 @@ class District:
 
     def connect_house_battery(self, IS_RANDOM_ALGORITHM, IS_UNIQUE_CABLES):
         """ connect each house to a battery depending on the chosen algorithm"""
-
+        print(IS_RANDOM_ALGORITHM)
+        i = 0
         # option 1: implement random cable connection
         if IS_RANDOM_ALGORITHM == True:
             is_all_connected = self.random_connect()
 
             # continue until all houses are connected
             while is_all_connected == False:
+                i += 1
+                print("i is", i)
                 self.clear_connections()
                 is_all_connected = self.random_connect()
 
@@ -299,8 +303,8 @@ class District:
     def list_houses_per_battery(self):
         """create a list of all connected houses per battery"""
 
-        for battery in self.batteries:
-            for house in self.houses:
+        for house in self.houses:
+            for battery in self.batteries:
                 if battery is house.battery:
                     battery.houses.append(house)
 
