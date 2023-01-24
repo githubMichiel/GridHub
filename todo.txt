@@ -15,13 +15,15 @@ algorithmes:
             niet-optimaal prunen door korste route of random route te kiezen -> hill climber om te verbeteren
 
 todo:
-    nieuw algorithme voor shared kabels waarin korste afstand tot kabels verwerkt is
-    EN/OF vanuit huidige oplossing unieke kabels naar oplossing voor shared kabels
 
-    connect_house_battery tweede gedeelte netjes maken
+    vanuit huidige oplossing unieke kabels naar oplossing voor shared kabels (DONE)
+
+    connect_house_battery tweede gedeelte netjes maken/betere opsplitsing van de verschillende algorithmes
 
     hill climber toepassen op het leggen van de niet unieke kabels
 
     Fix overschrijven max capaciteit bij random (DONE)
 
     Fix juiste hoeveelheid kabels bij shared cables
+
+    extra als er genoeg tijd is: nieuw algorithme voor shared kabels waarin huis verbonden wordt aan dichtsbijzijnde kabel
