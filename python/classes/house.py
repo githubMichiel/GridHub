@@ -18,6 +18,7 @@ class House():
 
         # remember to which battery a house is connected
         self.battery = None
+        self.distance_to_batt = None
 
         # make list with corresponding cable location
         self.cables = []
@@ -49,9 +50,9 @@ class House():
         # print(f"output house 2 AFTER SWAP: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")
 
     def add_connection(self, battery):
-        """add cable connection between house and battery.
-        chooses the shortest route.
-        (this algorithm is for the unique cable case where it doesnt matter what shortest route we pick)"""
+        """add cable connection between house and battery OR house and cable"""
+        """chooses the shortest route"""
+
 
         self.cables = []
         distance_x = self.x - battery.x

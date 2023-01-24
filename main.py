@@ -44,18 +44,20 @@ def json_output(string):
 def run_algorithm(districts):
     total_costs = []
     for district in districts:
+        print(f"District {district.id}: ")
         # reset district first
         district.reset_costs()
         district.clear_connections()
 
         # connect each house to a battery
-        district.connect_house_battery(IS_RANDOM_ALGORITHM)
+        district.connect_house_battery(IS_RANDOM_ALGORITHM, IS_UNIQUE_CABLES)
         for house in district.houses:
             if house.battery == None:
                 print(f"House object has no battery")
             else:
                 # when all houses are connected AND constraints are met, add cable connections
-                house.add_connection(house.battery)
+                if IS_UNIQUE_CABLES:
+                    house.add_connection(house.battery)
 
         # make list of connected houses per battery
         # CURRENTLY NOT USED: put on for .JSON output
@@ -68,9 +70,13 @@ def run_algorithm(districts):
         # add all of the cables that are stored in all of the houses to the list of all cables of the district
         district.add_all_cables()
         if IS_UNIQUE_CABLES == False:
-            district.remove_duplicate_cables()
+            """ TIJDELIJK UITGEZET """
+            # district.remove_duplicate_cables()
+            pass
 
         total_costs.append(district.calculate_total_costs())
+
+        print("\n")
 
     return total_costs
 
@@ -143,10 +149,10 @@ if __name__ == "__main__":
 
     # run corresponding algorithm
     if IS_RANDOM_ALGORITHM:
-        print("Implement random algorithm")
+        print("Implement random algorithm \n")
         run_multiple_simulations(districts)
     else:
-        print("Implement greedy algorithm")
+        print("Implement greedy algorithm \n")
         run_algorithm(districts)
 
     # visualise each district
@@ -156,4 +162,6 @@ if __name__ == "__main__":
     plt.show()
 
     json_output(json_format(districts[0]))
-    print(len(districts[0].all_cables))
+    print(f"total amount of cables in district 1: {len(districts[0].all_cables)}")
+    print(f"total amount of cables in district 2: {len(districts[1].all_cables)}")
+    print(f"total amount of cables in district 3: {len(districts[2].all_cables)}")

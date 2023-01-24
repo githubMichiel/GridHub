@@ -142,11 +142,11 @@ class District:
                 return False
         return True
 
-    def connect_house_battery(self, is_random_algorithm):
+    def connect_house_battery(self, IS_RANDOM_ALGORITHM, IS_UNIQUE_CABLES):
         """ connect each house to a battery depending on the chosen algorithm"""
 
         # option 1: implement random cable connection
-        if is_random_algorithm == True:
+        if IS_RANDOM_ALGORITHM == True:
             is_all_connected = self.random_connect()
 
             # continue until all houses are connected
@@ -190,9 +190,9 @@ class District:
             if count_connected_houses != 150:
                 print("NOT 150 houses connected")
 
-                # check battery input before swap
-                for battery in self.batteries:
-                    print(f"Battery {battery.id} input before swap: {battery.total_input}")
+                # -- this is a check --
+                # for battery in self.batteries:
+                    # print(f"Battery {battery.id} input before swap: {battery.total_input}")
 
                 # keep track of unconnected houses
                 unconnected_houses = []
@@ -233,14 +233,68 @@ class District:
             for house in self.houses:
                 if house.battery == None:
                     unconnected_houses.append(house)
-            print("list of unconnected houses step 2: ", unconnected_houses)
-            print(f"Total connected houses step 2: {count_connected_houses}")
+            print("list of unconnected houses AFTER swap: ", unconnected_houses)
+            print(f"Total connected houses AFTER swap: {count_connected_houses}")
 
+            # -- this is a check --
             for battery in self.batteries:
                 print(f"Battery {battery.id} input after swap: {battery.total_input}")
 
             if self.check_capacity_constraint() is not True:
                 print("Capacity constraint is NOT met")
+
+            # OPTION 4: greedy algorithm with connection to closest cable
+            if not IS_UNIQUE_CABLES:
+                print("OPTION 4: reconnect all houses to closest cables")
+                # remove all cable connections but keep in memory which house is connected to which battery
+                for house in self.houses:
+                    house.cables = []
+
+                # create list of all houses connected per battery
+                self.list_houses_per_battery()
+
+                # loop over all batteries to add cables BUT more efficient
+                for battery in self.batteries:
+
+                    # calculate distances between house and batteries
+                    for house in battery.houses:
+                        house.distance_to_batt = self.calculate_distance(house, battery)
+
+                    # sort houses based on distance to battery; closest house first
+                    battery.houses.sort(key=lambda x: x.distance_to_batt)
+
+                    # -- check to see if houses are sorted right --
+                    # print("print distance of house to battery: ", [house.distance_to_batt for house in battery.houses])
+
+                    # make list to keep track which houses are cable connected to a battery
+                    cable_connected_houses = []
+
+                    # loop over houses connected to that battery; start at nearest house
+                    for house in battery.houses:
+                        # connect closest house directly to battery
+                        if len(cable_connected_houses) == 0:
+                            house.add_connection(battery)
+                            cable_connected_houses.append(house)
+
+                        # connect the other houses to the closest cable connection
+                        else:
+                            closest_cable = None # cable object
+                            closest_distance = 101
+                            # loop over all cable connected houses to find the nearest cable
+                            for cable_connected_house in cable_connected_houses:
+                                for existing_cable in cable_connected_house.cables:
+                                    distance_house_cable = self.calculate_distance(house, existing_cable)
+                                    if distance_house_cable < closest_distance:
+                                        closest_distance = distance_house_cable
+                                        closest_cable = existing_cable
+
+                            # add house to closest cable
+                            house.add_connection(closest_cable)
+                            cable_connected_houses.append(house)
+                            # print("Look for closest connection of house: ", house)
+                            # print("Closest cable: ", closest_cable)
+                            # print("Distance house to closest cable: ", closest_distance)
+
 
     def list_houses_per_battery(self):
         """create a list of all connected houses per battery"""
@@ -252,9 +306,9 @@ class District:
 
     def add_all_cables(self):
         """add all cables that are stored in all houses to a list of all cables (per district)"""
-
         for house in self.houses:
             for i in range(len(house.cables)):
+                # print("house.cables", house.cables)
                 self.all_cables.append(house.cables[i])
 
     def calculate_total_costs(self):
@@ -276,7 +330,7 @@ class District:
         unique_cables = set()
         new_cable_list = []
 
-        print(len(self.all_cables))
+        print(f"Total amount of cables in district before removing duplicates {len(self.all_cables)}")
         # loop over cables
         for cable in self.all_cables:
             next_cable_1 = (cable.start, cable.end)
@@ -288,7 +342,7 @@ class District:
                 unique_cables.add(next_cable_1)
 
         self.all_cables = new_cable_list
-        print(len(self.all_cables))
+        print(f"Total amount of cables in district after removing duplicates {len(self.all_cables)}")
 
     def make_dict_district_batteries(self):
         """make dictionary consisting of batteries (keys) and its connected houses in a list (values)"""
