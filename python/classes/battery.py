@@ -24,7 +24,7 @@ class Battery:
 
         return f'"location": "{self.x},{self.y}","capacity": {self.capacity},"houses": {self.houses}'
 
-    def add_input(self, input):
+    def add_usage(self, input):
         """add new input to battery"""
 
         self.total_input += input
@@ -40,5 +40,5 @@ class Battery:
 
     def print_input(self):
         """testing and debugging"""
-        
+
         print(f" Total input of battery: {self.total_input}")
