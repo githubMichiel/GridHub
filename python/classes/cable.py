@@ -12,8 +12,6 @@ class Cable:
         self.start = (start_x, start_y)
         self.end = (end_x, end_y)
 
-
-
     def __repr__(self):
         """JSON representation of a cable object"""
 
