@@ -14,6 +14,7 @@ def random_algorithm(districts, IS_UNIQUE_CABLES):
             # reset
             district.clear_connections()
             district.reset_costs()
+
             # loop over houses
             for house in district.houses:
                 # choose a random battery
@@ -44,4 +45,7 @@ def random_algorithm(districts, IS_UNIQUE_CABLES):
         total_costs.append(district.calculate_total_costs())
 
     # return cost per district
+    # print('Total cost inside algorithm')
+    # print(total_costs)
+    # print()
     return total_costs

@@ -138,16 +138,18 @@ class District:
                 # print("house.cables", house.cables)
                 self.all_cables.append(house.cables[i])
 
-    def remove_all_cables(self):
-        """ remove all cables stored in a district"""
-
-        self.all_cables = []
-
     def calculate_total_costs(self):
         """calculate the total cost of a district with cables"""
 
+        self.costs = 0
+
+        # calculate # of cables
         number_of_cables = len(self.all_cables) - len(self.houses)
+
+        # calculate cost
         self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
+
+        # print(self.costs)
         return self.costs
 
     def reset_costs(self):

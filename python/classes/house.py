@@ -42,8 +42,10 @@ class House():
         # swap the batteries of two houses
         self.battery.total_input -= self.max_output
         self.battery.total_input += other.max_output
+
         other.battery.total_input -= other.max_output
         other.battery.total_input += self.max_output
+        
         self.battery, other.battery = other.battery, self.battery
 
         # print(f"output house 1 AFTER SWAP: {self.max_output} - battery of house 1: {self.battery.id} - battery input: {self.battery.total_input}")
