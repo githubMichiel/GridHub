@@ -20,7 +20,8 @@ class Greedy():
 
         # option 2: implement greedy cable connection (to closest battery)
         # sort houses based on output level
-        district.houses.sort(key=lambda x: x.max_output, reverse=True)
+        # district.houses.sort(key=lambda x: x.max_output, reverse=True)
+        random.shuffle(district.houses)
 
         # loop over all (or x amount of) houses
         for house in district.houses:
@@ -62,7 +63,7 @@ class Greedy():
         swap until capacity constraint is met."""
 
         # only swap houses in this range
-        houses_index = range(100, 148)
+        houses_index = range(0, 148)
 
         # find a house to swap with
         for x in houses_index:
@@ -74,9 +75,11 @@ class Greedy():
             district.houses[x].swap_battery(district.houses[swap_buddy])
 
             # if battery capacity is exceeded swap back
-            if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
-                # swap back
-                district.houses[x].swap_battery(district.houses[swap_buddy])
+            # print(f'type: {district.houses[x].battery.total_input}')
+            if district.houses[x].battery != None and district.houses[swap_buddy].battery != None:
+                if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
+                    # swap back
+                    district.houses[x].swap_battery(district.houses[swap_buddy])
 
             # loop over batteries
             for battery in district.batteries:
@@ -91,13 +94,15 @@ class Greedy():
                         self.total_connected_houses += 1
                         unconnected_houses.remove(house)
 
-                        # print(f'{self.total_connected_houses}')
-
     def remove_cable_connections(self, district):
         """remove all cable connections but keep in memory which house is connected to which battery"""
 
+        # remove cables from houses
         for house in district.houses:
             house.cables = []
+
+        # remove cables from district
+        district.all_cables = []
 
     def add_efficient_cables(self, district):
         """add cables in a more efficient way using a heuristic:
@@ -168,17 +173,12 @@ class Greedy():
                 unconnected_houses = self.unconnected_houses(district)
 
                 # keep swapping until all houses are connected
+                # print(len(unconnected_houses))
                 while self.total_connected_houses != 150:
                     self.swap_houses(district, unconnected_houses)
 
             # if cables are shared
             if self.UNIQUE_CABLES == False:
-                # remove duplicate cables on one grid segment
-                district.remove_duplicate_cables()
-
-                # remove all cable connections but keep in memory which house is connected to which battery
-                self.remove_cable_connections(district)
-
                 # create list of all houses connected per battery
                 district.list_houses_per_battery()
 

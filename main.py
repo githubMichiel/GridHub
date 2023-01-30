@@ -15,7 +15,7 @@ from python.classes.district import District
 from python.classes.battery import Battery
 from python.classes.house import House
 from python.classes.cable import Cable
-from python.visualizations.visualize import plot_district
+from python.visualizations.visualize import plot_district, plot_distribution
 
 # Global variables set based on the configuration
 RANDOM_ALGORITHM = False
@@ -24,7 +24,7 @@ VARIABLE_BATTERY_LOCATION = False
 MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
-NUMBER_OF_SOLUTIONS = 1
+NUMBER_OF_SOLUTIONS = 1000
 
 
 def json_format(district):
@@ -62,15 +62,9 @@ def find_solutions(districts, UNIQUE_CABLES):
             greedy = Greedy(districts, UNIQUE_CABLES)
             costs_single_run = greedy.run()
 
-        # small bug where the random algorithm does not reset district.all_cables.
-        # each iteration it builds on the previous one and therefore the costs rise
-        print(costs_single_run)
-
         results_1.append(costs_single_run[0])
         results_2.append(costs_single_run[1])
         results_3.append(costs_single_run[2])
-
-        # print(results)
 
     # print descriptive statistics per district
     for i in range(1, 4):
@@ -83,6 +77,9 @@ def find_solutions(districts, UNIQUE_CABLES):
         print(f"The average found cost: {mean}")
         print("")
         print("")
+
+    # return costs per district for all iterations
+    return results
 
 
 if __name__ == "__main__":
@@ -131,22 +128,22 @@ if __name__ == "__main__":
     # random + unique cables
     if configuration == 1:
         print('Implementing random algorithm with unique cables...')
-        find_solutions(districts, UNIQUE_CABLES)
+        results = find_solutions(districts, UNIQUE_CABLES)
 
     # greedy + unique cables
     elif configuration == 2:
         print('Implementing greedy algorithm with unique cables...')
-        find_solutions(districts, UNIQUE_CABLES)
+        results = find_solutions(districts, UNIQUE_CABLES)
 
     # random + shared cables
     elif configuration == 3:
         print('Implementing random algorithm with shared cables...')
-        find_solutions(districts, UNIQUE_CABLES)
+        results = find_solutions(districts, UNIQUE_CABLES)
 
     # greedy + shared cables
     elif configuration == 4:
         print('Implementing greedy algorithm with shared cables...')
-        find_solutions(districts, UNIQUE_CABLES)
+        results = find_solutions(districts, UNIQUE_CABLES)
 
     # greedy + shared cables + variable battery location
     elif configuration == 5:
@@ -164,6 +161,11 @@ if __name__ == "__main__":
     plot_district(districts[0])
     plot_district(districts[1])
     plot_district(districts[2])
+
+    # visualize distribution of solutions across multiple runs
+    plot_distribution(configuration, results[0], districts[0])
+    plot_distribution(configuration, results[1], districts[1])
+    plot_distribution(configuration, results[2], districts[2])
     plt.show()
 
     # create JSON output

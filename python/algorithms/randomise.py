@@ -9,6 +9,9 @@ def random_algorithm(districts, IS_UNIQUE_CABLES):
 
     # loop over districts
     for district in districts:
+        # reset
+        district.clear_connections()
+        district.reset_costs()
         # run until a valid solution is found for a district
         while not district.all_houses_connected():
             # reset
@@ -45,7 +48,4 @@ def random_algorithm(districts, IS_UNIQUE_CABLES):
         total_costs.append(district.calculate_total_costs())
 
     # return cost per district
-    # print('Total cost inside algorithm')
-    # print(total_costs)
-    # print()
     return total_costs
