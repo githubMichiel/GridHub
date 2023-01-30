@@ -8,6 +8,9 @@ import numpy as np
 import json
 from sys import argv
 
+from python.algorithms import randomise as rd
+from python.algorithms.greedy import Greedy
+
 from python.classes.district import District
 from python.classes.battery import Battery
 from python.classes.house import House
@@ -15,10 +18,10 @@ from python.classes.cable import Cable
 from python.visualizations.visualize import plot_district
 
 # Global variables set based on the configuration
-IS_RANDOM_ALGORITHM = False
-IS_UNIQUE_CABLES = False
-IS_VARIABLE_BATTERY_LOCATION = False
-IS_MULTIPLE_BATTERY_TYPES = False
+RANDOM_ALGORITHM = False
+UNIQUE_CABLES = False
+VARIABLE_BATTERY_LOCATION = False
+MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
 NUMBER_OF_SOLUTIONS = 1
@@ -40,46 +43,7 @@ def json_output(string):
     f.write(json.dumps(parsed, indent=2))
     f.close()
 
-def run_algorithm(districts):
-    total_costs = []
-    for district in districts:
-        print(f"District {district.id}: ")
-        # reset district first
-        district.reset_costs()
-        district.clear_connections()
-
-        # connect each house to a battery
-        district.connect_house_battery(IS_RANDOM_ALGORITHM, IS_UNIQUE_CABLES)
-        for house in district.houses:
-            if house.battery == None:
-                print(f"House object has no battery")
-            else:
-                # when all houses are connected AND constraints are met, add cable connections
-                if IS_UNIQUE_CABLES:
-                    house.add_connection(house.battery)
-
-        # make list of connected houses per battery
-        # CURRENTLY NOT USED: put on for .JSON output
-        district.list_houses_per_battery()
-
-        # make dictionary with batteries per district
-        # CURRENTLY NOT USED
-        #district.make_dict_district_batteries()
-
-        # add all of the cables that are stored in all of the houses to the list of all cables of the district
-        district.add_all_cables()
-        if IS_UNIQUE_CABLES == False:
-            """ TIJDELIJK UITGEZET """
-            # district.remove_duplicate_cables()
-            pass
-
-        total_costs.append(district.calculate_total_costs())
-
-        print("\n")
-
-    return total_costs
-
-def run_multiple_simulations(districts):
+def find_solutions(districts, UNIQUE_CABLES):
     """run the program NUMBER_OF_SOLUTIONS times"""
 
     # store results per district
@@ -87,11 +51,26 @@ def run_multiple_simulations(districts):
     results = [results_1, results_2, results_3]
 
     for i in range(0, NUMBER_OF_SOLUTIONS):
-        print(f"Process: {i}")
-        costs_single_run = run_algorithm(districts)
+        # print statement so we know the computer is working
+        if i % 200 == 0:
+            print(f'Found {i} solutions...')
+
+        # run corresponding algorithm
+        if RANDOM_ALGORITHM:
+            costs_single_run = rd.random_algorithm(districts, UNIQUE_CABLES)
+        else:
+            greedy = Greedy(districts, UNIQUE_CABLES)
+            costs_single_run = greedy.run()
+
+        # small bug where the random algorithm does not reset district.all_cables.
+        # each iteration it builds on the previous one and therefore the costs rise
+        print(costs_single_run)
+
         results_1.append(costs_single_run[0])
         results_2.append(costs_single_run[1])
         results_3.append(costs_single_run[2])
+
+        # print(results)
 
     # print descriptive statistics per district
     for i in range(1, 4):
@@ -106,11 +85,10 @@ def run_multiple_simulations(districts):
         print("")
 
 
-
 if __name__ == "__main__":
 
     # check command line arguments
-    if len(argv) != 2 or int(argv[1]) not in range(1,6):
+    if len(argv) != 2 or int(argv[1]) not in range(1,7):
         print("Usage: python main.py [int]")
         print("Choose 1 for random algorithm with unique cables.")
         print("Choose 2 for greedy algorithm with unique cables.")
@@ -120,23 +98,27 @@ if __name__ == "__main__":
         print("Choose 6 for greedy algorithm with different variable batteries and shared cables")
         exit(1)
 
+    # determine how the program should be run
     configuration = int(argv[1])
 
+    # determine if random algorithm is used
     if configuration == 1 or configuration == 3:
-        IS_RANDOM_ALGORITHM = True
+        RANDOM_ALGORITHM = True
 
+    # determine if cables are shared or unique
     if configuration == 1 or configuration == 2:
-        IS_UNIQUE_CABLES = True
+        UNIQUE_CABLES = True
 
+    # determine how batteries should be implemented
     if configuration == 5 or configuration == 6:
-        IS_VARIABLE_BATTERY_LOCATION = True
+        VARIABLE_BATTERY_LOCATION = True
         if configuration == 6:
-            IS_MULTIPLE_BATTERY_TYPES = True
+            MULTIPLE_BATTERY_TYPES = True
 
     # create districts
     districts = []
     for i in range(1,4):
-        districts.append(District(i, IS_UNIQUE_CABLES))
+        districts.append(District(i, UNIQUE_CABLES))
 
     # load objects into districts
     districts[0].load_houses('data/district-1_houses.csv')
@@ -146,13 +128,37 @@ if __name__ == "__main__":
     districts[2].load_houses('data/district-3_houses.csv')
     districts[2].load_batteries('data/district-3_batteries.csv')
 
-    # run corresponding algorithm
-    if IS_RANDOM_ALGORITHM:
-        print("Implement random algorithm \n")
-        run_multiple_simulations(districts)
-    else:
-        print("Implement greedy algorithm \n")
-        run_algorithm(districts)
+    # random + unique cables
+    if configuration == 1:
+        print('Implementing random algorithm with unique cables...')
+        find_solutions(districts, UNIQUE_CABLES)
+
+    # greedy + unique cables
+    elif configuration == 2:
+        print('Implementing greedy algorithm with unique cables...')
+        find_solutions(districts, UNIQUE_CABLES)
+
+    # random + shared cables
+    elif configuration == 3:
+        print('Implementing random algorithm with shared cables...')
+        find_solutions(districts, UNIQUE_CABLES)
+
+    # greedy + shared cables
+    elif configuration == 4:
+        print('Implementing greedy algorithm with shared cables...')
+        find_solutions(districts, UNIQUE_CABLES)
+
+    # greedy + shared cables + variable battery location
+    elif configuration == 5:
+        print('Implementing greedy algorithm with shared cables.')
+        print('Finding optimal coordinates for each battery...')
+        pass
+
+    # greedy + shared cables + variable battery location + different batteries
+    elif configuration == 6:
+        print('Implementing greedy algorithm with shared cables.')
+        print('Finding optimal configuration with different batteries...')
+        pass
 
     # visualise each district
     plot_district(districts[0])
@@ -160,8 +166,10 @@ if __name__ == "__main__":
     plot_district(districts[2])
     plt.show()
 
+    # create JSON output
     json_output(json_format(districts[0]))
 
+    # print for testing
     print(f"total amount of cables in district 1: {len(districts[0].all_cables)}")
     print(f"total amount of cables in district 2: {len(districts[1].all_cables)}")
     print(f"total amount of cables in district 3: {len(districts[2].all_cables)}")
