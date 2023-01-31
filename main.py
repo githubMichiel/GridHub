@@ -25,7 +25,7 @@ VARIABLE_BATTERY_LOCATION = False
 MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
-NUMBER_OF_SOLUTIONS = 1000
+NUMBER_OF_SOLUTIONS = 1
 
 
 def json_format(district):
@@ -71,12 +71,19 @@ def find_solutions(districts, UNIQUE_CABLES):
         costs_district_2.append(costs_single_run[1])
         costs_district_3.append(costs_single_run[2])
 
-    print("results before HillClimber: ", results)
-    hillclimber_1 = HillClimberConnection(districts)
-    new_optimal_districts = hillclimber_1.run(1)
-    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
-    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
-    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
+    if configuration == 4:
+        print("results before HillClimber: ", results)
+
+        hillclimber_1 = HillClimberConnection(districts)
+        new_districts = hillclimber_1.run(1)
+
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
+
+        return results, new_districts
+
+    return results
 
     # print descriptive statistics per district
     for i in range(1, 4):
@@ -155,7 +162,8 @@ if __name__ == "__main__":
     # greedy + shared cables
     elif configuration == 4:
         print('Implementing greedy algorithm with shared cables...')
-        results = find_solutions(districts, UNIQUE_CABLES)
+        results, new_districts = find_solutions(districts, UNIQUE_CABLES)
+
 
     # greedy + shared cables + variable battery location
     elif configuration == 5:
@@ -171,16 +179,16 @@ if __name__ == "__main__":
 
     # visualise each district
     plot_district(districts[0])
-    plot_district(districts[1])
-    plot_district(districts[2])
-    # plot_district(new_optimal_districts[0])
-    # plot_district(new_optimal_districts[1])
-    # plot_district(new_optimal_districts[2])
+    # plot_district(districts[1])
+    # plot_district(districts[2])
+    # plot_district(new_districts[0])
+    # plot_district(new_districts[1])
+    # plot_district(new_districts[2])
 
     # visualize distribution of solutions across multiple runs
-    plot_distribution(configuration, results[0], districts[0])
-    plot_distribution(configuration, results[1], districts[1])
-    plot_distribution(configuration, results[2], districts[2])
+    # plot_distribution(configuration, results[0], districts[0])
+    # plot_distribution(configuration, results[1], districts[1])
+    # plot_distribution(configuration, results[2], districts[2])
     plt.show()
 
     # create JSON output
