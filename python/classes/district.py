@@ -169,7 +169,6 @@ class District:
         unique_cables = set()
         new_cable_list = []
 
-        print(f"Total amount of cables in district before removing duplicates {len(self.all_cables)}")
         # loop over cables
         for cable in self.all_cables:
             next_cable_1 = (cable.start, cable.end)

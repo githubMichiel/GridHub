@@ -27,8 +27,8 @@ def plot_district(district):
         ax.plot(x, y, c='black', linewidth=0.5)
 
     # plot grid
-    plt.xticks(np.arange(0, 51, step=1))
-    plt.yticks(np.arange(0, 51, step=1))
+    plt.xticks(ticks=np.arange(0, 51, step=1), labels='')
+    plt.yticks(ticks=np.arange(0, 51, step=1), labels='')
     plt.grid(linestyle='--', linewidth=0.5)
 
     # plot title
@@ -41,7 +41,31 @@ def plot_district(district):
                           markersize=15, label='houses')
     batteries = mlines.Line2D([], [], color='red', marker='P',
                           markersize=15, label='batteries')
-    # mogelijk nog de totale kosten berekenen en ook in de legenda plaatsen
 
     # plot legend
     plt.legend(bbox_to_anchor=(0.75, 1.18), loc="upper left", handles=[cables, houses, batteries], framealpha=0.5)
+
+
+def plot_distribution(configuration, all_costs, district):
+    """create a visualization of the distribution of costs over multiple runs"""
+
+    fig = plt.figure()
+
+    # histogram of the data
+    n, bins, patches = plt.hist(all_costs, 50, density=True, facecolor='g', alpha=0.75)
+
+    # plot text around plot
+    plt.xlabel('Costs')
+    plt.ylabel('Frequency')
+    plt.yticks(ticks=[])
+    plt.grid()
+
+    # plot title depending on configuration
+    if configuration == 1:
+        plt.title(f"Distribution of random solutions for district {district.id} (unique cables)")
+    elif configuration == 2:
+        plt.title(f"Distribution of greedy solutions for district {district.id} (unique cables)")
+    elif configuration == 3:
+        plt.title(f"Distribution of random solutions for district {district.id} (shared cables)")
+    elif configuration == 4:
+        plt.title(f"Distribution of random solutions for district {district.id} (shared cables)")

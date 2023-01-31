@@ -20,7 +20,8 @@ class Greedy():
 
         # option 2: implement greedy cable connection (to closest battery)
         # sort houses based on output level
-        district.houses.sort(key=lambda x: x.max_output, reverse=True)
+        # district.houses.sort(key=lambda x: x.max_output, reverse=True)
+        random.shuffle(district.houses)
 
         # loop over all (or x amount of) houses
         for house in district.houses:
@@ -79,10 +80,11 @@ class Greedy():
             district.houses[x].swap_battery(district.houses[swap_buddy])
 
             # if battery capacity is exceeded swap back
-            if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
-                # swap back
-                district.houses[x].swap_battery(district.houses[swap_buddy])
-                swap_occured = False
+            if district.houses[x].battery != None and district.houses[swap_buddy].battery != None:
+                if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
+                    # swap back
+                    district.houses[x].swap_battery(district.houses[swap_buddy])
+                    swap_occured = False
             else:
                 swap_occured = True
 
@@ -181,12 +183,12 @@ class Greedy():
                 unconnected_houses = self.unconnected_houses(district)
 
                 # keep swapping until all houses are connected
+                # print(len(unconnected_houses))
                 while self.total_connected_houses != 150:
                     self.swap_houses(district, unconnected_houses, search_free_space=True, swap_index=1)
 
             # if cables are shared
             if self.UNIQUE_CABLES == False:
-
                 # create list of all houses connected per battery
                 district.list_houses_per_battery()
 
