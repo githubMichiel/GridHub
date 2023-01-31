@@ -10,6 +10,7 @@ from sys import argv
 
 from python.algorithms import randomise as rd
 from python.algorithms.greedy import Greedy
+from python.algorithms.hillclimberconnection import HillClimberConnection
 
 from python.classes.district import District
 from python.classes.battery import Battery
@@ -47,8 +48,8 @@ def find_solutions(districts, UNIQUE_CABLES):
     """run the program NUMBER_OF_SOLUTIONS times"""
 
     # store results per district
-    results_1, results_2, results_3 = [], [], []
-    results = [results_1, results_2, results_3]
+    costs_district_1, costs_district_2, costs_district_3 = [], [], []
+    results = [costs_district_1, costs_district_2, costs_district_3]
 
     for i in range(0, NUMBER_OF_SOLUTIONS):
         # print statement so we know the computer is working
@@ -62,9 +63,20 @@ def find_solutions(districts, UNIQUE_CABLES):
             greedy = Greedy(districts, UNIQUE_CABLES)
             costs_single_run = greedy.run()
 
-        results_1.append(costs_single_run[0])
-        results_2.append(costs_single_run[1])
-        results_3.append(costs_single_run[2])
+
+        # each iteration it builds on the previous one and therefore the costs rise
+        print(f"single run costs per district before HillClimber: {costs_single_run} \n")
+
+        costs_district_1.append(costs_single_run[0])
+        costs_district_2.append(costs_single_run[1])
+        costs_district_3.append(costs_single_run[2])
+
+    print("results before HillClimber: ", results)
+    hillclimber_1 = HillClimberConnection(districts)
+    new_optimal_districts = hillclimber_1.run(1)
+    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
+    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
+    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
 
     # print descriptive statistics per district
     for i in range(1, 4):
@@ -161,6 +173,9 @@ if __name__ == "__main__":
     plot_district(districts[0])
     plot_district(districts[1])
     plot_district(districts[2])
+    # plot_district(new_optimal_districts[0])
+    # plot_district(new_optimal_districts[1])
+    # plot_district(new_optimal_districts[2])
 
     # visualize distribution of solutions across multiple runs
     plot_distribution(configuration, results[0], districts[0])

@@ -58,12 +58,17 @@ class Greedy():
 
         return unconnected_houses
 
-    def swap_houses(self, district, unconnected_houses):
+    def swap_houses(self, district, unconnected_houses, search_free_space, swap_index):
         """ swaps the battery connection of two houses
-        swap until capacity constraint is met."""
+        swap until capacity constraint is met
+        return True if succesful swap"""
 
-        # only swap houses in this range
-        houses_index = range(0, 148)
+        # swap index decides in which range you want to swap
+        if swap_index == 1:
+            # only swap houses in this range
+            houses_index = range(100, 148)
+        elif swap_index == 2:
+            houses_index = range(0, 149)
 
         # find a house to swap with
         for x in houses_index:
@@ -75,33 +80,38 @@ class Greedy():
             district.houses[x].swap_battery(district.houses[swap_buddy])
 
             # if battery capacity is exceeded swap back
-            # print(f'type: {district.houses[x].battery.total_input}')
             if district.houses[x].battery != None and district.houses[swap_buddy].battery != None:
                 if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
                     # swap back
                     district.houses[x].swap_battery(district.houses[swap_buddy])
+                    swap_occured = False
+            else:
+                swap_occured = True
 
-            # loop over batteries
-            for battery in district.batteries:
-                # calculate available battery space
-                free_space = battery.capacity - battery.total_input
+            if search_free_space == True and swap_occured == True:
+                # loop over batteries
+                for battery in district.batteries:
+                    # calculate available battery space
+                    free_space = battery.capacity - battery.total_input
 
-                # connect each house to battery if sufficient capacity
-                for house in unconnected_houses:
-                    if free_space >= house.max_output:
-                        house.set_battery(battery)
-                        battery.add_usage(house.max_output)
-                        self.total_connected_houses += 1
-                        unconnected_houses.remove(house)
+                    # connect each house to battery if sufficient capacity
+                    for house in unconnected_houses:
+                        if free_space >= house.max_output:
+                            house.set_battery(battery)
+                            battery.add_usage(house.max_output)
+                            self.total_connected_houses += 1
+                            unconnected_houses.remove(house)
+
+        return swap_occured
 
     def remove_cable_connections(self, district):
         """remove all cable connections but keep in memory which house is connected to which battery"""
 
-        # remove cables from houses
+        #remove cables from houses
         for house in district.houses:
             house.cables = []
 
-        # remove cables from district
+        #remove cables from district
         district.all_cables = []
 
     def add_efficient_cables(self, district):
@@ -162,7 +172,7 @@ class Greedy():
         for district in self.districts:
             # reset district first
             district.reset_costs()
-            district.clear_connections()
+            district.clear_connections(cables_only=False)
             self.total_connected_houses = 0
 
             # connect houses to closest battery
@@ -175,7 +185,7 @@ class Greedy():
                 # keep swapping until all houses are connected
                 # print(len(unconnected_houses))
                 while self.total_connected_houses != 150:
-                    self.swap_houses(district, unconnected_houses)
+                    self.swap_houses(district, unconnected_houses, search_free_space=True, swap_index=1)
 
             # if cables are shared
             if self.UNIQUE_CABLES == False:
