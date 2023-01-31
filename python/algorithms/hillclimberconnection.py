@@ -14,11 +14,10 @@ class HillClimberConnection:
         for district in districts:
             if district.check_capacity_constraint() == False or district.all_houses_connected() == False:
                 raise Exception("HillClimber requires a complete solution.")
-        self.districts_OG = districts
-        self.districts = copy.deepcopy(districts)
-        self.total_costs_1 = self.districts[0].calculate_total_costs()
-        self.total_costs_2 = self.districts[1].calculate_total_costs()
-        self.total_costs_3 = self.districts[2].calculate_total_costs()
+        self.districts_copy = copy.deepcopy(districts)
+        self.total_costs_1 = self.districts_copy[0].calculate_total_costs()
+        self.total_costs_2 = self.districts_copy[1].calculate_total_costs()
+        self.total_costs_3 = self.districts_copy[2].calculate_total_costs()
 
     def check_solution(self, district, i):
         print(f"check solution of district {district.id}")
@@ -55,35 +54,86 @@ class HillClimberConnection:
             district.reset_costs()
             district.clear_connections(cables_only=True)
 
+    def run_greedy(self, greedy):
+
+        district.reset_costs()
+
+        # remove all cable connections but keep in memory which house is connected to which battery
+        for house in district.houses:
+            house.cables = []
+
+        # loop over all batteries to add cables BUT more efficient
+        for battery in district.batteries:
+
+            # calculate distances between house and batteries
+            for house in battery.houses:
+                house.distance_to_batt = district.calculate_distance(house, battery)
+
+            # sort houses based on distance to battery; closest house first
+            battery.houses.sort(key=lambda x: x.distance_to_batt)
+
+            # -- check to see if houses are sorted right --
+            # print("print distance of house to battery: ", [house.distance_to_batt for house in battery.houses])
+
+            # make list to keep track which houses are cable connected to a battery
+            cable_connected_houses = []
+
+            # loop over houses connected to that battery; start at nearest house
+            for house in battery.houses:
+                # connect closest house directly to battery
+                if len(cable_connected_houses) == 0:
+                    house.add_cable_connection(battery)
+                    cable_connected_houses.append(house)
+
+                # connect the other houses to the closest cable connection
+                else:
+                    closest_cable = None # cable object
+                    closest_distance = 101
+                    # loop over all cable connected houses to find the nearest cable
+                    for cable_connected_house in cable_connected_houses:
+                        # calculate distance from a house to an existing cable
+                        for existing_cable in cable_connected_house.cables:
+                            distance_house_cable = district.calculate_distance(house, existing_cable)
+                            # set new closest distance and cable
+                            if distance_house_cable < closest_distance:
+                                closest_distance = distance_house_cable
+                                closest_cable = existing_cable
+
+                    # add house to closest cable
+                    house.add_cable_connection(closest_cable)
+                    cable_connected_houses.append(house)
+        district.add_all_cables()
+        district.calculate_total_costs()
+
 
     def run(self, iterations):
         print("\n START HILLCLIMBER")
-        greedy = Greedy(self.districts, UNIQUE_CABLES=False)
+        greedy = Greedy(self.districts_copy, UNIQUE_CABLES=False)
 
         for iteration in range(iterations):
             for i in range(3):
                 # remove all cable connections within district
-                self.districts[i].clear_connections(cables_only=True)
+                self.districts_copy[i].clear_connections(cables_only=True)
 
                 # swap house-battery connection with capacity constraint
                 unconnected_houses = []
-                succesful_swap = greedy.swap_houses(self.districts[i], unconnected_houses, search_free_space=False, swap_index=2)
+                succesful_swap = greedy.swap_houses(self.districts_copy[i], unconnected_houses, search_free_space=False, swap_index=2, swap_once=True)
 
                 while succesful_swap is not True:
-                    succesful_swap = greedy.swap_houses(self.districts[i], unconnected_houses, search_free_space=False, swap_index=2)
+                    succesful_swap = greedy.swap_houses(self.districts_copy[i], unconnected_houses, search_free_space=False, swap_index=2, swap_once=True)
                     print("no succesful swap in hillclimber")
 
                 # after succesful swap add cables with greedy algorithm
                 # create list of all houses connected per battery
-                self.districts[i].list_houses_per_battery()
+                self.districts_copy[i].list_houses_per_battery()
 
                 # add cables more efficiently
-                greedy.add_efficient_cables(self.districts[i])
+                greedy.add_efficient_cables(self.districts_copy[i])
 
                 # add all cables into the district
-                self.districts[i].add_all_cables()
+                self.districts_copy[i].add_all_cables()
 
-                self.check_solution(self.districts[i], i)
+                self.check_solution(self.districts_copy[i], i)
 
 
-        return self.districts_OG
+        return self.districts_copy
