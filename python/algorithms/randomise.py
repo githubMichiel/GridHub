@@ -9,10 +9,13 @@ def random_algorithm(districts, IS_UNIQUE_CABLES):
 
     # loop over districts
     for district in districts:
+        # reset
+        district.clear_connections(cables_only=False)
+        district.reset_costs()
         # run until a valid solution is found for a district
         while not district.all_houses_connected():
             # reset
-            district.clear_connections()
+            district.clear_connections(cables_only=False)
             district.reset_costs()
 
             # loop over houses

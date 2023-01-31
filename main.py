@@ -10,6 +10,7 @@ from sys import argv
 
 from python.algorithms import randomise as rd
 from python.algorithms.greedy import Greedy
+from python.algorithms.hillclimberconnection import HillClimberConnection
 
 from python.classes.district import District
 from python.classes.battery import Battery
@@ -24,7 +25,7 @@ VARIABLE_BATTERY_LOCATION = False
 MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
-NUMBER_OF_SOLUTIONS = 3
+NUMBER_OF_SOLUTIONS = 1
 
 
 def json_format(district):
@@ -47,8 +48,8 @@ def find_solutions(districts, UNIQUE_CABLES):
     """run the program NUMBER_OF_SOLUTIONS times"""
 
     # store results per district
-    results_1, results_2, results_3 = [], [], []
-    results = [results_1, results_2, results_3]
+    costs_district_1, costs_district_2, costs_district_3 = [], [], []
+    results = [costs_district_1, costs_district_2, costs_district_3]
 
     for i in range(0, NUMBER_OF_SOLUTIONS):
         # print statement so we know the computer is working
@@ -62,15 +63,20 @@ def find_solutions(districts, UNIQUE_CABLES):
             greedy = Greedy(districts, UNIQUE_CABLES)
             costs_single_run = greedy.run()
 
-        # small bug where the random algorithm does not reset district.all_cables.
+
         # each iteration it builds on the previous one and therefore the costs rise
-        print(costs_single_run)
+        print(f"single run costs per district before HillClimber: {costs_single_run} \n")
 
-        results_1.append(costs_single_run[0])
-        results_2.append(costs_single_run[1])
-        results_3.append(costs_single_run[2])
+        costs_district_1.append(costs_single_run[0])
+        costs_district_2.append(costs_single_run[1])
+        costs_district_3.append(costs_single_run[2])
 
-        # print(results)
+    print("results before HillClimber: ", results)
+    hillclimber_1 = HillClimberConnection(districts)
+    new_optimal_districts = hillclimber_1.run(1)
+    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
+    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
+    print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
 
     # print descriptive statistics per district
     for i in range(1, 4):
@@ -83,6 +89,8 @@ def find_solutions(districts, UNIQUE_CABLES):
         print(f"The average found cost: {mean}")
         print("")
         print("")
+
+    # return new_optimal_districts
 
 
 if __name__ == "__main__":
@@ -146,7 +154,7 @@ if __name__ == "__main__":
     # greedy + shared cables
     elif configuration == 4:
         print('Implementing greedy algorithm with shared cables...')
-        find_solutions(districts, UNIQUE_CABLES)
+        new_optimal_districts = find_solutions(districts, UNIQUE_CABLES)
 
     # greedy + shared cables + variable battery location
     elif configuration == 5:
@@ -164,6 +172,9 @@ if __name__ == "__main__":
     plot_district(districts[0])
     plot_district(districts[1])
     plot_district(districts[2])
+    # plot_district(new_optimal_districts[0])
+    # plot_district(new_optimal_districts[1])
+    # plot_district(new_optimal_districts[2])
     plt.show()
 
     # create JSON output

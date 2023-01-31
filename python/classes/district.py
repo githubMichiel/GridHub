@@ -101,18 +101,23 @@ class District:
                 return False
         return True
 
-    def clear_connections(self):
+    def clear_connections(self, cables_only):
         """clear connections if not all houses are connected"""
 
-        # reset house stats
-        for house in self.houses:
-            house.battery = None
-            house.cables = []
+        if cables_only:
+            for house in self.houses:
+                house.cables = []
 
-        # reset battery stats
-        for battery in self.batteries:
-            battery.total_input = 0
-            battery.houses = []
+        else:
+            # reset house stats
+            for house in self.houses:
+                house.battery = None
+                house.cables = []
+
+            # reset battery stats
+            for battery in self.batteries:
+                battery.total_input = 0
+                battery.houses = []
 
     def check_capacity_constraint(self):
         """check if capacity constraint is met for all batteries"""
@@ -145,6 +150,7 @@ class District:
 
         # calculate # of cables
         number_of_cables = len(self.all_cables) - len(self.houses)
+        # print("number of cables in cost function: ", number_of_cables)
 
         # calculate cost
         self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)

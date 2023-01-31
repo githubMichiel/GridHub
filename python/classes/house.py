@@ -42,17 +42,19 @@ class House():
         # swap the batteries of two houses
         self.battery.total_input -= self.max_output
         self.battery.total_input += other.max_output
+
         other.battery.total_input -= other.max_output
         other.battery.total_input += self.max_output
+        
         self.battery, other.battery = other.battery, self.battery
 
         # print(f"output house 1 AFTER SWAP: {self.max_output} - battery of house 1: {self.battery.id} - battery input: {self.battery.total_input}")
         # print(f"output house 2 AFTER SWAP: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")
 
-    def add_connection(self, battery):
-        """add cable connection between house and battery OR house and cable"""
-        """chooses the shortest route"""
-
+    def add_cable_connection(self, battery):
+        """add cable connection between house and battery.
+        chooses the shortest route.
+        (this algorithm is for the unique cable case where it doesnt matter what shortest route we pick)"""
 
         self.cables = []
         distance_x = self.x - battery.x
