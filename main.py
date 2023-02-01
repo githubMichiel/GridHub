@@ -60,26 +60,28 @@ def find_solutions(districts, UNIQUE_CABLES):
         if RANDOM_ALGORITHM:
             costs_single_run = rd.random_algorithm(districts, UNIQUE_CABLES)
         else:
-            greedy = Greedy(districts, UNIQUE_CABLES)
-            costs_single_run = greedy.run()
+            total_costs = []
+            for district in districts:
+                greedy = Greedy(district, UNIQUE_CABLES)
+                total_costs.append(greedy.run())
 
 
         # each iteration it builds on the previous one and therefore the costs rise
-        print(f"single run costs per district before HillClimber: {costs_single_run} \n")
+        print(f"single run costs per district before HillClimber: {total_costs} \n")
 
-        costs_district_1.append(costs_single_run[0])
-        costs_district_2.append(costs_single_run[1])
-        costs_district_3.append(costs_single_run[2])
+        costs_district_1.append(total_costs[0])
+        costs_district_2.append(total_costs[1])
+        costs_district_3.append(total_costs[2])
 
     if configuration == 4:
         print("results before HillClimber: ", results)
 
         hillclimber_1 = HillClimberConnection(districts)
-        new_districts = hillclimber_1.run(1)
+        new_districts = hillclimber_1.run(1000)
 
-        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
-        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
-        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_1, new_districts[0].costs)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_2, new_districts[1].costs)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_3, new_districts[2].costs)
 
         return results, new_districts
 
@@ -181,6 +183,9 @@ if __name__ == "__main__":
     plot_district(districts[0])
     # plot_district(districts[1])
     # plot_district(districts[2])
+    # plot_district(new_districts[0])
+    # plot_district(hillclimber_1.optimal_districts[1])
+    # plot_district(hillclimber_1.optimal_districts[2])
     # plot_district(new_districts[0])
     # plot_district(new_districts[1])
     # plot_district(new_districts[2])
