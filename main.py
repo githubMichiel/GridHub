@@ -61,10 +61,15 @@ def find_solutions(districts, UNIQUE_CABLES):
             costs_single_run = rd.random_algorithm(districts, UNIQUE_CABLES)
         else:
             total_costs = []
-            greedy = Greedy(district, UNIQUE_CABLES)
-            total_costs.append(greedy.run())
+            for district in districts:
+                greedy = Greedy(district, UNIQUE_CABLES)
+                total_costs.append(greedy.run())
 
-        # store costs of this iteration
+
+        # each iteration it builds on the previous one and therefore the costs rise
+        print(f"single run costs per district before HillClimber: {total_costs} \n")
+
+        # store costs per iteration
         costs_district_1.append(total_costs[0])
         costs_district_2.append(total_costs[1])
         costs_district_3.append(total_costs[2])
@@ -73,13 +78,15 @@ def find_solutions(districts, UNIQUE_CABLES):
         print("results before HillClimber: ", results)
 
         hillclimber_1 = HillClimberConnection(districts)
-        new_districts = hillclimber_1.run(1)
+        new_districts = hillclimber_1.run(5)
 
-        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
-        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
-        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_1, new_districts[0].costs)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_2, new_districts[1].costs)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_3, new_districts[2].costs)
 
         return results, new_districts
+
+    return results
 
     # print descriptive statistics per district
     for i in range(1, 4):
