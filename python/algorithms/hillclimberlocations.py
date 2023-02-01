@@ -139,9 +139,7 @@ class HillClimberLocations:
                 random_batteries.append(random_battery)
                 random_directions.append(random_direction)
 
-            next_districts = self.run_greedy()
-
-            # check if the new solution is better
+            self.run_greedy()
             self.check_solution(random_batteries, random_directions)
 
         # return the districts
