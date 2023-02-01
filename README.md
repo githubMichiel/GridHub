@@ -37,15 +37,15 @@ Onze best gevonden oplossingen voor elk district:
 
 ![District 1](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_1_optimal_100000.png)
 
-District 1: the lowest found cost: 31732
+District 1: the lowest found cost: 31489
 
 ![District 2](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_2_optimal_100000.png)
 
-District 2: the lowest found cost: 30490
+District 2: the lowest found cost: 30301
 
 ![District 3](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_3_optimal_100000.png)
 
-District 3: the lowest found cost: 30904
+District 3: the lowest found cost: 30733
 
 Zie [hier](https://github.com/githubMichiel/GridHub/tree/main/visualisations) onze andere behaalde resultaten
 
@@ -55,17 +55,19 @@ Run via een command line interface main.py op de volgende manier:
 
 python main.py [OPTIE]
 
-Hierbij is [OPTIE] een integer tussen de 1 en de 5, namelijk: 
-     
+Hierbij is [OPTIE] een integer tussen de 1 en de 5, namelijk:
+
 Optie 1 voor het random algoritme met unieke kabels
-     
+
 Optie 2 voor het greedy algoritme met gedeelde kabels
-     
+
 Optie 3 voor het random algoritme met unieke kabels
-     
+
 Optie 4 voor het greedy algoritme met gedeelde kabels
-     
+
 Optie 5 voor het greedy algoritme met gedeelde kabels waarin de locatie van de batterijen aangepast is.
-     
+
 Na het kiezen van één van deze 5 opties worden de algoritmes toegepast op de huidige data van de districten met de huizen en batterijen.
 In het geval van optie 4 en 5 worden de HillClimbers nog toegepast om de resultaten te verbeteren per district.
+
+Het aantal oplossingen dat het programma genereert kan aangepast worden met de global variabele NUMBER_OF_SOLUTIONS in main.py.

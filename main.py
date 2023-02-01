@@ -195,7 +195,7 @@ if __name__ == "__main__":
         hillclimber_1 = HillClimberConnection(top_districts)
 
         # return even better solution
-        optimal_districts_hillclimber = hillclimber_1.run(100)
+        optimal_districts_hillclimber = hillclimber_1.run(10000)
 
         # check to see if costs improved after hillclimber
         print("results after HillClimber (greedy + shared cables): ", optimal_districts_hillclimber[0].costs)
@@ -212,13 +212,12 @@ if __name__ == "__main__":
         hillclimber = HillClimberLocations(top_districts)
 
         # return even better solution
-        optimal_districts_hillclimber = hillclimber.run(10)
+        optimal_districts_hillclimber = hillclimber.run(10000)
 
         # check to see if costs improved after hillclimber
         print("results after HillClimber (greedy + shared cables): ", optimal_districts_hillclimber[0].costs)
         print("results after HillClimber (greedy + shared cables): ", optimal_districts_hillclimber[1].costs)
         print("results after HillClimber (greedy + shared cables): ", optimal_districts_hillclimber[2].costs)
-
 
     # visualise each district depending on configuration
     if configuration != 4:
