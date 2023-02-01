@@ -60,25 +60,26 @@ def find_solutions(districts, UNIQUE_CABLES):
         if RANDOM_ALGORITHM:
             costs_single_run = rd.random_algorithm(districts, UNIQUE_CABLES)
         else:
-            greedy = Greedy(districts, UNIQUE_CABLES)
-            costs_single_run = greedy.run()
+            total_costs = []
+            greedy = Greedy(district, UNIQUE_CABLES)
+            total_costs.append(greedy.run())
 
         # store costs of this iteration
-        costs_district_1.append(costs_single_run[0])
-        costs_district_2.append(costs_single_run[1])
-        costs_district_3.append(costs_single_run[2])
+        costs_district_1.append(total_costs[0])
+        costs_district_2.append(total_costs[1])
+        costs_district_3.append(total_costs[2])
 
-    # if configuration == 4:
-    #     print("results before HillClimber: ", results)
-    #
-    #     hillclimber_1 = HillClimberConnection(districts)
-    #     new_districts = hillclimber_1.run(1)
-    #
-    #     print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
-    #     print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
-    #     print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
-    #
-    #     return results, new_districts
+    if configuration == 4:
+        print("results before HillClimber: ", results)
+
+        hillclimber_1 = HillClimberConnection(districts)
+        new_districts = hillclimber_1.run(1)
+
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_1)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_2)
+        print("results after HillClimber (greedy + shared cables): ", hillclimber_1.total_costs_3)
+
+        return results, new_districts
 
     # print descriptive statistics per district
     for i in range(1, 4):
@@ -163,7 +164,9 @@ if __name__ == "__main__":
     elif configuration == 5:
         print('Implementing greedy algorithm with shared cables.')
         print('Finding optimal coordinates for each battery...')
-        pass
+        results = find_solutions(districts, UNIQUE_CABLES)
+        hillclimber = HillClimberLocations(districts)
+        new_districts = hillclimber.run(1000)
 
     # greedy + shared cables + variable battery location + different batteries
     elif configuration == 6:

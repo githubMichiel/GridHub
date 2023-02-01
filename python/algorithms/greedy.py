@@ -194,16 +194,9 @@ class Greedy():
             while self.total_connected_houses != 150:
                 self.swap_houses(self.district, unconnected_houses, search_free_space=True, swap_index=1, swap_once=False)
 
-<<<<<<< HEAD
-                # keep swapping until all houses are connected
-                # print(len(unconnected_houses))
-                while self.total_connected_houses != 150:
-                    self.swap_houses(district, unconnected_houses, search_free_space=True, swap_index=2, swap_once=False)
-=======
         if hillclimber:
             unconnected_houses = []
             succesful_swap = self.swap_houses(self.district, unconnected_houses, search_free_space=False, swap_index=2, swap_once=True)
->>>>>>> 3c3701169b26dc286bea3b8fb5fc4afe46b355d1
 
             while succesful_swap is not True:
                 succesful_swap = self.swap_houses(self.district, unconnected_houses, search_free_space=False, swap_index=2, swap_once=True)
