@@ -77,7 +77,7 @@ def find_solutions(districts, UNIQUE_CABLES):
         print("results before HillClimber: ", results)
 
         hillclimber_1 = HillClimberConnection(districts)
-        new_districts = hillclimber_1.run(1000)
+        new_districts = hillclimber_1.run(5)
 
         print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_1, new_districts[0].costs)
         print("results after HillClimber (greedy + shared cables): ", hillclimber_1.optimal_cost_2, new_districts[1].costs)
