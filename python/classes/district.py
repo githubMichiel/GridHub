@@ -27,7 +27,7 @@ class District:
         # list of house objects in district
         self.houses = []
 
-        # total costs of all cables and batteries in district; start at 25000 i.e. costs of all batteries
+        # total costs of all cables and batteries in district
         self.costs = 0
 
         # dictionary with all batteries as keys and a list of connected houses per battery as values
@@ -53,6 +53,7 @@ class District:
             next(csvreader)
 
             id = 1
+            # read line
             for row in csvreader:
                 x = int(row[0])
                 y = int(row[1])
@@ -72,6 +73,7 @@ class District:
             # skip first line
             next(csvreader)
 
+            # read line
             for row in csvreader:
                 x = int(row[0])
                 y = int(row[1])
@@ -96,6 +98,7 @@ class District:
 
     def all_houses_connected(self):
         """check if all houses are connected, if so return True"""
+
         for house in self.houses:
             if house.battery == None:
                 return False
@@ -104,12 +107,14 @@ class District:
     def clear_connections(self, cables_only):
         """clear connections if not all houses are connected"""
 
+        # sometimes only the cable connections should be removed
         if cables_only:
             for house in self.houses:
                 house.cables = []
             for battery in self.batteries:
                 battery.houses = []
 
+        # otherwise clear all connections
         else:
             # reset house stats
             for house in self.houses:
@@ -148,20 +153,18 @@ class District:
     def calculate_total_costs(self):
         """calculate the total cost of a district with cables"""
 
-        self.costs = 0
-
         # calculate # of cables
         number_of_cables = len(self.all_cables) - len(self.houses)
-        # print("number of cables in cost function: ", number_of_cables)
 
         # calculate cost
         self.costs = (len(self.batteries) * 5000) + (number_of_cables * 9)
 
-        # print(self.costs)
+        # return costs
         return self.costs
 
     def reset_costs(self):
         """reset the costs and cables in a district"""
+
         self.costs = 0
         self.all_cables = []
 
@@ -171,14 +174,44 @@ class District:
         unique_cables = set()
         new_cable_list = []
 
-        # loop over cables
+        # loop over all cables in a district
         for cable in self.all_cables:
+            # cable that should be checked (and its reverse)
             next_cable_1 = (cable.start, cable.end)
             next_cable_2 = (cable.end, cable.start)
 
             # check if cable is duplicate
             if next_cable_1 not in unique_cables and next_cable_2 not in unique_cables:
+                # add cable to new list if not yet in that list
                 new_cable_list.append(cable)
                 unique_cables.add(next_cable_1)
 
+        # update the list of all cables in a district
         self.all_cables = new_cable_list
+
+        # cables should be removed inside the house objects as well
+        unique_cables_2 = set()
+        # list of lists of cables
+        new_cable_matrix = []
+
+        # loop over houses in a district
+        for i in range(150):
+            # create new list of cables per house
+            new_cable_matrix.append([])
+            # loop over cables in a house
+            for cable in self.houses[i].cables:
+                # cable that should be checked (and its reverse)
+                next_cable_1 = (cable.start, cable.end)
+                next_cable_2 = (cable.end, cable.start)
+
+                # check if cable is duplicate
+                if next_cable_1 not in unique_cables_2 and next_cable_2 not in unique_cables_2:
+                    # add cable to new list if not yet in that list
+                    new_cable_matrix[i].append(cable)
+                    unique_cables_2.add(next_cable_1)
+
+        for i in range(150):
+            self.houses[i].cables = new_cable_matrix[i]
+
+        print(new_cable_matrix)
+        print(self.houses[i].cables)

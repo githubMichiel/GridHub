@@ -37,8 +37,3 @@ class Battery:
             return True
         else:
             return False
-
-    def print_input(self):
-        """testing and debugging"""
-
-        print(f" Total input of battery: {self.total_input}")

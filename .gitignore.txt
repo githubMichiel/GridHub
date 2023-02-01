@@ -1,5 +1,1 @@
 output.json
-technische_beschrijving.docx
-technische_beschrijving2.docx
-technische_beschrijving.pdf
-technische_beschrijving2.pdf

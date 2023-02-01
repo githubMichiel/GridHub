@@ -18,9 +18,11 @@ class House():
 
         # remember to which battery a house is connected
         self.battery = None
+
+        # remember the distance to a battery
         self.distance_to_batt = None
 
-        # make list with corresponding cable location
+        # make list with cable location from house to battery
         self.cables = []
 
     def __repr__(self):
@@ -36,23 +38,18 @@ class House():
     def swap_battery(self, other):
         """ swap batteries of two houses"""
 
-        # print(f"output house 1: {self.max_output} - battery of house 1: {self.battery.id} - battery input: {self.battery.total_input}")
-        # print(f"output house 2: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")
-
         # swap the batteries of two houses
         if self.battery != None and other.battery != None:
-            # print(f'self: {type(self)}')
-            # print(f'other: {type(other.battery)}')
+            # switch output for first battery
             self.battery.total_input -= self.max_output
             self.battery.total_input += other.max_output
 
+            # switch output for second battery
             other.battery.total_input -= other.max_output
             other.battery.total_input += self.max_output
 
+            # switch the self.battery for both houses
             self.battery, other.battery = other.battery, self.battery
-
-        # print(f"output house 1 AFTER SWAP: {self.max_output} - battery of house 1: {self.battery.id} - battery input: {self.battery.total_input}")
-        # print(f"output house 2 AFTER SWAP: {other.max_output} - battery of house 2: {other.battery.id} - battery input: {other.battery.total_input}")
 
     def add_cable_connection(self, battery):
         """add cable connection between house and battery.
@@ -60,18 +57,27 @@ class House():
         (this algorithm is for the unique cable case where it doesnt matter what shortest route we pick)"""
 
         self.cables = []
+
+        # calculate distance along x and y axis
         distance_x = self.x - battery.x
         distance_y = self.y - battery.y
 
+        # horizontally: house is to the right of the battery
         if distance_x >= 0:
             for i in range(abs(distance_x)):
                 self.cables.append(Cable(self.x - i, self.y, self.x - (i+1), self.y ))
+
+        # horizontally: house is to the left of the battery
         else:
             for i in range(abs(distance_x)):
                 self.cables.append(Cable(self.x + i, self.y, self.x + (i+1), self.y))
+
+        # vertically: house is above the battery
         if distance_y >= 0:
             for i in range(abs(distance_y)):
                 self.cables.append(Cable(self.x - distance_x, self.y - i, self.x - distance_x, self.y - (1+i)))
+
+        # vertically: house is below the battery
         else:
             for i in range(abs(distance_y)):
                 self.cables.append(Cable(self.x - distance_x, self.y + i, self.x - distance_x, self.y + (i+1)))

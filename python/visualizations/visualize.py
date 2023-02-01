@@ -45,7 +45,6 @@ def plot_district(district):
     # plot legend
     plt.legend(bbox_to_anchor=(0.75, 1.18), loc="upper left", handles=[cables, houses, batteries], framealpha=0.5)
 
-
 def plot_distribution(configuration, all_costs, district):
     """create a visualization of the distribution of costs over multiple runs"""
 
