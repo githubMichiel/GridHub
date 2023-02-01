@@ -49,11 +49,6 @@ class HillClimberConnection:
                 self.total_costs_3 = new_value
                 self.districts_OG[2] = district
 
-        else:
-            print("SLECHTER\n")
-            district.reset_costs()
-            district.clear_connections(cables_only=True)
-
     def run_greedy(self, greedy):
 
         district.reset_costs()

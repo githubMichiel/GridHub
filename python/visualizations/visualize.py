@@ -68,4 +68,4 @@ def plot_distribution(configuration, all_costs, district):
     elif configuration == 3:
         plt.title(f"Distribution of random solutions for district {district.id} (shared cables)")
     elif configuration == 4:
-        plt.title(f"Distribution of random solutions for district {district.id} (shared cables)")
+        plt.title(f"Distribution of greedy solutions for district {district.id} (shared cables)")

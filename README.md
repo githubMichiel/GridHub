@@ -12,7 +12,7 @@ De opdracht heeft de volgende constraints:
 - Batterijen mogen niet aan elkaar verbonden zijn. Ook niet via een huis.
 
 De opdracht kan opgesplits worden in twee deelopdrachten met de volgende constraints:
-1) Elk huis heeft een eigen unieke kabel nodig naar de batterij. Er mogen meerdere kabels over dezelfde gridsegmenten lopen. Het blijven echter wel unieke kabels en leveren geen kostenvermindering op. 
+1) Elk huis heeft een eigen unieke kabel nodig naar de batterij. Er mogen meerdere kabels over dezelfde gridsegmenten lopen. Het blijven echter wel unieke kabels en leveren geen kostenvermindering op.
 2) Huizen mogen via eenzelfde kabel aan een batterij verbonden zijn. Ze mogen dus een kabel delen.
 
 Verder hebben we nog aandacht besteed aan het oplossen van een van de extra opdrachten, namelijk:
@@ -21,6 +21,7 @@ Verplaats de batterijen, en probeer een beter resultaat te realiseren.
 Algoritmes en heuristieken:
 
 Resultaten:
+Resultaten voor de verschillende milestones van het vak zijn te vinden in de map 'milestones'
 
 Instructions:
 <TODO: Het is na lezen van de README duidelijk hoe de resultaten te reproduceren zijn, via een interface (command line), argumenten die meegegeven kunnen worden voor de verschillende functionaliteiten/algoritmen, of bijvoorbeeld een duidelijke uitleg welke file te runnen om welk resultaat te krijgen.>
