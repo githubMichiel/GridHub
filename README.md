@@ -21,13 +21,8 @@ Verplaats de batterijen, en probeer een beter resultaat te realiseren.
 ### Algoritmes en heuristieken:
 <TODO: beschrijvingen algoritmes kloppen nog niet>
 
-<<<<<<< HEAD
-Resultaten:
-Resultaten voor de verschillende milestones van het vak zijn te vinden in de map 'milestones'
-=======
 <Random: Per huis kiezen we willekeurig een batterij en als die batterij vol zit dan blijven we willekeurig een batterij kiezen tot we een batterij vinden die nog niet vol is.Dit doen we totdat alle huizen verbonden zijn.
-Het kan zijn dat we nog een of meerdere huizen moeten verbinden met een batterij terwijl alle batterijen al vol zitten en in dat geval verwerpen we de oplossing en herhalen het proces totdat we wel een geldige oplossing vinden. Dan hebben we een oplossing van huis batterij combinaties en moeten we nog de kabels leggen tussen de huizen en batterijen. In het geval van unieke kabels is de kortste route tussen een batterij en huis altijd optimaal voor de kosten,omdat onafhankelijk van welke combinatie huizen en batterijen alleen de lengte van een kabelverbinding bepalend is voor de kosten. dus hebben we als heuristiek gebruikt dat we altijd de korste route kiezen.> 
->>>>>>> 3c3701169b26dc286bea3b8fb5fc4afe46b355d1
+Het kan zijn dat we nog een of meerdere huizen moeten verbinden met een batterij terwijl alle batterijen al vol zitten en in dat geval verwerpen we de oplossing en herhalen het proces totdat we wel een geldige oplossing vinden. Dan hebben we een oplossing van huis batterij combinaties en moeten we nog de kabels leggen tussen de huizen en batterijen. In het geval van unieke kabels is de kortste route tussen een batterij en huis altijd optimaal voor de kosten,omdat onafhankelijk van welke combinatie huizen en batterijen alleen de lengte van een kabelverbinding bepalend is voor de kosten. dus hebben we als heuristiek gebruikt dat we altijd de korste route kiezen.>
 
 <Greedy: bij dit algoritme leggen we de kabels nog steeds op dezelfde manier als het random algoritme alleen veranderen we de manier waarop we de huis batterij combinaties maken. Per huis kiezen we de dichtstbijzijnde batterij die nog niet vol is.
 Dit doen we weer totdat alle huizen verbonden zijn. Net zoals bij het random algoritme kan het gebeuren dat voordat alle huizen verbonden zijn alle batterijen al vol zijn, in dit geval verwerpen we de oplossing niet maar gaan we het aanpassen totdat we wel een werkende oplossing krijgen. Dit doen we door random swaps te maken.
