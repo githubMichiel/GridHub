@@ -87,6 +87,6 @@ class HillClimberLocations:
                 random_direction = self.change_battery_location(random_battery, i)
                 random_batteries.append(random_battery)
                 random_directions.append(random_direction)
-            next_districts = self.run_greedy()
+            self.run_greedy()
             self.check_solution(random_batteries, random_directions)
         return self.districts
