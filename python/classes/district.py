@@ -107,6 +107,8 @@ class District:
         if cables_only:
             for house in self.houses:
                 house.cables = []
+            for battery in self.batteries:
+                battery.houses = []
 
         else:
             # reset house stats

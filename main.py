@@ -63,10 +63,7 @@ def find_solutions(districts, UNIQUE_CABLES):
             greedy = Greedy(districts, UNIQUE_CABLES)
             costs_single_run = greedy.run()
 
-
-        # each iteration it builds on the previous one and therefore the costs rise
-        # print(f"single run costs per district before HillClimber: {costs_single_run} \n")
-
+        # store costs of this iteration
         costs_district_1.append(costs_single_run[0])
         costs_district_2.append(costs_single_run[1])
         costs_district_3.append(costs_single_run[2])

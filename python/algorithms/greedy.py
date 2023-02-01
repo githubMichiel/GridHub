@@ -1,13 +1,14 @@
 import random
+from ..visualizations.visualize import plot_district
 
 class Greedy():
     """algorithm to connect houses with batteries with greedy heuristic.
     runs until a valid solution is found."""
 
-    def __init__(self, districts, UNIQUE_CABLES):
+    def __init__(self, district, UNIQUE_CABLES):
 
         # list of districts on which to perform the algorithm
-        self.districts = districts
+        self.district = district
 
         # algorithm changes if cables are unique vs. shared
         self.UNIQUE_CABLES = UNIQUE_CABLES
@@ -76,6 +77,8 @@ class Greedy():
             while x == swap_buddy:
                 swap_buddy = random.choice(houses_index)
 
+            # print(f"Battery of house {district.houses[x]} before: ", district.houses[x].battery.id)
+            # print(f"Battery of house {district.houses[swap_buddy]} before: ", district.houses[swap_buddy].battery.id)
             # swap battery of two houses
             district.houses[x].swap_battery(district.houses[swap_buddy])
 
@@ -92,7 +95,6 @@ class Greedy():
                     if swap_once == True:
                         print("SWAP SUCCESFUL")
                         return swap_occured
-
 
             if search_free_space == True and swap_occured == True:
                 # loop over batteries
@@ -172,56 +174,65 @@ class Greedy():
                     # print("Closest cable: ", closest_cable)
                     # print("Distance house to closest cable: ", closest_distance)
 
-    def run(self):
+    def run(self, clear_cables_only=False, search_free_space=True, swap_index=1, swap_once=False, hillclimber=False):
         """ greedily assigns houses to the closest battery
         and swap houses until the capacity constraint is met"""
 
-        total_costs = []
+        # reset district first
+        self.district.reset_costs()
+        self.district.clear_connections(cables_only=clear_cables_only)
+        self.total_connected_houses = 0
 
-        for district in self.districts:
-            # reset district first
-            district.reset_costs()
-            district.clear_connections(cables_only=False)
-            self.total_connected_houses = 0
+        # connect houses to closest battery
+        if not hillclimber:
+            self.connect_closest_battery(self.district)
 
-            # connect houses to closest battery
-            self.connect_closest_battery(district)
+        # if not all connected, swap batteries of houses
+        if not hillclimber and self.total_connected_houses != 150:
+            unconnected_houses = self.unconnected_houses(self.district)
+            # keep swapping until all houses are connected
+            while self.total_connected_houses != 150:
+                self.swap_houses(self.district, unconnected_houses, search_free_space=True, swap_index=1, swap_once=False)
 
-            # if not all connected, swap batteries of houses
-            if self.total_connected_houses != 150:
-                unconnected_houses = self.unconnected_houses(district)
-
+<<<<<<< HEAD
                 # keep swapping until all houses are connected
                 # print(len(unconnected_houses))
                 while self.total_connected_houses != 150:
                     self.swap_houses(district, unconnected_houses, search_free_space=True, swap_index=2, swap_once=False)
+=======
+        if hillclimber:
+            unconnected_houses = []
+            succesful_swap = self.swap_houses(self.district, unconnected_houses, search_free_space=False, swap_index=2, swap_once=True)
+>>>>>>> 3c3701169b26dc286bea3b8fb5fc4afe46b355d1
 
-            # if cables are shared
-            if self.UNIQUE_CABLES == False:
-                # create list of all houses connected per battery
-                district.list_houses_per_battery()
+            while succesful_swap is not True:
+                succesful_swap = self.swap_houses(self.district, unconnected_houses, search_free_space=False, swap_index=2, swap_once=True)
+                # print("no succesful swap in hillclimber")
 
-                # add cables more efficiently
-                self.add_efficient_cables(district)
+        # if cables are shared
+        if self.UNIQUE_CABLES == False:
+            # create list of all houses connected per battery
+            self.district.list_houses_per_battery()
 
-                # add all cables into the district
-                district.add_all_cables()
+            # add cables more efficiently
+            self.add_efficient_cables(self.district)
+            # print("CHECKKKK -- 2", self.district.houses[0].battery)
 
-            # if cables are not shared
-            elif self.UNIQUE_CABLES == True:
-                # when all houses are connected AND constraints are met, add cable connections
-                # print(f'{self.total_connected_houses}')
-                for house in district.houses:
-                    house.add_cable_connection(house.battery)
+            # add all cables into the district
+            self.district.add_all_cables()
 
-                # make list of connected houses per battery
-                district.list_houses_per_battery()
+        # if cables are not shared
+        elif self.UNIQUE_CABLES == True:
+            # when all houses are connected AND constraints are met, add cable connections
+            # print(f'{self.total_connected_houses}')
+            for house in district.houses:
+                house.add_cable_connection(house.battery)
 
-                # add all cables in a district to one list
-                district.add_all_cables()
+            # make list of connected houses per battery
+            self.district.list_houses_per_battery()
 
-            # calculate cost per district
-            total_costs.append(district.calculate_total_costs())
+            # add all cables in a district to one list
+            self.district.add_all_cables()
 
         # return cost per district
-        return total_costs
+        return self.district.calculate_total_costs()
