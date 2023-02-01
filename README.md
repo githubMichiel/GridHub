@@ -21,19 +21,19 @@ Verplaats de batterijen, en probeer een beter resultaat te realiseren.
 ### Algoritmes en heuristieken:
 <TODO: beschrijvingen algoritmes kloppen nog niet>
 
-<Random: Per huis kiezen we willekeurig een batterij en als die batterij vol zit dan blijven we willekeurig een batterij kiezen tot we een batterij vinden die nog niet vol is.Dit doen we totdat alle huizen verbonden zijn.
-Het kan zijn dat we nog een of meerdere huizen moeten verbinden met een batterij terwijl alle batterijen al vol zitten en in dat geval verwerpen we de oplossing en herhalen het proces totdat we wel een geldige oplossing vinden. Dan hebben we een oplossing van huis batterij combinaties en moeten we nog de kabels leggen tussen de huizen en batterijen. In het geval van unieke kabels is de kortste route tussen een batterij en huis altijd optimaal voor de kosten,omdat onafhankelijk van welke combinatie huizen en batterijen alleen de lengte van een kabelverbinding bepalend is voor de kosten. dus hebben we als heuristiek gebruikt dat we altijd de korste route kiezen.>
+<Random: Bij het random algoritme wordt per huis een willekeurige batterij gekozen. In het geval dat deze batterij vol zit wordt een willekeurige andere batterij gekozen totdat een batterij gevonden is die nog niet vol is. Dit gebeurt totdat alle huizen verbonden zijn.
+Het kan zijn dat we nog een of meerdere huizen moeten verbinden met een batterij terwijl alle batterijen al vol zitten en in dat geval verwerpen we de oplossing en herhalen het proces totdat we wel een geldige oplossing vinden. Dan hebben we een oplossing van huis batterij combinaties en moeten we nog de kabels leggen tussen de huizen en batterijen. In het geval van unieke kabels is de kortste route tussen een batterij en huis altijd optimaal voor de kosten omdat, onafhankelijk van de combinatie huis-batterij, alleen de lengte van een kabelverbinding bepalend is voor de kosten. Daarom hebben we als heuristiek gebruikt dat we altijd de kortste route kiezen van huis naar batterij.>
 
-<Greedy: bij dit algoritme leggen we de kabels nog steeds op dezelfde manier als het random algoritme alleen veranderen we de manier waarop we de huis batterij combinaties maken. Per huis kiezen we de dichtstbijzijnde batterij die nog niet vol is.
-Dit doen we weer totdat alle huizen verbonden zijn. Net zoals bij het random algoritme kan het gebeuren dat voordat alle huizen verbonden zijn alle batterijen al vol zijn, in dit geval verwerpen we de oplossing niet maar gaan we het aanpassen totdat we wel een werkende oplossing krijgen. Dit doen we door random swaps te maken.
-Om dit soepeler te laten verlopen hebben we helemaal aan het begin van het algoritme nog een heuristiek gebruikt, namelijk dat we de huizen sorteren op output van groot naar klein, het idee hier achter is dat aangezien we de laatste huizen steeds swappen door deze heuristiek ze makelijker te swappen zijn. >
+<Greedy: Bij het greedy algoritme leggen we de kabels nog steeds op dezelfde manier als bij het random algoritme alleen worden de huis-batterij combinaties anders gemaakt. Per huis wordt steeds gekeken naar de dichtstbijzijnde batterij die nog niet vol is.
+Net zoals bij het random algoritme kan het gebeuren dat voordat alle huizen verbonden zijn alle batterijen al vol zijn, in dit geval verwerpen we de oplossing niet maar gaan we het aanpassen totdat er een werkende oplossing ontstaat. Deze aanpassingen worden gemaakt door random swaps te initiëren waarin we de huis-batterij combinatie omwisselen met twee huizen. Uiteindelijk zijn alle huizen dus verbonden met als heuristiek dat de huizen verbonden zijn met de dichtsbijzijnde batterij die nog niet vol is.
+. >
 
-<Hillclimber: Bij een hillclimber algoritme gebruik je een werkende oplossing en probeer je die te verbeteren door per iteratie
-een aanpassing te maken en als die aanpassing een verbetering is ga je vanaf die oplossing weer verder totdat je dit een aantal iteraties gedaan hebt.
-Het is het bepalend welke stap je gebruikt om aanpassingen te maken en in ons geval begin je zoals je zag in ons vorige algoritme met een oplossing waarin vast staat welk huis met welke batterij verbonden moet worden en
-ook zijn er al kabelverbindingen tussen elk huis en batterij gemaakt. Nu behouden we steeds dezelfde huis batterij combinaties maar elke stap van de HillClimber
-kiezen we willekeurig een huis en gaan we alle mogelijke bestaande kabels af en kijken we wat de kortste kabelverbinding voor dat huis naar de batterij is.
-Ook moet je er rekening mee houden dat als je een kabelverbinding vervangt dat daardoor andere huizen hun verbinding kunnen kwijtraken, deze leg je dan opnieuw aan en als in totaal alle aanpassingen dan tot een verbetering leiden accepteer je deze veranderingen en anders ga je verder>
+<HillClimber: Bij een hillclimber algoritme gebruik je een werkende oplossing en probeer je die te verbeteren door per iteratie
+een (random) aanpassing te maken en deze aanpassing te behouden als dit voor een betere oplossing zorgt. 
+Het is bepalend welke stap je gebruikt om aanpassingen in te maken en in ons geval begin je, zoals je zag in het greedy algoritme, met een oplossing waarin vast staat welk huis met welke batterij verbonden is (incl. de kabelligging). Voor de twee huidige HillClimber algoritmes die we toepassen worden de huis-batterij combinaties behouden echter de kabels verwijderd.
+Voor de eerste HillClimber veranderen we per iteratie de locatie van de batterij en leggen we vervolgens opnieuw alle kabels neer volgens het greedy algoritme.
+Voor de tweede HillClimber swappen we steeds 2 huizen van batterij en leggen we opnieuw de kabels neer volgens het greedy algoritme.
+Bij beiden HillClimber algoritmes worden steeds alleen de aanpassingen overgenomen als het voor een verbeterde versie zorgt, in dit geval dus lagere kosten.>
 
 ### Resultaten:
 
