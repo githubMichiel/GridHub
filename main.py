@@ -21,7 +21,6 @@ from python.visualizations.visualize import plot_district, plot_distribution
 RANDOM_ALGORITHM = False
 UNIQUE_CABLES = False
 VARIABLE_BATTERY_LOCATION = False
-MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
 NUMBER_OF_SOLUTIONS = 1
@@ -135,14 +134,13 @@ def find_solutions(districts, UNIQUE_CABLES):
 if __name__ == "__main__":
 
     # check command line arguments
-    if len(argv) != 2 or int(argv[1]) not in range(1, 7):
+    if len(argv) != 2 or int(argv[1]) not in range(1, 6):
         print("Usage: python main.py [int]")
         print("Choose 1 for random algorithm with unique cables.")
         print("Choose 2 for greedy algorithm with unique cables.")
         print("Choose 3 for random algorithm with shared cables")
         print("Choose 4 for greedy algorithm with shared cables")
         print("Choose 5 for greedy algorithm with variable batteries and shared cables")
-        print("Choose 6 for greedy algorithm with different variable batteries and shared cables")
         exit(1)
 
     # determine how the program should be run
@@ -157,10 +155,8 @@ if __name__ == "__main__":
         UNIQUE_CABLES = True
 
     # determine how batteries should be implemented
-    if configuration == 5 or configuration == 6:
+    if configuration == 5
         VARIABLE_BATTERY_LOCATION = True
-        if configuration == 6:
-            MULTIPLE_BATTERY_TYPES = True
 
     # create districts
     districts = []
@@ -223,11 +219,6 @@ if __name__ == "__main__":
         print("results after HillClimber (greedy + shared cables): ", optimal_districts_hillclimber[1].costs)
         print("results after HillClimber (greedy + shared cables): ", optimal_districts_hillclimber[2].costs)
 
-    # greedy + shared cables + variable battery location + different batteries
-    elif configuration == 6:
-        print('Implementing greedy algorithm with shared cables.')
-        print('Finding optimal configuration with different batteries...')
-        pass
 
     # visualise each district depending on configuration
     if configuration != 4:
