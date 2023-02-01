@@ -37,10 +37,15 @@ Onze best gevonden oplossingen voor elk district:
 
 ![District 1](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_1_optimal_100000.png)
 
+District 1: the lowest found cost: 31732
+
 ![District 2](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_2_optimal_100000.png)
+
+District 2: the lowest found cost: 30490
 
 ![District 3](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_3_optimal_100000.png)
 
+District 3: the lowest found cost: 30904
 
 Zie [hier](https://github.com/githubMichiel/GridHub/tree/main/visualisations) onze andere behaalde resultaten
 
