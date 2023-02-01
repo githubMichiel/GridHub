@@ -25,7 +25,7 @@ VARIABLE_BATTERY_LOCATION = False
 MULTIPLE_BATTERY_TYPES = False
 
 # run program until there are found NUMBER_OF_SOLUTIONS solutions
-NUMBER_OF_SOLUTIONS = 1
+NUMBER_OF_SOLUTIONS = 100
 
 
 def json_format(district):
@@ -164,8 +164,7 @@ if __name__ == "__main__":
     # greedy + shared cables
     elif configuration == 4:
         print('Implementing greedy algorithm with shared cables...')
-        results, new_districts = find_solutions(districts, UNIQUE_CABLES)
-
+        results = find_solutions(districts, UNIQUE_CABLES)
 
     # greedy + shared cables + variable battery location
     elif configuration == 5:
@@ -181,19 +180,16 @@ if __name__ == "__main__":
 
     # visualise each district
     plot_district(districts[0])
-    # plot_district(districts[1])
-    # plot_district(districts[2])
-    # plot_district(new_districts[0])
-    # plot_district(hillclimber_1.optimal_districts[1])
-    # plot_district(hillclimber_1.optimal_districts[2])
+    plot_district(districts[1])
+    plot_district(districts[2])
     # plot_district(new_districts[0])
     # plot_district(new_districts[1])
     # plot_district(new_districts[2])
 
     # visualize distribution of solutions across multiple runs
-    # plot_distribution(configuration, results[0], districts[0])
-    # plot_distribution(configuration, results[1], districts[1])
-    # plot_distribution(configuration, results[2], districts[2])
+    plot_distribution(configuration, results[0], districts[0])
+    plot_distribution(configuration, results[1], districts[1])
+    plot_distribution(configuration, results[2], districts[2])
     plt.show()
 
     # create JSON output

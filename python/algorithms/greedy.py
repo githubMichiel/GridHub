@@ -83,20 +83,18 @@ class Greedy():
             district.houses[x].swap_battery(district.houses[swap_buddy])
 
             # if battery capacity is exceeded swap back
-            if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
-                # swap back
-                district.houses[x].swap_battery(district.houses[swap_buddy])
-                swap_occured = False
-                if swap_once == True:
-                    return swap_occured
-            else:
-                swap_occured = True
-                # print(f"AFTER Battery of house {district.houses[x]}: ", district.houses[x].battery.id)
-                # print(f"AFTER Battery of house {district.houses[swap_buddy]}: ", district.houses[swap_buddy].battery.id)
-                if swap_once == True:
-                    # print("SWAP SUCCESFUL")
-                    return swap_occured
-
+            swap_occured = False
+            if district.houses[x].battery != None and district.houses[swap_buddy].battery != None:
+                if district.houses[x].battery.total_input > district.houses[x].battery.capacity or district.houses[swap_buddy].battery.total_input > district.houses[swap_buddy].battery.capacity:
+                    # swap back
+                    district.houses[x].swap_battery(district.houses[swap_buddy])
+                    if swap_once == True:
+                        return swap_occured
+                else:
+                    swap_occured = True
+                    if swap_once == True:
+                        print("SWAP SUCCESFUL")
+                        return swap_occured
 
             if search_free_space == True and swap_occured == True:
                 # loop over batteries
