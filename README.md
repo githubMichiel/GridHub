@@ -33,16 +33,24 @@ Voor de tweede HillClimber swappen we steeds 2 huizen van batterij en leggen we 
 Bij beiden HillClimber algoritmes worden steeds alleen de aanpassingen van één iteratie overgenomen als het voor een verbeterde versie zorgt, in dit geval dus lagere kosten.
 
 ### Resultaten:
+Onze best gevonden oplossingen voor elk district:
 
-![District 1](http://url/to/img.png)
+![District 1](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_1_optimal_100000.png)
+
+![District 2](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_2_optimal_100000.png)
+
+![District 3](https://github.com/githubMichiel/GridHub/blob/main/visualisations/districts/district_3_optimal_100000.png)
+
+
+Zie [hier](https://github.com/githubMichiel/GridHub/tree/main/visualisations) onze andere behaalde resultaten
 
 ### Instructies:
 
 Run via een command line interface main.py op de volgende manier:
 
-python main.py [OPTION]
+python main.py [OPTIE]
 
-Hierbij is [OPTION] een integer tussen de 1 en de 5, namelijk: 
+Hierbij is [OPTIE] een integer tussen de 1 en de 5, namelijk: 
      
 Optie 1 voor het random algoritme met unieke kabels
      
